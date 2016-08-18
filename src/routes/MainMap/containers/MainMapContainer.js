@@ -1,14 +1,16 @@
 import { connect } from 'react-redux'
-import { defaultActionFunction } from '../modules/MainMap'
+import { fetchRoutes } from '../modules/MainMap'
 
 import MainMap from '../components/MainMap'
 
 const mapActionCreators = {
-  defaultActionFunction: () => defaultActionFunction(1),
+  fetchRoutes
 }
 
 const mapStateToProps = (state) => ({
-  counter: state.counter
+  isLoading: state.mainMap.isLoading,
+  error: state.mainMap.error,
+  routes: state.mainMap.routes
 })
 
 export default connect(mapStateToProps, mapActionCreators)(MainMap)

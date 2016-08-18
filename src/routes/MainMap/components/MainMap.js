@@ -9,29 +9,17 @@ class MainMap extends React.Component {
   constructor () {
     super()
     this.state = {
-      routes: [],
       markers: []
     }
-    this.fetchRoutes = this.fetchRoutes.bind(this)
     this.fetchTrolleys = this.fetchTrolleys.bind(this)
   }
   componentDidMount () {
-    this.fetchRoutes()
+    this.props.fetchRoutes()
     this.fetchTrolleys()
     setInterval(
       () => { this.fetchTrolleys(); },
-      5000
+      20000
     );
-  }
-  fetchRoutes() {
-    fetch('https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt').then((response) => response.text())
-    .then((responseText) => {
-      var routeOverlays = processShapeData(responseText);
-      this.setState({ routes: routeOverlays });
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
   }
   fetchTrolleys() {
     fetch('https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json')
@@ -78,6 +66,7 @@ class MainMap extends React.Component {
     })
   }
   render () {
+    const { routes } = this.props
     return (
       <View style={[styles.MainMap, coreStyles.sceneContainer]}>
         <MapView
@@ -89,43 +78,13 @@ class MainMap extends React.Component {
                 longitudeDelta: 0.18
             }}
           >
-          {this.state.routes.length > 0 ? this.generateRoutes(this.state.routes) : null}
-          {this.state.routes.length > 0 ? this.generateStops(this.state.routes) : null}
+          {routes.length > 0 ? this.generateRoutes(routes) : null}
+          {routes.length > 0 ? this.generateStops(  routes) : null}
           {this.state.markers.length > 0 ? this.generateTrolleyMarkers(this.state.markers) : null}
           </MapView>
       </View>
     )
   }
-}
-
-function processShapeData(allText) {
-  var allTextLines = allText.split(/\r\n|\n/);
-  var headers = allTextLines[0].split(',');
-  var routes = [];
-  for (var i=1; i<allTextLines.length; i++) {
-      var data = allTextLines[i].split(',');
-      if (data.length >= 4) {
-        if (routes[data[0]] === undefined) {
-          routes[data[0]] = [];
-        }
-        routes[data[0]].push(data);
-      }
-  }
-  var routeOverlays = [];
-  for (var index in routes) {
-    var route = routes[index];
-    var coordinates = [];
-		for (var i=0; i<route.length; i++) {
-			coordinates[i] = {latitude: parseFloat(route[i][1]), longitude: parseFloat(route[i][2])};
-		}
-    routeOverlays.push(
-    {
-      coordinates: coordinates,
-      strokeColor: '#'+route[0][0]+route[0][0]+'0000',
-      strokeWidth: 3,
-    });
-  }
-  return routeOverlays;
 }
 
 export default MainMap
