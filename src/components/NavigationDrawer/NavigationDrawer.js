@@ -18,22 +18,30 @@ class NavigationDrawer extends Component {
     const state = this.props.navigationState
     const children = state.children
     return (
-      <Drawer
+   <Drawer
         ref='navigation'
-        type='displace'
+        type='overlay'
         open={state.open}
         onOpen={() => NavigationActions.refresh({key: state.key, open: true})}
         onClose={() => NavigationActions.refresh({key: state.key, open: false})}
         content={<DrawerContent />}
-        styles={{}}
-        tapToClose
+        styles={{ shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3}}
+        closedDrawerOffset={-3}
         openDrawerOffset={0.2}
+        panOpenMask={0.2}
+        tapToClose
         panCloseMask={0.2}
         negotiatePan
-        tweenHandler={(ratio) => ({
-          main: { opacity: Math.max(0.54, 1 - ratio) }
-        })}
-      >
+        tweenHandler={ratio => ({
+          main: {
+          opacity: 1,
+          },
+          mainOverlay: {
+          opacity: ratio / 2,
+          backgroundColor: 'black',
+          },
+          })}
+        >
         <DefaultRenderer navigationState={children[0]} onNavigate={this.props.onNavigate} />
       </Drawer>
     )

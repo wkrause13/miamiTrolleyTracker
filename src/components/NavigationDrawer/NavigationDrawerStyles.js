@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
   },
   navBar: {
     backgroundColor: 'blue'
+  },
+  container: {
+    backgroundColor: '#FFFFFF',
+    flex: 1
   }
 });
 
