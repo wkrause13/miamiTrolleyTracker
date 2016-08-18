@@ -89,10 +89,10 @@ class MainMap extends React.Component {
         <MapView
             style={styles.map}
             initialRegion={{
-                latitude: 25.8011413,
-                longitude: -80.2044014,
-                latitudeDelta: 0.18,
-                longitudeDelta: 0.18
+                latitude: 25.7689000,
+                longitude: -80.2094014,
+                latitudeDelta: 0.11,
+                longitudeDelta: 0.11
             }}
           >
           {routes.length > 0 ? this.generateRoutes(routes) : null}
