@@ -64,6 +64,14 @@ class MainMap extends React.Component {
       return <MapView.Polyline key={i} {...route}/>
     })
   }
+  //React Native Maps does not support overlay onPress. Will likely need to replace with custom marker
+  generateStops (routes) {
+    return routes.map((route) => {
+      return route.coordinates.map((stop, i) => {
+        return <MapView.Circle key={i} center={{latitude: stop.latitude, longitude: stop.longitude}} radius={10} fillColor={route.strokeColor}><MapView.Callout /></MapView.Circle>
+      })      
+    })  
+  }
   generateTrolleyMarkers (trolleys) {
     return trolleys.map((trolley, i) => {
       return <MapView.Marker key={i} {...trolley}/>
@@ -82,6 +90,7 @@ class MainMap extends React.Component {
             }}
           >
           {this.state.routes.length > 0 ? this.generateRoutes(this.state.routes) : null}
+          {this.state.routes.length > 0 ? this.generateStops(this.state.routes) : null}
           {this.state.markers.length > 0 ? this.generateTrolleyMarkers(this.state.markers) : null}
           </MapView>
       </View>
