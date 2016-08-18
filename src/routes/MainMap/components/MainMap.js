@@ -49,7 +49,7 @@ class MainMap extends React.Component {
                 longitude: trolleys[i].lng
               },
               title: 'Vehicle ID: '+trolleys[i].equipmentID,
-              subtitle: 'Route: '+trolleys[i].routeID + ', Time: '+trolleys[i].receiveTime
+              description: 'Route: '+trolleys[i].routeID + ', Time: '+trolleys[i].receiveTime
             }
           );
         }
