@@ -4,6 +4,9 @@ import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
 import MapView from 'react-native-maps'
 
+import {strokeColors, busColors, routeToColorIndex} from '../../../utils'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 class MainMap extends React.Component {
   constructor () {
@@ -18,7 +21,7 @@ class MainMap extends React.Component {
     this.fetchTrolleys()
     setInterval(
       () => { this.fetchTrolleys(); },
-      20000
+      10000
     );
   }
   fetchTrolleys() {
@@ -56,13 +59,27 @@ class MainMap extends React.Component {
   generateStops (routes) {
     return routes.map((route) => {
       return route.coordinates.map((stop, i) => {
-        return <MapView.Circle key={i} center={{latitude: stop.latitude, longitude: stop.longitude}} radius={10} fillColor={route.strokeColor}><MapView.Callout /></MapView.Circle>
+        return <MapView.Circle onPress={() => console.log('here')} key={i} center={{latitude: stop.latitude, longitude: stop.longitude}} radius={10} strokeColor={'transparent'} fillColor={route.strokeColor}><MapView.Callout /></MapView.Circle>
       })      
     })  
   }
   generateTrolleyMarkers (trolleys) {
     return trolleys.map((trolley, i) => {
-      return <MapView.Marker key={i} {...trolley}/>
+      // strokeColors
+      var res = trolley.description.match(/\d+/)
+      if (res in routeToColorIndex) {
+      return (
+        <MapView.Marker  key={i} {...trolley}>
+          <Icon name="directions-bus" size={20} color={strokeColors[routeToColorIndex[res]]} />
+      </MapView.Marker>
+      )
+      }
+      // console.log(res[0])
+      return (
+        <MapView.Marker  key={i} {...trolley}>
+          <Icon name="directions-bus" size={20} color="#900" />
+      </MapView.Marker>
+      )
     })
   }
   render () {

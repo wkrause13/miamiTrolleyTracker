@@ -1,3 +1,5 @@
+import {strokeColors} from '../../../utils'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -76,16 +78,6 @@ export function MainMapReducer (state = initialState, action) {
 // Utility Functions
 // ------------------------------------
 
-const strokeColors = {
-  1: '#a64598',
-  2: '#679844',
-  3: '#0faed2',
-  4: '#3e5ba6',
-  5: '#f59640',
-  6: '#c73136',
-  7: '#f39690'
-}
-
 function processShapeData(allText) {
   var allTextLines = allText.split(/\r\n|\n/);
   var headers = allTextLines[0].split(',');
@@ -110,7 +102,7 @@ function processShapeData(allText) {
     {
       coordinates: coordinates,
       strokeColor: strokeColors[index],
-      strokeWidth: 3,
+      strokeWidth: 4,
     });
   }
   return routeOverlays;
