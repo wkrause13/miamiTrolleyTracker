@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   navBar: {
-    backgroundColor: 'blue'
+    backgroundColor: 'orange'
   },
   container: {
     backgroundColor: '#FFFFFF',
