@@ -20,6 +20,18 @@ export const busColors = {
   7: 'rgb(208, 127, 123)'
 }
 
+export const routeNames = [
+        'Allapattah',
+        'Biscayne',
+        'Coral Way',
+        'Health District',
+        'Overtown',
+        'Stadium',
+        'Coconut Grove',
+        'Little Havana',
+        'Wynwood'
+      ]
+
 export const routeToColorIndex = {
   '7': 7,
   '5': 5,

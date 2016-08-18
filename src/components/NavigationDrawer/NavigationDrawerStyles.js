@@ -15,9 +15,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'orange'
   },
   container: {
+    alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    flex: 1
-  }
+    flexDirection: 'column'
+  },
+  DrawerContentRow: {
+    flexDirection: 'column',
+    alignSelf: 'stretch'
+  },
 });
 
 export default styles
