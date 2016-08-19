@@ -12,9 +12,20 @@ class MainMap extends React.Component {
   constructor () {
     super()
     this.state = {
-      markers: []
+      markers: [],
+      initialLat: 25.7689000,
+      initialLong: -80.2094014,
     }
     this.fetchTrolleys = this.fetchTrolleys.bind(this)
+  }
+  componentWillMount () {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({initialLong: position.coords.longitude, initialLat: position.coords.latitude});
+      },
+      (error) => null,
+      {enableHighAccuracy: true, timeout: 20000}
+    );
   }
   componentDidMount () {
     this.props.fetchRoutes()
@@ -96,11 +107,13 @@ class MainMap extends React.Component {
         <MapView
             style={styles.map}
             initialRegion={{
-                latitude: 25.7689000,
-                longitude: -80.2094014,
+                latitude: this.state.initialLat,
+                longitude: this.state.initialLong,
                 latitudeDelta: 0.11,
                 longitudeDelta: 0.11
             }}
+            showsUserLocation
+            followsUserLocation
           >
             {routes.length > 0 && this.state.markers.length > 0 ? this.makeAll(routes) : null}
           </MapView>
