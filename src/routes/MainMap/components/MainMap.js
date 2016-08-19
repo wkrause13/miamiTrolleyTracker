@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, ActivityIndicator } from 'react-native'
 import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
 import MapView from 'react-native-maps'
@@ -83,7 +83,7 @@ class MainMap extends React.Component {
     })
   }
   render () {
-    const { routes } = this.props
+    const { routes, isLoading } = this.props
     return (
       <View style={[styles.MainMap, coreStyles.sceneContainer]}>
         <MapView
@@ -95,10 +95,12 @@ class MainMap extends React.Component {
                 longitudeDelta: 0.11
             }}
           >
-          {routes.length > 0 ? this.generateRoutes(routes) : null}
-          {routes.length > 0 ? this.generateStops(  routes) : null}
-          {this.state.markers.length > 0 ? this.generateTrolleyMarkers(this.state.markers) : null}
+
+              {routes.length > 0 ? this.generateRoutes(routes) : null}
+              {routes.length > 0 ? this.generateStops(  routes) : null}
+              {this.state.markers.length > 0 ? this.generateTrolleyMarkers(this.state.markers) : null}
           </MapView>
+          <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading} />
       </View>
     )
   }
