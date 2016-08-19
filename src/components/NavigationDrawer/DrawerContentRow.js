@@ -14,7 +14,7 @@ const DrawerContentRow = (props) => {
         underlayColor={'#eee'}
         onPress={props.pressAction}
         >
-        <View style={{ alignSelf:'stretch', flex: 1, flexDirection:'row', alignItems:'center', padding:20}}>
+        <View style={{ alignSelf:'stretch', flex: 1, flexDirection:'row', alignItems:'center', padding:10}}>
           <View style={{flex: 1}}><Switch /></View>
           <View style={{flex: 4}}>
             <Text pointerEvents="none" style={{color: 'black',  fontSize: 16, paddingLeft: 15}}>

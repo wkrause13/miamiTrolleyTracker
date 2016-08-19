@@ -28,7 +28,7 @@ class DrawerContent extends Component {
 
   render () {
     return (
-      <ScrollView contentContainerStyle={[styles.container]} bounces={false}>
+      <ScrollView style={{backgroundColor:'#FFFFFF'}} contentContainerStyle={[styles.container]} bounces={false}>
       <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
       {this.generateContentRows(routeNames)}
       </View>
