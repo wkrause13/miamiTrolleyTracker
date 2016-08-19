@@ -59,7 +59,9 @@ class MainMap extends React.Component {
   generateStops (routes) {
     return routes.map((route) => {
       return route.coordinates.map((stop, i) => {
-        return <MapView.Circle onPress={() => console.log('here')} key={i} center={{latitude: stop.latitude, longitude: stop.longitude}} radius={10} strokeColor={'transparent'} fillColor={route.strokeColor}><MapView.Callout /></MapView.Circle>
+        return <MapView.Marker key={i} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
+                <Icon name="brightness-1" size={7} color={route.strokeColor} />
+              </MapView.Marker>
       })      
     })  
   }
@@ -70,14 +72,14 @@ class MainMap extends React.Component {
       if (res in routeToColorIndex) {
       return (
         <MapView.Marker  key={i} {...trolley}>
-          <Icon name="directions-bus" size={20} color={strokeColors[routeToColorIndex[res]]} />
+          <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={strokeColors[routeToColorIndex[res]]} />
       </MapView.Marker>
       )
       }
       // console.log(res[0])
       return (
         <MapView.Marker  key={i} {...trolley}>
-          <Icon name="directions-bus" size={20} color="#900" />
+          <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color="#900" />
       </MapView.Marker>
       )
     })
@@ -95,10 +97,9 @@ class MainMap extends React.Component {
                 longitudeDelta: 0.11
             }}
           >
-
-              {routes.length > 0 ? this.generateRoutes(routes) : null}
-              {routes.length > 0 ? this.generateStops(  routes) : null}
-              {this.state.markers.length > 0 ? this.generateTrolleyMarkers(this.state.markers) : null}
+            {routes.length > 0 ? this.generateRoutes(routes) : null}
+            {routes.length > 0 ? this.generateStops(routes) : null}
+            {this.state.markers.length > 0 ? this.generateTrolleyMarkers(this.state.markers) : null}
           </MapView>
           <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading} />
       </View>
