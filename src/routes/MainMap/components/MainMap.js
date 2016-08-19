@@ -52,14 +52,14 @@ class MainMap extends React.Component {
   }
   generateRoutes (routes) {
     return routes.map((route, i) => {
-      return <MapView.Polyline key={i} {...route}/>
+      return <MapView.Polyline key={`Polyline-${i}`} {...route} />
     })
   }
   //React Native Maps does not support overlay onPress. Will likely need to replace with custom marker
   generateStops (routes) {
     return routes.map((route) => {
       return route.coordinates.map((stop, i) => {
-        return <MapView.Marker key={i} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
+        return <MapView.Marker identifier={`stop-${i}`} key={`stop-${i}`} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
                 <Icon name="brightness-1" size={7} color={route.strokeColor} />
               </MapView.Marker>
       })      
@@ -70,19 +70,24 @@ class MainMap extends React.Component {
       // strokeColors
       var res = trolley.description.match(/\d+/)
       if (res in routeToColorIndex) {
-      return (
-        <MapView.Marker  key={i} {...trolley}>
-          <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={strokeColors[routeToColorIndex[res]]} />
-      </MapView.Marker>
-      )
+        return (
+          <MapView.Marker identifier={`trolly-${i}`}  key={`trolly-${i}`} {...trolley}>
+            <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={strokeColors[routeToColorIndex[res]]} />
+          </MapView.Marker>
+        )
       }
-      // console.log(res[0])
       return (
-        <MapView.Marker  key={i} {...trolley}>
+        <MapView.Marker  identifier={`trolly-${i}`}  key={`trolly-${i}`}  {...trolley}>
           <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color="#900" />
       </MapView.Marker>
       )
     })
+  }
+  makeAll (routes) {
+    const allItems = [...this.generateRoutes(routes)]
+    const middle = [...allItems, ...this.generateStops(routes)]
+    const final = [...middle, ...this.generateTrolleyMarkers(this.state.markers)]
+    return final
   }
   render () {
     const { routes, isLoading } = this.props
@@ -97,9 +102,7 @@ class MainMap extends React.Component {
                 longitudeDelta: 0.11
             }}
           >
-            {routes.length > 0 ? this.generateRoutes(routes) : null}
-            {routes.length > 0 ? this.generateStops(routes) : null}
-            {this.state.markers.length > 0 ? this.generateTrolleyMarkers(this.state.markers) : null}
+            {routes.length > 0 && this.state.markers.length > 0 ? this.makeAll(routes) : null}
           </MapView>
           <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading} />
       </View>
