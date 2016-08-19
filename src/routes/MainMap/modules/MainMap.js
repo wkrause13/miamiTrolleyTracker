@@ -1,4 +1,4 @@
-import {strokeColors} from '../../../utils'
+import {routeObjects} from '../../../utils'
 
 // ------------------------------------
 // Constants
@@ -47,7 +47,6 @@ export const actions = {
 // ------------------------------------
 
 const receiveRoutesHandler = (state, action) => {
-  console.log(action.payload)
   if (action.payload.length < 1) {
     return {...state, isLoading: false, error}
   }
@@ -101,7 +100,7 @@ function processShapeData(allText) {
     routeOverlays.push(
     {
       coordinates: coordinates,
-      strokeColor: strokeColors[index],
+      strokeColor: routeObjects[index].routeColor,
       strokeWidth: 4,
     });
   }

@@ -4,7 +4,7 @@ import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
 import MapView from 'react-native-maps'
 
-import {strokeColors, busColors, routeToColorIndex} from '../../../utils'
+import {routeObjects} from '../../../utils'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
@@ -78,12 +78,11 @@ class MainMap extends React.Component {
   }
   generateTrolleyMarkers (trolleys) {
     return trolleys.map((trolley, i) => {
-      // strokeColors
       var res = trolley.description.match(/\d+/)
-      if (res in routeToColorIndex) {
+      if (res[0] in routeObjects) {
         return (
           <MapView.Marker identifier={`trolly-${i}`}  key={`trolly-${i}`} {...trolley}>
-            <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={strokeColors[routeToColorIndex[res]]} />
+            <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={routeObjects[res[0]].busColor} />
           </MapView.Marker>
         )
       }
@@ -112,12 +111,10 @@ class MainMap extends React.Component {
                 latitudeDelta: 0.11,
                 longitudeDelta: 0.11
             }}
-            showsUserLocation
-            followsUserLocation
           >
             {routes.length > 0 && this.state.markers.length > 0 ? this.makeAll(routes) : null}
           </MapView>
-          <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading} />
+          <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.state.markers.length === 0} />
       </View>
     )
   }
