@@ -28,7 +28,6 @@ class NavigationDrawer extends Component {
         styles={{ shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3}}
         closedDrawerOffset={-3}
         openDrawerOffset={0.2}
-        panOpenMask={0.2}
         tapToClose
         panCloseMask={0.2}
         negotiatePan
