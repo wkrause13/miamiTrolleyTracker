@@ -13,10 +13,12 @@ class MainMap extends React.Component {
     super()
     this.state = {
       markers: [],
+      stops: [],
       initialLat: 25.7689000,
       initialLong: -80.2094014,
     }
     this.fetchTrolleys = this.fetchTrolleys.bind(this)
+    this.fetchStops = this.fetchStops.bind(this)
   }
   componentWillMount () {
     navigator.geolocation.getCurrentPosition(
@@ -30,6 +32,7 @@ class MainMap extends React.Component {
   componentDidMount () {
     this.props.fetchRoutes()
     this.fetchTrolleys()
+    this.fetchStops()
     setInterval(
       () => { this.fetchTrolleys(); },
       10000
@@ -55,12 +58,23 @@ class MainMap extends React.Component {
             }
           );
         }
-        this.setState({ markers: newMarkers });
+        this.setState({ markers: newMarkers })
       })
       .catch((error) => {
-        console.error(error);
+        console.error(error)
       });
   }
+  fetchStops () {
+     fetch('https://miami-transit-api.herokuapp.com/api/trolley/stops.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        this.setState({stops: responseJson['get_stops']})
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+    }   
   generateRoutes (routes) {
     return routes.map((route, i) => {
       const key = Platform.OS === 'ios' ? `route-${i}-${this.props.reRenderKey}` : `route-${i}`
@@ -70,17 +84,14 @@ class MainMap extends React.Component {
     })
   }
   //React Native Maps does not support overlay onPress. Will likely need to replace with custom marker
-  generateStops (routes) {
-    return routes.map((route) => {
-      if (route.display) {
-        return route.coordinates.map((stop, i) => {
-          const key = Platform.OS === 'ios' ? `stop-${i}-${this.props.reRenderKey}`: `stop-${i}`
-          return <MapView.Marker identifier={`stop-${i}`} key={key} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
-                  <Icon name="brightness-1" size={7} color={route.routeColor} />
-                </MapView.Marker>
-        })
-      }
-    })
+  generateStops (stops) {
+    return stops.map((stop, i) => {
+      console.log(stop.lat)
+        const key = Platform.OS === 'ios' ? `stop-${i}-${this.props.reRenderKey}`: `stop-${i}`
+        return <MapView.Marker identifier={`stop-${i}`} key={key} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.lat, longitude: stop.lng}} title='Stop Information'>
+                <Icon name="brightness-1" size={7} color={'rgba(238, 238, 238, 0.4)'} />
+              </MapView.Marker>
+      })
   }
   generateTrolleyMarkers (trolleys) {
     return trolleys.map((trolley, i) => {
@@ -102,7 +113,7 @@ class MainMap extends React.Component {
   }
   makeAll (routes) {
     const allItems = [...this.generateRoutes(routes)]
-    const middle = [...allItems, ...this.generateStops(routes)]
+    const middle = [...allItems, ...this.generateStops(this.state.stops)]
     const final = [...middle, ...this.generateTrolleyMarkers(this.state.markers)]
     return final
   }
@@ -121,7 +132,7 @@ class MainMap extends React.Component {
             showsUserLocation
             followsUserLocation
           >
-            {routes.length > 0 && this.state.markers.length > 0 ? this.makeAll(routes) : null}
+            {routes.length > 0 && this.state.markers.length > 0 && this.state.stops.length > 0 ? this.makeAll(routes) : null}
           </MapView>
           <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.state.markers.length === 0} />
       </View>
