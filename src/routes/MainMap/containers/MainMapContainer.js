@@ -9,6 +9,7 @@ const mapActionCreators = {
 
 const mapStateToProps = (state) => ({
   routes: getAllRoutes(state),
+  routesById: state.mainMap.routesById,
   isLoading: state.mainMap.isLoading,
   error: state.mainMap.error,
 })

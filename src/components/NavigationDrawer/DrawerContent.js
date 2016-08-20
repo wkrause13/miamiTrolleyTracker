@@ -2,9 +2,11 @@ import React, { Component, PropTypes } from 'react'
 import {View, ScrollView, Image } from 'react-native'
 import styles from './NavigationDrawerStyles'
 import { Actions as NavigationActions } from 'react-native-router-flux'
+import { connect } from 'react-redux'
 
 import DrawerContentRow from './DrawerContentRow'
 
+import { getAllRoutes, toggleRoute } from '../../routes/MainMap/modules/MainMap'
 import {routeObjects} from '../../utils'
 
 class DrawerContent extends Component {
@@ -13,26 +15,26 @@ class DrawerContent extends Component {
     this.context.drawer.toggle()
   }
   
-  handlePressDeviceArticles = () => {
-    this.toggleDrawer()
-    console.log('drawerPress')
-    // NavigationActions.articles()
+  handlePressAction (id) {
+    this.props.toggleRoute(id)
   }
 
-  generateContentRows () {
-    var routeNames = Object.keys(routeObjects).map(function (key) {return routeObjects[key]['name']}).sort();
-    return routeNames.map((routeName, i) => {
-      return <DrawerContentRow key={`DrawerContentRow-${i}`} text={routeName} pressAction={this.handlePressDeviceArticles} />
-
-    })
+  generateContentRows (trolleyRoutes) {
+    if (trolleyRoutes){
+      return trolleyRoutes.map((route, i) => {
+        const boundPress = this.handlePressAction.bind(this, route.id)
+        return <DrawerContentRow key={`DrawerContentRow-${i}`} route={route} pressAction={boundPress} />
+      })
+    }
   }
 
   render () {
+    const {trolleyRoutes} = this.props
     return (
       <ScrollView style={{backgroundColor:'#FFFFFF'}} contentContainerStyle={[styles.container]} bounces={false}>
-      <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
-      {this.generateContentRows()}
-      </View>
+        <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
+          {this.generateContentRows(trolleyRoutes)}
+        </View>
       </ScrollView>
     )
   }
@@ -46,4 +48,12 @@ DrawerContent.contextTypes = {
   drawer: React.PropTypes.object
 }
 
-export default DrawerContent
+const mapActionCreators = {
+  toggleRoute
+}
+
+const mapStateToProps = (state) => ({
+  trolleyRoutes: getAllRoutes(state)
+})
+
+export default connect(mapStateToProps, mapActionCreators)(DrawerContent)

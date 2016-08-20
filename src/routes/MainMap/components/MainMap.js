@@ -63,18 +63,22 @@ class MainMap extends React.Component {
   }
   generateRoutes (routes) {
     return routes.map((route, i) => {
-      return <MapView.Polyline key={`Polyline-${i}`} {...route} />
+      if (route.display){
+        return <MapView.Polyline key={`Polyline-${i}`} strokeColor={route.routeColor} strokeWidth={4} coordinates={route.coordinates}/>
+      }
     })
   }
   //React Native Maps does not support overlay onPress. Will likely need to replace with custom marker
   generateStops (routes) {
     return routes.map((route) => {
-      return route.coordinates.map((stop, i) => {
-        return <MapView.Marker identifier={`stop-${i}`} key={`stop-${i}`} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
-                <Icon name="brightness-1" size={7} color={route.strokeColor} />
-              </MapView.Marker>
-      })      
-    })  
+      if (route.display) {
+        return route.coordinates.map((stop, i) => {
+          return <MapView.Marker identifier={`stop-${i}`} key={`stop-${i}`} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
+                  <Icon name="brightness-1" size={7} color={route.routeColor} />
+                </MapView.Marker>
+        })
+      }
+    })
   }
   generateTrolleyMarkers (trolleys) {
     return trolleys.map((trolley, i) => {
@@ -111,6 +115,8 @@ class MainMap extends React.Component {
                 latitudeDelta: 0.11,
                 longitudeDelta: 0.11
             }}
+            showsUserLocation
+            followsUserLocation
           >
             {routes.length > 0 && this.state.markers.length > 0 ? this.makeAll(routes) : null}
           </MapView>

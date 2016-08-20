@@ -8,6 +8,8 @@ import {routeObjects} from '../../../utils'
 const REQUEST_ROUTES = 'REQUEST_ROUTES'
 const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
 
+const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -39,19 +41,31 @@ export function fetchRoutes () {
   }
 }
 
+export function toggleRoute (routeId) {
+  return {
+    type: TOGGLE_ROUTE,
+    routeId
+  }
+}
+
 
 export const actions = {
-  fetchRoutes
+  fetchRoutes,
+  toggleRoute
 }
 
 // ------------------------------------
 // Selectors
 // ------------------------------------
 export const getAllRoutes= (state) => {
-  const routeArray = state.mainMap.routeIds.map((id) => {
-    return state.mainMap.routesById[id]
-  })
-  return _.sortBy(routeArray, 'name')
+  if (state.mainMap.routeIds){
+    const routeArray = state.mainMap.routeIds.map((id) => {
+      return state.mainMap.routesById[id]
+    })
+    return _.sortBy(routeArray, 'name')
+  }
+  return []
+
 }
 
 // ------------------------------------
@@ -65,14 +79,23 @@ const receiveRoutesHandler = (state, action) => {
   let routesById = {}
   const routeIds = action.payload.map((route, i) => {
     routesById[i + 1] = route
-    return i + 1
+    return i + 1  
   })
   return { ...state, isLoading: false, routes: action.payload, routeIds, routesById }
+}
+
+const toggleRouteHandler = (state, action) => {
+  const targetRoute = state.routesById[action.routeId]
+  const newRouteInfo = {...targetRoute, display: !targetRoute.display}
+  console.log(newRouteInfo)
+  const newRoutes = {...state.routesById, [action.routeId]: newRouteInfo }
+  return {...state, routesById: newRoutes}
 }
 
 const ACTION_HANDLERS = {
   [REQUEST_ROUTES]: (state, action) => {return {...state, isLoading: true}},
   [RECEIVE_ROUTES]: receiveRoutesHandler,
+  [TOGGLE_ROUTE]: toggleRouteHandler
 
 }
 
@@ -99,7 +122,7 @@ function processShapeData(allText) {
   var allTextLines = allText.split(/\r\n|\n/);
   var headers = allTextLines[0].split(',');
   var routes = [];
-  for (var i=1; i<allTextLines.length; i++) {
+  for (var i=1; i< allTextLines.length; i++) {
       var data = allTextLines[i].split(',');
       if (data.length >= 4) {
         if (routes[data[0]] === undefined) {
@@ -111,16 +134,11 @@ function processShapeData(allText) {
   var routeOverlays = [];
   for (var index in routes) {
     var route = routes[index];
-    var coordinates = [];
-		for (var i=0; i<route.length; i++) {
-			coordinates[i] = {latitude: parseFloat(route[i][1]), longitude: parseFloat(route[i][2])};
-		}
-    routeOverlays.push(
-    {
-      coordinates: coordinates,
-      strokeColor: routeObjects[index].routeColor,
-      strokeWidth: 4,
-    });
+    const coordinates = route.map((coordinate) => {
+      return {latitude: parseFloat(coordinate[1]), longitude: parseFloat(coordinate[2])}
+    })
+    const routeInfo = { ...routeObjects[index], coordinates: coordinates, display: true, id: index}
+    routeOverlays.push(routeInfo);
   }
   return routeOverlays;
 }
