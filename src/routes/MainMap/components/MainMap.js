@@ -13,12 +13,10 @@ class MainMap extends React.Component {
     super()
     this.state = {
       markers: [],
-      stops: [],
       initialLat: 25.7689000,
       initialLong: -80.2094014,
     }
     this.fetchTrolleys = this.fetchTrolleys.bind(this)
-    this.fetchStops = this.fetchStops.bind(this)
   }
   componentWillMount () {
     navigator.geolocation.getCurrentPosition(
@@ -32,9 +30,8 @@ class MainMap extends React.Component {
   componentDidMount () {
     this.props.fetchRoutes()
     this.fetchTrolleys()
-    this.fetchStops()
     setInterval(
-      () => { this.fetchTrolleys(); },
+      () => { this.fetchTrolleys() },
       10000
     );
   }
@@ -63,18 +60,7 @@ class MainMap extends React.Component {
       .catch((error) => {
         console.error(error)
       });
-  }  
-  fetchStops () {
-     fetch('https://miami-transit-api.herokuapp.com/api/trolley/stops.json')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({stops: responseJson['get_stops']})
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-    }   
+  }    
   generateRoutes (routes) {
     return routes.map((route, i) => {
       const key = Platform.OS === 'ios' ? `route-${i}-${this.props.reRenderKey}` : `route-${i}`
@@ -135,7 +121,7 @@ class MainMap extends React.Component {
             showsUserLocation
             followsUserLocation
           >
-            {routes.length > 0 && this.state.markers.length > 0 && this.state.stops.length > 0 ? this.makeAll(routes) : null}
+            {routes.length > 0 && this.state.markers.length > 0 ? this.makeAll(routes) : null}
           </MapView>
           <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.state.markers.length === 0} />
       </View>
