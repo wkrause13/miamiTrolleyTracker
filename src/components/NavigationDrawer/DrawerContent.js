@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react'
-import {View, ScrollView, Image } from 'react-native'
+import {Text, View, ScrollView, Image, TouchableHighlight } from 'react-native'
 import styles from './NavigationDrawerStyles'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
 
 import DrawerContentRow from './DrawerContentRow'
 
-import { getAllRoutes, toggleRoute } from '../../routes/MainMap/modules/MainMap'
+import { getAllRoutes, toggleRoute, enableAllRoutes } from '../../routes/MainMap/modules/MainMap'
 import {routeObjects} from '../../utils'
 
 class DrawerContent extends Component {
@@ -33,6 +33,11 @@ class DrawerContent extends Component {
     return (
       <ScrollView style={{backgroundColor:'#FFFFFF'}} contentContainerStyle={[styles.container]} bounces={false}>
         <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
+          <View style={{flex: 1, alignItems:'center', paddingBottom: 10}}>
+            <TouchableHighlight onPress={this.props.enableAllRoutes} style={{height: 40, width: 100, alignItems:'center',justifyContent:'center', backgroundColor: 'orange', borderRadius: 5}}>
+              <Text style={{color: '#FFFFFF', fontWeight:'bold'}}>Show All</Text>
+            </TouchableHighlight>
+          </View>
           {this.generateContentRows(trolleyRoutes)}
         </View>
       </ScrollView>
@@ -49,7 +54,8 @@ DrawerContent.contextTypes = {
 }
 
 const mapActionCreators = {
-  toggleRoute
+  toggleRoute,
+  enableAllRoutes
 }
 
 const mapStateToProps = (state) => ({

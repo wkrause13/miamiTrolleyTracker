@@ -10,6 +10,8 @@ const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
 
 const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
 
+const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -46,15 +48,6 @@ export function fetchRoutes () {
       const routes = results[2]['get_routes']
       return dispatch(receiveRoutes(routeOverlays, stops, routes))
     })
-    // .then(res => {
-    //   console.log( res )
-    // })
-
-    // return fetch('https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt').then((response) => response.text())
-    // .then((responseText) => {
-    //   const routeOverlays = processShapeData(responseText)
-    //   return dispatch(receiveRoutes(routeOverlays))
-    // })
     .catch((error) => {
       console.log(error)
       return dispatch(receiveRoutes({error}))
@@ -69,10 +62,17 @@ export function toggleRoute (routeId) {
   }
 }
 
+export function enableAllRoutes () {
+  return {
+    type: ENABLE_ALL_ROUTES
+  }
+}
+
 
 export const actions = {
   fetchRoutes,
-  toggleRoute
+  toggleRoute,
+  enableAllRoutes
 }
 
 // ------------------------------------
@@ -123,10 +123,25 @@ const toggleRouteHandler = (state, action) => {
   return {...state, routesById: newRoutes, reRenderKey: state.reRenderKey + 1}
 }
 
+
+const enableAllRoutesHandler = (state, action) => {
+  let newRoutesById ={}
+  const newRoutesArray = state.routeIds.forEach((routeId) => {
+    const newRoute = {...state.routesById[routeId], display: true}
+    newRoutesById[routeId] = newRoute
+  })
+  // newRoutesById = newRoutesArray.map
+  // const targetRoute = state.routesById[action.routeId]
+  // const newRouteInfo = {...targetRoute, display: !targetRoute.display}
+  // const newRoutes = {...state.routesById, [action.routeId]: newRouteInfo }
+  return {...state, routesById: newRoutesById, reRenderKey: state.reRenderKey + 1}
+}
+
 const ACTION_HANDLERS = {
   [REQUEST_ROUTES]: (state, action) => {return {...state, isLoading: true}},
   [RECEIVE_ROUTES]: receiveRoutesHandler,
-  [TOGGLE_ROUTE]: toggleRouteHandler
+  [TOGGLE_ROUTE]: toggleRouteHandler,
+  [ENABLE_ALL_ROUTES]: enableAllRoutesHandler
 
 }
 
