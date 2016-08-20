@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import {routeObjects} from '../../../utils'
 
 // ------------------------------------
@@ -43,6 +45,16 @@ export const actions = {
 }
 
 // ------------------------------------
+// Selectors
+// ------------------------------------
+export const getAllRoutes= (state) => {
+  const routeArray = state.mainMap.routeIds.map((id) => {
+    return state.mainMap.routesById[id]
+  })
+  return _.sortBy(routeArray, 'name')
+}
+
+// ------------------------------------
 // Action Handlers
 // ------------------------------------
 
@@ -50,7 +62,12 @@ const receiveRoutesHandler = (state, action) => {
   if (action.payload.length < 1) {
     return {...state, isLoading: false, error}
   }
-  return { ...state, isLoading: false, routes: action.payload }
+  let routesById = {}
+  const routeIds = action.payload.map((route, i) => {
+    routesById[i + 1] = route
+    return i + 1
+  })
+  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById }
 }
 
 const ACTION_HANDLERS = {
@@ -65,7 +82,8 @@ const ACTION_HANDLERS = {
 const initialState = {
   isLoading: false,
   error: null,
-  routes: []
+  routesById: {},
+  routeIds: []
 }
 export function MainMapReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
