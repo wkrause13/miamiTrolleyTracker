@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, ActivityIndicator } from 'react-native'
+import { Text, View, ActivityIndicator, Platform } from 'react-native'
 import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
 import MapView from 'react-native-maps'
@@ -63,8 +63,9 @@ class MainMap extends React.Component {
   }
   generateRoutes (routes) {
     return routes.map((route, i) => {
+      const key = Platform.OS === 'ios' ? `route-${i}-${this.props.reRenderKey}` : `route-${i}`
       if (route.display){
-        return <MapView.Polyline key={`Polyline-${i}`} strokeColor={route.routeColor} strokeWidth={4} coordinates={route.coordinates}/>
+        return <MapView.Polyline key={key} strokeColor={route.routeColor} strokeWidth={4} coordinates={route.coordinates}/>
       }
     })
   }
@@ -73,7 +74,8 @@ class MainMap extends React.Component {
     return routes.map((route) => {
       if (route.display) {
         return route.coordinates.map((stop, i) => {
-          return <MapView.Marker identifier={`stop-${i}`} key={`stop-${i}-${this.props.reRenderKey}`} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
+          const key = Platform.OS === 'ios' ? `stop-${i}-${this.props.reRenderKey}`: `stop-${i}`
+          return <MapView.Marker identifier={`stop-${i}`} key={key} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
                   <Icon name="brightness-1" size={7} color={route.routeColor} />
                 </MapView.Marker>
         })
@@ -82,16 +84,17 @@ class MainMap extends React.Component {
   }
   generateTrolleyMarkers (trolleys) {
     return trolleys.map((trolley, i) => {
+      const key = Platform.OS === 'ios' ? `trolley-${i}-${this.props.reRenderKey}`: `trolley-${i}`
       var res = trolley.description.match(/\d+/)
       if (res[0] in routeObjects) {
         return (
-          <MapView.Marker identifier={`trolly-${i}`}  key={`trolly-${i}-${this.props.reRenderKey}`} {...trolley}>
+          <MapView.Marker identifier={`trolly-${i}`}  key={key} {...trolley}>
             <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={routeObjects[res[0]].busColor} />
           </MapView.Marker>
         )
       }
       return (
-        <MapView.Marker  identifier={`trolly-${i}`}  key={`trolly-${i}-${this.props.reRenderKey}`}  {...trolley}>
+        <MapView.Marker  identifier={`trolly-${i}`}  key={key}  {...trolley}>
           <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color="#900" />
       </MapView.Marker>
       )
