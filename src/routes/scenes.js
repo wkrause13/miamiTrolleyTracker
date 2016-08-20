@@ -4,10 +4,12 @@ import MainMapContainer from './MainMap/containers/MainMapContainer'
 import NavigationDrawer from '../components/NavigationDrawer'
 import styles from '../components/NavigationDrawer/NavigationDrawerStyles'
 
+const burger  = require('../static/menu_burger.png')
+
 const scenes = Actions.create(
   <Scene key='root'>
     <Scene key='drawer' component={NavigationDrawer}>
-      <Scene key='drawerChildrenWrapper' navigationBarStyle={styles.navBar} >
+      <Scene key='drawerChildrenWrapper' drawerImage={burger} leftButtonIconStyle={{width:24, height: 24, resizeMode: 'contain'}} navigationBarStyle={styles.navBar} >
         <Scene key='MainMap' component={MainMapContainer} />
       </Scene>
     </Scene>
