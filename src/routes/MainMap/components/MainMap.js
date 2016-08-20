@@ -86,9 +86,8 @@ class MainMap extends React.Component {
   //React Native Maps does not support overlay onPress. Will likely need to replace with custom marker
   generateStops (stops) {
     return stops.map((stop, i) => {
-      console.log(stop.lat)
         const key = Platform.OS === 'ios' ? `stop-${i}-${this.props.reRenderKey}`: `stop-${i}`
-        return <MapView.Marker identifier={`stop-${i}`} key={key} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.lat, longitude: stop.lng}} title='Stop Information'>
+        return <MapView.Marker key={key} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.lat, longitude: stop.lng}} title={stop.name.replace(/&nbsp;/gi,'')}>
                 <Icon name="brightness-1" size={7} color={'rgba(238, 238, 238, 0.4)'} />
               </MapView.Marker>
       })
@@ -99,13 +98,13 @@ class MainMap extends React.Component {
       var res = trolley.description.match(/\d+/)
       if (res[0] in routeObjects) {
         return (
-          <MapView.Marker identifier={`trolly-${i}`}  key={key} {...trolley}>
+          <MapView.Marker  key={key} {...trolley}>
             <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={routeObjects[res[0]].busColor} />
           </MapView.Marker>
         )
       }
       return (
-        <MapView.Marker  identifier={`trolly-${i}`}  key={key}  {...trolley}>
+        <MapView.Marker  key={key}  {...trolley}>
           <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color="#900" />
       </MapView.Marker>
       )
