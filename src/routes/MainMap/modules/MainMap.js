@@ -137,7 +137,7 @@ function processShapeData(allText) {
     const coordinates = route.map((coordinate) => {
       return {latitude: parseFloat(coordinate[1]), longitude: parseFloat(coordinate[2])}
     })
-    const routeInfo = { ...routeObjects[index], coordinates: coordinates, display: true, id: index}
+    const routeInfo = { ...routeObjects[index], coordinates: coordinates, display: index == 2, id: index}
     routeOverlays.push(routeInfo);
   }
   return routeOverlays;
