@@ -87,9 +87,8 @@ const receiveRoutesHandler = (state, action) => {
 const toggleRouteHandler = (state, action) => {
   const targetRoute = state.routesById[action.routeId]
   const newRouteInfo = {...targetRoute, display: !targetRoute.display}
-  console.log(newRouteInfo)
   const newRoutes = {...state.routesById, [action.routeId]: newRouteInfo }
-  return {...state, routesById: newRoutes}
+  return {...state, routesById: newRoutes, reRenderKey: state.reRenderKey + 1}
 }
 
 const ACTION_HANDLERS = {
@@ -106,7 +105,8 @@ const initialState = {
   isLoading: false,
   error: null,
   routesById: {},
-  routeIds: []
+  routeIds: [],
+  reRenderKey: 0
 }
 export function MainMapReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

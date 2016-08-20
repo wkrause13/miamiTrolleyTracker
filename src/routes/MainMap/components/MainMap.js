@@ -73,7 +73,7 @@ class MainMap extends React.Component {
     return routes.map((route) => {
       if (route.display) {
         return route.coordinates.map((stop, i) => {
-          return <MapView.Marker identifier={`stop-${i}`} key={`stop-${i}`} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
+          return <MapView.Marker identifier={`stop-${i}`} key={`stop-${i}-${this.props.reRenderKey}`} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.latitude, longitude: stop.longitude}} title='Stop Information'>
                   <Icon name="brightness-1" size={7} color={route.routeColor} />
                 </MapView.Marker>
         })
@@ -85,13 +85,13 @@ class MainMap extends React.Component {
       var res = trolley.description.match(/\d+/)
       if (res[0] in routeObjects) {
         return (
-          <MapView.Marker identifier={`trolly-${i}`}  key={`trolly-${i}`} {...trolley}>
+          <MapView.Marker identifier={`trolly-${i}`}  key={`trolly-${i}-${this.props.reRenderKey}`} {...trolley}>
             <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={routeObjects[res[0]].busColor} />
           </MapView.Marker>
         )
       }
       return (
-        <MapView.Marker  identifier={`trolly-${i}`}  key={`trolly-${i}`}  {...trolley}>
+        <MapView.Marker  identifier={`trolly-${i}`}  key={`trolly-${i}-${this.props.reRenderKey}`}  {...trolley}>
           <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color="#900" />
       </MapView.Marker>
       )
