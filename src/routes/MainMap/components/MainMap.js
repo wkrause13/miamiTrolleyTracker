@@ -63,7 +63,7 @@ class MainMap extends React.Component {
       .catch((error) => {
         console.error(error)
       });
-  }
+  }  
   fetchStops () {
      fetch('https://miami-transit-api.herokuapp.com/api/trolley/stops.json')
       .then((response) => response.json())
@@ -84,13 +84,17 @@ class MainMap extends React.Component {
     })
   }
   //React Native Maps does not support overlay onPress. Will likely need to replace with custom marker
-  generateStops (stops) {
-    return stops.map((stop, i) => {
-        const key = Platform.OS === 'ios' ? `stop-${i}-${this.props.reRenderKey}`: `stop-${i}`
-        return <MapView.Marker key={key} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.lat, longitude: stop.lng}} title={stop.name.replace(/&nbsp;/gi,'')}>
-                <Icon name="brightness-1" size={7} color={'rgba(238, 238, 238, 0.4)'} />
-              </MapView.Marker>
+  generateStops (routes) {
+    return routes.map((route) => {
+      return route.stops.map((stop, i) => {
+        if (route.display) {
+          const key = Platform.OS === 'ios' ? `stop-${i}-${this.props.reRenderKey}`: `stop-${i}`
+          return <MapView.Marker key={key} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.lat, longitude: stop.lng}} title={stop.name}>
+                  <Icon name="brightness-1" size={7} color={'rgba(0, 0, 0, 0.15)'} />
+                </MapView.Marker>
+        }
       })
+    })
   }
   generateTrolleyMarkers (trolleys) {
     return trolleys.map((trolley, i) => {
@@ -112,7 +116,7 @@ class MainMap extends React.Component {
   }
   makeAll (routes) {
     const allItems = [...this.generateRoutes(routes)]
-    const middle = [...allItems, ...this.generateStops(this.state.stops)]
+    const middle = [...allItems, ...this.generateStops(routes)]
     const final = [...middle, ...this.generateTrolleyMarkers(this.state.markers)]
     return final
   }

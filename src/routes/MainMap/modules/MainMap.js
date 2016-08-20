@@ -20,22 +20,43 @@ function requestRoutes () {
   }
 }
 
-function receiveRoutes (data) {
+function receiveRoutes (routeOverlays, stops, routes) {
   return {
     type: RECEIVE_ROUTES,
-    payload: data
+    routeOverlays,
+    stops,
+    routes
   }
 }
 
 export function fetchRoutes () {
+  const urls = ['https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt','https://miami-transit-api.herokuapp.com/api/trolley/stops.json', 'https://miami-transit-api.herokuapp.com/api/trolley/routes.json' ]
   return dispatch => {
     dispatch(requestRoutes())
-    return fetch('https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt').then((response) => response.text())
-    .then((responseText) => {
-      const routeOverlays = processShapeData(responseText)
-      return dispatch(receiveRoutes(routeOverlays))
+    const promises = urls.map((url, i) => {
+        if (i === 0) {
+          return fetch(url).then((response) => response.text())
+        } else{
+          return fetch(url).then((response) => response.json())
+        }
+      })
+    Promise.all(promises).then(results => {
+      const routeOverlays = processShapeData(results[0])
+      const stops = results[1]['get_stops']
+      const routes = results[2]['get_routes']
+      return dispatch(receiveRoutes(routeOverlays, stops, routes))
     })
+    // .then(res => {
+    //   console.log( res )
+    // })
+
+    // return fetch('https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt').then((response) => response.text())
+    // .then((responseText) => {
+    //   const routeOverlays = processShapeData(responseText)
+    //   return dispatch(receiveRoutes(routeOverlays))
+    // })
     .catch((error) => {
+      console.log(error)
       return dispatch(receiveRoutes({error}))
     })
   }
@@ -73,14 +94,25 @@ export const getAllRoutes= (state) => {
 // ------------------------------------
 
 const receiveRoutesHandler = (state, action) => {
-  if (action.payload.length < 1) {
+  if (action.stops.length < 1 || action.routes.length < 1) {
     return {...state, isLoading: false, error}
   }
-  let routesById = {}
-  const routeIds = action.payload.map((route, i) => {
-    routesById[i + 1] = route
-    return i + 1  
+  let stopsByRoute = {}
+  action.stops.forEach((stop) => {
+    if (!(stop.rid in stopsByRoute)) {
+      stopsByRoute[stop.rid] = []
+    }
+    stopsByRoute[stop.rid].push(stop)
   })
+  console.log(stopsByRoute)
+
+  let routesById = {}
+  const routeIds = action.routes.map((route, i) => {
+    const newRoute = {...route, ...action.routeOverlays[route['id']], stops:stopsByRoute[route.id] }
+    routesById[route['id']] = newRoute
+    return route['id'] 
+  })
+  console.log(routesById)
   return { ...state, isLoading: false, routes: action.payload, routeIds, routesById }
 }
 
@@ -131,7 +163,7 @@ function processShapeData(allText) {
         routes[data[0]].push(data);
       }
   }
-  var routeOverlays = [];
+  var routeOverlays = {};
   for (var index in routes) {
     var route = routes[index];
     const coordinates = route.map((coordinate) => {
@@ -141,8 +173,8 @@ function processShapeData(allText) {
         return {latitude, longitude}
       }
     })
-    const routeInfo = { ...routeObjects[index], coordinates: coordinates, display: index == 2, id: index}
-    routeOverlays.push(routeInfo);
+    const routeInfo = { ...routeObjects[index], coordinates: coordinates, display: index == 2, id: index, stops: []}
+    routeOverlays[index] = routeInfo 
   }
   return routeOverlays;
 }

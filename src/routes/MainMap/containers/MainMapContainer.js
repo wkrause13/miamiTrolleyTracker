@@ -12,7 +12,8 @@ const mapStateToProps = (state) => ({
   routesById: state.mainMap.routesById,
   isLoading: state.mainMap.isLoading,
   error: state.mainMap.error,
-  reRenderKey: state.mainMap.reRenderKey
+  reRenderKey: state.mainMap.reRenderKey,
+  stopsById :state.mainMap.stopsById
 })
 
 export default connect(mapStateToProps, mapActionCreators)(MainMap)
