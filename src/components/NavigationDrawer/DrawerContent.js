@@ -34,7 +34,7 @@ class DrawerContent extends Component {
       <ScrollView style={{backgroundColor:'#FFFFFF'}} contentContainerStyle={[styles.container]} bounces={false}>
         <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
           <View style={{flex: 1, alignItems:'center', paddingBottom: 10}}>
-            <TouchableHighlight onPress={this.props.enableAllRoutes} style={{height: 40, width: 100, alignItems:'center',justifyContent:'center', backgroundColor: 'orange', borderRadius: 5}}>
+            <TouchableHighlight onPress={this.props.enableAllRoutes} underlayColor={'#e69500'} style={{height: 40, width: 100, alignItems:'center',justifyContent:'center', backgroundColor: 'orange', borderRadius: 5}}>
               <Text style={{color: '#FFFFFF', fontWeight:'bold'}}>Show All</Text>
             </TouchableHighlight>
           </View>
