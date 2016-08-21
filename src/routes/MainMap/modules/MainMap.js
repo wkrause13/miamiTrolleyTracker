@@ -1,5 +1,4 @@
 import _ from 'lodash'
-
 import {routeObjects} from '../../../utils'
 
 // ------------------------------------
@@ -49,7 +48,6 @@ export function fetchRoutes () {
       return dispatch(receiveRoutes(routeOverlays, stops, routes))
     })
     .catch((error) => {
-      console.log(error)
       return dispatch(receiveRoutes({error}))
     })
   }
@@ -104,7 +102,6 @@ const receiveRoutesHandler = (state, action) => {
     }
     stopsByRoute[stop.rid].push(stop)
   })
-  console.log(stopsByRoute)
 
   let routesById = {}
   const routeIds = action.routes.map((route, i) => {
@@ -112,29 +109,31 @@ const receiveRoutesHandler = (state, action) => {
     routesById[route['id']] = newRoute
     return route['id'] 
   })
-  console.log(routesById)
   return { ...state, isLoading: false, routes: action.payload, routeIds, routesById }
 }
 
 const toggleRouteHandler = (state, action) => {
   const targetRoute = state.routesById[action.routeId]
-  const newRouteInfo = {...targetRoute, display: !targetRoute.display}
-  const newRoutes = {...state.routesById, [action.routeId]: newRouteInfo }
-  return {...state, routesById: newRoutes, reRenderKey: state.reRenderKey + 1}
+  return {...state,
+      routesById: {
+        ...state.routesById,
+        [action.routeId]: {
+          ...targetRoute,
+          display: !targetRoute.display
+        } 
+      },
+      reRenderKey: state.reRenderKey + 1
+  }
 }
 
 
 const enableAllRoutesHandler = (state, action) => {
-  let newRoutesById ={}
+  let newRoutesById = {}
   const newRoutesArray = state.routeIds.forEach((routeId) => {
     const newRoute = {...state.routesById[routeId], display: true}
     newRoutesById[routeId] = newRoute
   })
-  // newRoutesById = newRoutesArray.map
-  // const targetRoute = state.routesById[action.routeId]
-  // const newRouteInfo = {...targetRoute, display: !targetRoute.display}
-  // const newRoutes = {...state.routesById, [action.routeId]: newRouteInfo }
-  return {...state, routesById: newRoutesById, reRenderKey: state.reRenderKey + 1}
+  return {...state, routesById: newRoutesById}
 }
 
 const ACTION_HANDLERS = {

@@ -7,7 +7,6 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 
 const DrawerContentRow = (props) => {
-  console.log(props.route.display)
   return (
     <View style={[styles['DrawerContentRow']]}>
         <View style={{ alignSelf:'stretch', flex: 1, flexDirection:'row', alignItems:'center', padding:10}}>

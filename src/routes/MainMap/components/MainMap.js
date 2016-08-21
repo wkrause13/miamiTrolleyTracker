@@ -40,22 +40,36 @@ class MainMap extends React.Component {
       .then((response) => response.json())
       .then((responseJson) => {
         var newMarkers = [];
-        var trolleys = responseJson.get_vehicles;
-        var count = trolleys.length;
-        for (i = 0; i < count; i++) {
-          trolleys[i].receiveTime = (new Date(trolleys[i].receiveTime)).toLocaleString();
-          newMarkers.push(
-            {
+        var trolleys = responseJson.get_vehicles
+
+        const markers = trolleys.map((trolley) => {
+          const receiveTime = (new Date(trolley.receiveTime)).toLocaleString()
+          return {
               coordinate: {
-                latitude: trolleys[i].lat,
-                longitude: trolleys[i].lng
+                latitude: trolley.lat,
+                longitude: trolley.lng
               },
-              title: 'Vehicle ID: '+trolleys[i].equipmentID,
-              description: 'Route: '+trolleys[i].routeID + ', Time: '+trolleys[i].receiveTime
+              title: `Vehicle ID: ${trolley.equipmentID}`,
+              description: `Route: ${trolley.routeID}, Time: ${trolley.receiveTime}`
             }
-          );
-        }
-        this.setState({ markers: newMarkers })
+
+        })
+
+        // var count = trolleys.length;
+        // for (i = 0; i < count; i++) {
+        //   trolleys[i].receiveTime = (new Date(trolleys[i].receiveTime)).toLocaleString();
+        //   newMarkers.push(
+        //     {
+        //       coordinate: {
+        //         latitude: trolleys[i].lat,
+        //         longitude: trolleys[i].lng
+        //       },
+        //       title: 'Vehicle ID: '+trolleys[i].equipmentID,
+        //       description: 'Route: '+trolleys[i].routeID + ', Time: '+trolleys[i].receiveTime
+        //     }
+        //   );
+        // }
+        this.setState({ markers })
       })
       .catch((error) => {
         console.error(error)
@@ -101,10 +115,11 @@ class MainMap extends React.Component {
     })
   }
   makeAll (routes) {
-    const allItems = [...this.generateRoutes(routes)]
-    const middle = [...allItems, ...this.generateStops(routes)]
-    const final = [...middle, ...this.generateTrolleyMarkers(this.state.markers)]
-    return final
+    return [
+      ...this.generateRoutes(routes),
+      ...this.generateStops(routes),
+      ...this.generateTrolleyMarkers(this.state.markers)
+    ]
   }
   render () {
     const { routes, isLoading } = this.props
@@ -122,8 +137,8 @@ class MainMap extends React.Component {
             followsUserLocation
           >
             {routes.length > 0 && this.state.markers.length > 0 ? this.makeAll(routes) : null}
-          </MapView>
-          <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.state.markers.length === 0} />
+        </MapView>
+        <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.state.markers.length === 0} />
       </View>
     )
   }
