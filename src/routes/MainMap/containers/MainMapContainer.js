@@ -15,7 +15,6 @@ const mapStateToProps = (state) => ({
   isLoading: state.mainMap.isLoading,
   error: state.mainMap.error,
   reRenderKey: state.mainMap.reRenderKey,
-  stopsById: state.mainMap.stopsById,
   markers: state.mainMap.markers
 })
 

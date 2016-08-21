@@ -151,7 +151,7 @@ const receiveRoutesHandler = (state, action) => {
     routesById[route['id']] = newRoute
     return route['id'] 
   })
-  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById, error: null }
+  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById, error: null, reRenderKey: state.reRenderKey + 1 }
 }
 
 const receiveTrolleysHandler = (state, action) => {
@@ -162,13 +162,24 @@ const receiveTrolleysHandler = (state, action) => {
     return {...state, error: 'Having trouble updating trolley data'}
   }
   const markers = action.trolleys.map((trolley) => {
+
+    // not going to plot buses with bad or unknown route information
+    if (!(trolley.routeID in routeObjects)) {
+      return undefined
+    }
+    let shouldDisplay = false
+    if (!(trolley.routeID in state.routesById)) {
+      shouldDisplay = false
+    } else {
+      shouldDisplay = state.routesById[trolley.routeID].display
+    }
     return {
       coordinate: {
         latitude: trolley.lat,
         longitude: trolley.lng
       },
       // trolley.display allows us to eventually support user defualt preferences
-      display: (trolley.display || (state.routesById[trolley.routeID] && state.routesById[trolley.routeID].display)),
+      display: shouldDisplay,
       routeId: trolley.routeID,
       title: `Vehicle ID: ${trolley.equipmentID}`,
       description: `Route: ${trolley.routeID}, ${trolley.inService ? 'In Service' : 'Out of Service'}`
@@ -201,17 +212,20 @@ const toggleRouteHandler = (state, action) => {
   }
 }
 
-
 const enableAllRoutesHandler = (state, action) => {
-  const newMarkers = state.markers.map((marker) => {
-    return {...marker, display: true}
-  })
   let newRoutesById = {}
-  const newRoutesArray = state.routeIds.forEach((routeId) => {
+  state.routeIds.map((routeId) => {
     const newRoute = {...state.routesById[routeId], display: true}
     newRoutesById[routeId] = newRoute
   })
-  return {...state, routesById: newRoutesById, markers: newMarkers}
+  const newMarkers = state.markers.map((marker) => {
+    return {...marker, display: true}
+  })
+  return {...state,
+    routesById: newRoutesById,
+    reRenderKey: state.reRenderKey + 1,
+    markers: newMarkers,
+  }
 }
 
 const ACTION_HANDLERS = {
@@ -225,6 +239,11 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
+const routesById = {
+
+}
+
 const initialState = {
   isLoading: false,
   error: null,
