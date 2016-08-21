@@ -151,7 +151,7 @@ const fetchTrolleysHandler = (state, action) => {
           longitude: trolley.lng
         },
         title: `Vehicle ID: ${trolley.equipmentID}`,
-        description: `Route: ${trolley.routeID}, Time: ${trolley.receiveTime}`
+        description: `Route: ${trolley.routeID}, ${trolley.inService ? 'In Service': 'Out of Service'}`
       }
     }
   })
