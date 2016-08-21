@@ -7,7 +7,6 @@ import MapView from 'react-native-maps'
 import {routeObjects} from '../../../utils'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-
 class MainMap extends React.Component {
   constructor () {
     super()
@@ -16,7 +15,6 @@ class MainMap extends React.Component {
       initialLat: 25.7689000,
       initialLong: -80.2094014,
     }
-    this.fetchTrolleys = this.fetchTrolleys.bind(this)
   }
   componentWillMount () {
     navigator.geolocation.getCurrentPosition(
@@ -29,51 +27,11 @@ class MainMap extends React.Component {
   }
   componentDidMount () {
     this.props.fetchRoutes()
-    this.fetchTrolleys()
+    this.props.fetchTrolleys()
     setInterval(
-      () => { this.fetchTrolleys() },
+      () => { this.props.fetchTrolleys() },
       10000
     );
-  }
-  fetchTrolleys() {
-    fetch('https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        var newMarkers = [];
-        var trolleys = responseJson.get_vehicles
-
-        const markers = trolleys.map((trolley) => {
-          const receiveTime = (new Date(trolley.receiveTime)).toLocaleString()
-          return {
-              coordinate: {
-                latitude: trolley.lat,
-                longitude: trolley.lng
-              },
-              title: `Vehicle ID: ${trolley.equipmentID}`,
-              description: `Route: ${trolley.routeID}, Time: ${trolley.receiveTime}`
-            }
-
-        })
-
-        // var count = trolleys.length;
-        // for (i = 0; i < count; i++) {
-        //   trolleys[i].receiveTime = (new Date(trolleys[i].receiveTime)).toLocaleString();
-        //   newMarkers.push(
-        //     {
-        //       coordinate: {
-        //         latitude: trolleys[i].lat,
-        //         longitude: trolleys[i].lng
-        //       },
-        //       title: 'Vehicle ID: '+trolleys[i].equipmentID,
-        //       description: 'Route: '+trolleys[i].routeID + ', Time: '+trolleys[i].receiveTime
-        //     }
-        //   );
-        // }
-        this.setState({ markers })
-      })
-      .catch((error) => {
-        console.error(error)
-      });
   }    
   generateRoutes (routes) {
     return routes.map((route, i) => {
@@ -118,7 +76,7 @@ class MainMap extends React.Component {
     return [
       ...this.generateRoutes(routes),
       ...this.generateStops(routes),
-      ...this.generateTrolleyMarkers(this.state.markers)
+      ...this.generateTrolleyMarkers(this.props.markers)
     ]
   }
   render () {
@@ -136,9 +94,9 @@ class MainMap extends React.Component {
             showsUserLocation
             followsUserLocation
           >
-            {routes.length > 0 && this.state.markers.length > 0 ? this.makeAll(routes) : null}
+            {routes.length > 0 && this.props.markers.length > 0 ? this.makeAll(routes) : null}
         </MapView>
-        <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.state.markers.length === 0} />
+        <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.props.markers.length === 0} />
       </View>
     )
   }

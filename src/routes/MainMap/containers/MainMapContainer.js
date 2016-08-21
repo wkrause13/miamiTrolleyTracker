@@ -1,10 +1,12 @@
 import { connect } from 'react-redux'
-import { fetchRoutes, getAllRoutes } from '../modules/MainMap'
+import { fetchRoutes, getAllRoutes,fetchTrolleys, incrementRenderKey } from '../modules/MainMap'
 
 import MainMap from '../components/MainMap'
 
 const mapActionCreators = {
-  fetchRoutes
+  fetchRoutes,
+  incrementRenderKey,
+  fetchTrolleys
 }
 
 const mapStateToProps = (state) => ({
@@ -13,7 +15,8 @@ const mapStateToProps = (state) => ({
   isLoading: state.mainMap.isLoading,
   error: state.mainMap.error,
   reRenderKey: state.mainMap.reRenderKey,
-  stopsById :state.mainMap.stopsById
+  stopsById: state.mainMap.stopsById,
+  markers: state.mainMap.markers
 })
 
 export default connect(mapStateToProps, mapActionCreators)(MainMap)

@@ -7,9 +7,13 @@ import {routeObjects} from '../../../utils'
 const REQUEST_ROUTES = 'REQUEST_ROUTES'
 const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
 
+const RECEIVE_TROLLEYS = 'RECEIVE_TROLLEYS'
+
 const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
 
 const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
+
+const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
 
 // ------------------------------------
 // Actions
@@ -53,6 +57,13 @@ export function fetchRoutes () {
   }
 }
 
+export function receiveTrolleys (trolleys) {
+  return {
+    type: RECEIVE_TROLLEYS,
+    trolleys
+  }
+}
+
 export function toggleRoute (routeId) {
   return {
     type: TOGGLE_ROUTE,
@@ -66,11 +77,29 @@ export function enableAllRoutes () {
   }
 }
 
+export function incrementRenderKey () {
+  return {
+    type: INCREMENT_RENDER_KEY
+  }
+}
+
+export function fetchTrolleys() {
+  return dispatch => {
+    fetch('https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        const trolleys = responseJson.get_vehicles
+        return dispatch(receiveTrolleys(trolleys))
+    })
+  }
+}
+
 
 export const actions = {
   fetchRoutes,
   toggleRoute,
-  enableAllRoutes
+  enableAllRoutes,
+  incrementRenderKey
 }
 
 // ------------------------------------
@@ -112,6 +141,33 @@ const receiveRoutesHandler = (state, action) => {
   return { ...state, isLoading: false, routes: action.payload, routeIds, routesById }
 }
 
+const fetchTrolleysHandler = (state, action) => {
+  const markers = action.trolleys.map((trolley) => {
+    if (state.routesById[trolley.routeID] && state.routesById[trolley.routeID].display === true){
+      const receiveTime = (new Date(trolley.receiveTime)).toLocaleString()
+      return {
+        coordinate: {
+          latitude: trolley.lat,
+          longitude: trolley.lng
+        },
+        title: `Vehicle ID: ${trolley.equipmentID}`,
+        description: `Route: ${trolley.routeID}, Time: ${trolley.receiveTime}`
+      }
+    }
+  })
+  if (markers){
+    validMarkers = markers.filter(function( element ) {
+      return element !== undefined;
+    });
+    if (state.shouldRerenderTrolley){
+      return {...state, markers: validMarkers, reRenderKey: state.reRenderKey + 1, shouldRerenderTrolley: false}
+    } else{
+      return {...state, markers: validMarkers}
+    }
+  }
+  return state
+}
+
 const toggleRouteHandler = (state, action) => {
   const targetRoute = state.routesById[action.routeId]
   return {...state,
@@ -122,7 +178,8 @@ const toggleRouteHandler = (state, action) => {
           display: !targetRoute.display
         } 
       },
-      reRenderKey: state.reRenderKey + 1
+      reRenderKey: state.reRenderKey + 1,
+      shouldRerenderTrolley: !targetRoute.display,
   }
 }
 
@@ -133,15 +190,20 @@ const enableAllRoutesHandler = (state, action) => {
     const newRoute = {...state.routesById[routeId], display: true}
     newRoutesById[routeId] = newRoute
   })
-  return {...state, routesById: newRoutesById}
+  return {...state, routesById: newRoutesById, shouldRerenderTrolley: true}
+}
+
+const incrementRenderKeyHander = (state, action) => {
+  return {...state, reRenderKey: state.reRenderKey + 1}
 }
 
 const ACTION_HANDLERS = {
   [REQUEST_ROUTES]: (state, action) => {return {...state, isLoading: true}},
   [RECEIVE_ROUTES]: receiveRoutesHandler,
   [TOGGLE_ROUTE]: toggleRouteHandler,
-  [ENABLE_ALL_ROUTES]: enableAllRoutesHandler
-
+  [ENABLE_ALL_ROUTES]: enableAllRoutesHandler,
+  [RECEIVE_TROLLEYS]: fetchTrolleysHandler,
+  [INCREMENT_RENDER_KEY]: incrementRenderKeyHander
 }
 
 // ------------------------------------
@@ -152,7 +214,9 @@ const initialState = {
   error: null,
   routesById: {},
   routeIds: [],
-  reRenderKey: 0
+  reRenderKey: 0,
+  markers: [],
+  shouldRerenderTrolley: false
 }
 export function MainMapReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
