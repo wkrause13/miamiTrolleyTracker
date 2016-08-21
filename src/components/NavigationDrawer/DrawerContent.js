@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {Text, View, ScrollView, Image, TouchableHighlight } from 'react-native'
 import styles from './NavigationDrawerStyles'
 import { Actions as NavigationActions } from 'react-native-router-flux'
@@ -10,6 +11,10 @@ import { getAllRoutes, toggleRoute, enableAllRoutes } from '../../routes/MainMap
 import {routeObjects} from '../../utils'
 
 class DrawerContent extends Component {
+  constructor (props) {
+    super(props)
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
+  }
 
   toggleDrawer () {
     this.context.drawer.toggle()

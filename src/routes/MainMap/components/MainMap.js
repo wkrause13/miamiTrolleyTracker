@@ -1,5 +1,6 @@
 import React from 'react'
-import { Text, View, ActivityIndicator, Platform } from 'react-native'
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import { Text, View, TouchableHighlight, ActivityIndicator, Platform } from 'react-native'
 import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
 import MapView from 'react-native-maps'
@@ -8,13 +9,13 @@ import {routeObjects} from '../../../utils'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 class MainMap extends React.Component {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
     this.state = {
-      markers: [],
       initialLat: 25.7689000,
       initialLong: -80.2094014,
     }
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
   }
   componentWillMount () {
     navigator.geolocation.getCurrentPosition(
@@ -27,7 +28,7 @@ class MainMap extends React.Component {
   }
   componentDidMount () {
     this.props.fetchRoutes()
-    this.props.fetchTrolleys()
+    // initial trolley fetch happens in fetchRoutes
     setInterval(
       () => { this.props.fetchTrolleys() },
       10000
@@ -56,6 +57,9 @@ class MainMap extends React.Component {
   }
   generateTrolleyMarkers (trolleys) {
     return trolleys.map((trolley, i) => {
+      if (!trolley.display){
+        return null
+      }
       const key = Platform.OS === 'ios' ? `trolley-${i}-${this.props.reRenderKey}`: `trolley-${i}`
       var res = trolley.description.match(/\d+/)
       if (res[0] in routeObjects) {
@@ -97,6 +101,15 @@ class MainMap extends React.Component {
             {routes.length > 0 && this.props.markers.length > 0 ? this.makeAll(routes) : null}
         </MapView>
         <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.props.markers.length === 0} />
+        {this.props.error ?
+          <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center', backgroundColor:'transparent'}}>
+            <View style={{backgroundColor: 'red', padding: 5, marginBottom: 10}}><Text style={{color: 'white'}}>{this.props.error}</Text></View>
+            <TouchableHighlight onPress={this.props.fetchRoutes} underlayColor={'#e69500'} style={{height: 40, width: 100, alignItems:'center',justifyContent:'center', backgroundColor: 'orange', borderRadius: 5}}>
+              <Text style={{color: '#FFFFFF', fontWeight:'bold'}}>Try Again</Text>
+            </TouchableHighlight>
+          </View>
+          : null
+        }
       </View>
     )
   }

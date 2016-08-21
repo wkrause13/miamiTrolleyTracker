@@ -35,7 +35,7 @@ function receiveRoutes (routeOverlays, stops, routes) {
 }
 
 export function fetchRoutes () {
-  const urls = ['https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt','https://miami-transit-api.herokuapp.com/api/trolley/stops.json', 'https://miami-transit-api.herokuapp.com/api/trolley/routes.json' ]
+  const urls = ['https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt','https://miami-transit-api.herokuapp.com/api/trolley/stops.json', 'https://miami-transit-api.herokuapp.com/api/trolley/routes.json', 'https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json' ]
   return dispatch => {
     dispatch(requestRoutes())
     const promises = urls.map((url, i) => {
@@ -48,7 +48,14 @@ export function fetchRoutes () {
     Promise.all(promises).then(results => {
       const routeOverlays = processShapeData(results[0])
       const stops = results[1]['get_stops']
-      const routes = results[2]['get_routes']
+      // both of the following maps will make it easier to support user defaults when app loads
+      const routes = results[2]['get_routes'].map((route) => {
+        return {...route, display: route.id == 2}
+      })
+      const trolleys = results[3].get_vehicles.map((trolley) => {
+        return {...trolley, display: (trolley.routeID == 2)}
+      })
+      dispatch(receiveTrolleys(trolleys))
       return dispatch(receiveRoutes(routeOverlays, stops, routes))
     })
     .catch((error) => {
@@ -91,6 +98,9 @@ export function fetchTrolleys() {
         const trolleys = responseJson.get_vehicles
         return dispatch(receiveTrolleys(trolleys))
     })
+    .catch((error) => {
+      return dispatch(receiveTrolley({error}))
+    })
   }
 }
 
@@ -121,8 +131,11 @@ export const getAllRoutes= (state) => {
 // ------------------------------------
 
 const receiveRoutesHandler = (state, action) => {
+  if (action.routeOverlays.error) {
+    return {...state, error: 'Had trouble getting data :-(', isLoading: false}
+  }
   if (action.stops.length < 1 || action.routes.length < 1) {
-    return {...state, isLoading: false, error}
+    return {...state, isLoading: false}
   }
   let stopsByRoute = {}
   action.stops.forEach((stop) => {
@@ -138,38 +151,43 @@ const receiveRoutesHandler = (state, action) => {
     routesById[route['id']] = newRoute
     return route['id'] 
   })
-  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById }
+  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById, error: null }
 }
 
-const fetchTrolleysHandler = (state, action) => {
+const receiveTrolleysHandler = (state, action) => {
+  if (action.trolleys.error && state.trolleyFetchFails < 6) {
+    return {...state, trolleyFetchFails: state.trolleyFetchFails + 1}
+  }
+  if (state.trolleyFetchFails >= 6){
+    return {...state, error: 'Having trouble updating trolley data'}
+  }
   const markers = action.trolleys.map((trolley) => {
-    if (state.routesById[trolley.routeID] && state.routesById[trolley.routeID].display === true){
-      const receiveTime = (new Date(trolley.receiveTime)).toLocaleString()
-      return {
-        coordinate: {
-          latitude: trolley.lat,
-          longitude: trolley.lng
-        },
-        title: `Vehicle ID: ${trolley.equipmentID}`,
-        description: `Route: ${trolley.routeID}, ${trolley.inService ? 'In Service': 'Out of Service'}`
-      }
+    return {
+      coordinate: {
+        latitude: trolley.lat,
+        longitude: trolley.lng
+      },
+      // trolley.display allows us to eventually support user defualt preferences
+      display: (trolley.display || (state.routesById[trolley.routeID] && state.routesById[trolley.routeID].display)),
+      routeId: trolley.routeID,
+      title: `Vehicle ID: ${trolley.equipmentID}`,
+      description: `Route: ${trolley.routeID}, ${trolley.inService ? 'In Service' : 'Out of Service'}`
     }
   })
-  if (markers){
-    validMarkers = markers.filter(function( element ) {
-      return element !== undefined;
-    });
-    if (state.shouldRerenderTrolley){
-      return {...state, markers: validMarkers, reRenderKey: state.reRenderKey + 1, shouldRerenderTrolley: false}
-    } else{
-      return {...state, markers: validMarkers}
-    }
-  }
-  return state
+  validMarkers = markers.filter(function( element ) {
+    return element !== undefined;
+  });
+  return {...state, markers: validMarkers, trolleyFetchFails: 0, error: null}
 }
 
 const toggleRouteHandler = (state, action) => {
   const targetRoute = state.routesById[action.routeId]
+  const newMarkers = state.markers.map((marker) => {
+    if (marker.routeId == action.routeId) {
+      return {...marker, display: !targetRoute.display}
+    }
+    return marker
+  })
   return {...state,
       routesById: {
         ...state.routesById,
@@ -179,22 +197,21 @@ const toggleRouteHandler = (state, action) => {
         } 
       },
       reRenderKey: state.reRenderKey + 1,
-      shouldRerenderTrolley: !targetRoute.display,
+      markers: newMarkers
   }
 }
 
 
 const enableAllRoutesHandler = (state, action) => {
+  const newMarkers = state.markers.map((marker) => {
+    return {...marker, display: true}
+  })
   let newRoutesById = {}
   const newRoutesArray = state.routeIds.forEach((routeId) => {
     const newRoute = {...state.routesById[routeId], display: true}
     newRoutesById[routeId] = newRoute
   })
-  return {...state, routesById: newRoutesById, shouldRerenderTrolley: true}
-}
-
-const incrementRenderKeyHander = (state, action) => {
-  return {...state, reRenderKey: state.reRenderKey + 1}
+  return {...state, routesById: newRoutesById, markers: newMarkers}
 }
 
 const ACTION_HANDLERS = {
@@ -202,8 +219,7 @@ const ACTION_HANDLERS = {
   [RECEIVE_ROUTES]: receiveRoutesHandler,
   [TOGGLE_ROUTE]: toggleRouteHandler,
   [ENABLE_ALL_ROUTES]: enableAllRoutesHandler,
-  [RECEIVE_TROLLEYS]: fetchTrolleysHandler,
-  [INCREMENT_RENDER_KEY]: incrementRenderKeyHander
+  [RECEIVE_TROLLEYS]: receiveTrolleysHandler
 }
 
 // ------------------------------------
@@ -216,7 +232,7 @@ const initialState = {
   routeIds: [],
   reRenderKey: 0,
   markers: [],
-  shouldRerenderTrolley: false
+  trolleyFetchFails : 0,
 }
 export function MainMapReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
@@ -251,7 +267,7 @@ function processShapeData(allText) {
         return {latitude, longitude}
       }
     })
-    const routeInfo = { ...routeObjects[index], coordinates: coordinates, display: index == 2, id: index, stops: []}
+    const routeInfo = { ...routeObjects[index], coordinates: coordinates, id: index, stops: []}
     routeOverlays[index] = routeInfo 
   }
   return routeOverlays;
