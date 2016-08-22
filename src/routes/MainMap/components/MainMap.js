@@ -14,8 +14,12 @@ class MainMap extends React.Component {
     this.state = {
       initialLat: 25.7689000,
       initialLong: -80.2094014,
+      currentStops: [],
+      stopText: ''
     }
-    // this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
+
+    this.clearStopData = this.clearStopData.bind(this)
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
   }
   componentWillMount () {
     navigator.geolocation.getCurrentPosition(
@@ -33,12 +37,39 @@ class MainMap extends React.Component {
       () => { this.props.fetchTrolleys() },
       10000
     );
+  }
+  fetchStopData (stopId) {
+    fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson.get_stop_etas[0].enRoute)
+        const stops = responseJson.get_stop_etas[0].enRoute
+        let stopText = ''
+        if (stops.length > 0) {
+            const stopData = stops[0]
+            stopText = `Minutes: ${stopData.minutes}`
+          }
+        this.setState({currentStop: responseJson.get_stop_etas[0].enRoute, stopText: stopText})
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
+  clearStopData () {
+    this.setState({stopText: ''})
   }    
   generateRoutes (routes, reRenderKey) {
     return routes.map((route, i) => {
       const key = Platform.OS === 'ios' ? `route-${i}-${reRenderKey}` : `route-${i}`
       if (route.display){
-        return <MapView.Polyline key={key} strokeColor={route.routeColor} strokeWidth={4} coordinates={route.coordinates}/>
+        return (
+          <MapView.Polyline
+            key={key}
+            strokeColor={route.routeColor}
+            strokeWidth={4}
+            coordinates={route.coordinates}
+          />
+        )
       }
     })
   }
@@ -47,10 +78,32 @@ class MainMap extends React.Component {
     return routes.map((route) => {
       return route.stops.map((stop, i) => {
         if (route.display) {
+          const boundPress = this.fetchStopData.bind(this,stop.id)
           const key = Platform.OS === 'ios' ? `stop-${i}-${reRenderKey}`: `stop-${i}`
-          return <MapView.Marker key={key} anchor={{ x: 0.4, y: 0.5 }} coordinate={{latitude: stop.lat, longitude: stop.lng}} title={stop.name}>
-                  <Icon name="brightness-1" size={7} color={'rgba(0, 0, 0, 0.15)'} />
-                </MapView.Marker>
+          let stopText = ''
+          if (this.state.currentStops.length > 0) {
+            const stopData = this.state.currentStops[0]
+            stopText = `Minutes: ${stopData.minutes}`
+          }
+          return (
+            <MapView.Marker
+              onPress={boundPress}
+              onDeselect={this.clearStopData}
+              key={key}
+              anchor={{ x: 0.4, y: 0.5 }}
+              coordinate={{latitude: stop.lat, longitude: stop.lng}}
+
+            >
+              <Icon name="brightness-1" size={7} color={'rgba(0, 0, 0, 0.15)'} />
+              <MapView.Callout 
+                    style={{width: 200, backgroundColor:'transparent'}}>
+                <View style={{backgroundColor:'transparent', height: 100, alignItems: 'center', justifyContent: 'center'}}>
+                    <Text style={{fontSize: 20}}>{stop.name}</Text>
+                    <Text>{this.state.stopText}</Text>
+                </View>
+            </MapView.Callout>
+            </MapView.Marker>
+          ) 
         }
       })
     })
