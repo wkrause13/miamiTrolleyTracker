@@ -11,6 +11,7 @@ const RECEIVE_TROLLEYS = 'RECEIVE_TROLLEYS'
 
 const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
 
+const REQUEST_ENABLE_ALL_ROUTES = 'REQUEST_ENABLE_ALL_ROUTES'
 const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
 
 const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
@@ -78,9 +79,24 @@ export function toggleRoute (routeId) {
   }
 }
 
-export function enableAllRoutes () {
+
+export function requestEnableAllRoutes () {
+  return {
+    type: REQUEST_ENABLE_ALL_ROUTES
+  }
+}
+
+export function allRoutes () {
   return {
     type: ENABLE_ALL_ROUTES
+  }
+}
+
+export function enableAllRoutes() {
+  return dispatch => {
+    dispatch(requestEnableAllRoutes())
+    setTimeout(() => dispatch(allRoutes()), 100)
+    
   }
 }
 
@@ -115,7 +131,7 @@ export const actions = {
 // ------------------------------------
 // Selectors
 // ------------------------------------
-export const getAllRoutes= (state) => {
+export const getAllRoutes = (state) => {
   if (state.mainMap.routeIds){
     const routeArray = state.mainMap.routeIds.map((id) => {
       return state.mainMap.routesById[id]
@@ -123,8 +139,24 @@ export const getAllRoutes= (state) => {
     return _.sortBy(routeArray, 'name')
   }
   return []
-
 }
+
+export const getAllRoutesForDrawer = (state) => {
+  if (state.mainMap.routeIds){
+    const routeArray = state.mainMap.routeIds.map((rid) => {
+      const {routeColor, display, id, name} = state.mainMap.routesById[rid]
+      return {
+        routeColor,
+        display,
+        id,
+        name
+      }
+    })
+    return _.sortBy(routeArray, 'name')
+  }
+  return []
+}
+
 
 // ------------------------------------
 // Action Handlers
@@ -212,6 +244,10 @@ const toggleRouteHandler = (state, action) => {
   }
 }
 
+const requestEnableAllRoutesHandler = (state, action) => {
+  return {...state, isLoading: true}
+}
+
 const enableAllRoutesHandler = (state, action) => {
   let newRoutesById = {}
   state.routeIds.map((routeId) => {
@@ -225,6 +261,7 @@ const enableAllRoutesHandler = (state, action) => {
     routesById: newRoutesById,
     reRenderKey: state.reRenderKey + 1,
     markers: newMarkers,
+    isLoading: false
   }
 }
 
@@ -232,6 +269,7 @@ const ACTION_HANDLERS = {
   [REQUEST_ROUTES]: (state, action) => {return {...state, isLoading: true}},
   [RECEIVE_ROUTES]: receiveRoutesHandler,
   [TOGGLE_ROUTE]: toggleRouteHandler,
+  [REQUEST_ENABLE_ALL_ROUTES]: requestEnableAllRoutesHandler,
   [ENABLE_ALL_ROUTES]: enableAllRoutesHandler,
   [RECEIVE_TROLLEYS]: receiveTrolleysHandler
 }

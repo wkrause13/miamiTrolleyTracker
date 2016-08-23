@@ -1,18 +1,22 @@
 import React, { Component, PropTypes } from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {Text, View, ScrollView, Image, TouchableHighlight } from 'react-native'
+import {Text, View, ActivityIndicator, ScrollView, Image, TouchableHighlight, Dimensions } from 'react-native'
 import styles from './NavigationDrawerStyles'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
 
 import DrawerContentRow from './DrawerContentRow'
 
-import { getAllRoutes, toggleRoute, enableAllRoutes } from '../../routes/MainMap/modules/MainMap'
+import { getAllRoutesForDrawer, toggleRoute, enableAllRoutes } from '../../routes/MainMap/modules/MainMap'
 import {routeObjects} from '../../utils'
 
 class DrawerContent extends Component {
   constructor (props) {
     super(props)
+    this.state = {
+      componentLoading: false
+    }
+    this.handleShowAll = this.handleShowAll.bind(this)
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
   }
 
@@ -32,20 +36,35 @@ class DrawerContent extends Component {
       })
     }
   }
+  // componentWillUpdate( nextProps, nextState){
+  //   console.log(nextProps, nextState)
+  // }
+
+  // shouldComponentUpdate (nextProps, nextState) {
+  //   console.log(nextProps, nextState)
+  //   return nextProps.id !== this.props.id;
+  // }
+  handleShowAll () {
+    this.props.enableAllRoutes()
+  }
 
   render () {
-    const {trolleyRoutes} = this.props
+    const {trolleyRoutes, isLoading} = this.props
+    var {height, width} = Dimensions.get('window')
     return (
-      <ScrollView style={{backgroundColor:'#FFFFFF'}} contentContainerStyle={[styles.container]} bounces={false}>
-        <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
-          <View style={{flex: 1, alignItems:'center', paddingBottom: 10}}>
-            <TouchableHighlight onPress={this.props.enableAllRoutes} underlayColor={'#e69500'} style={{height: 40, width: 100, alignItems:'center',justifyContent:'center', backgroundColor: 'orange', borderRadius: 5}}>
-              <Text style={{color: '#FFFFFF', fontWeight:'bold'}}>Show All</Text>
-            </TouchableHighlight>
+      <View style={{flex: 1}}>
+        <ScrollView style={{backgroundColor:'#FFFFFF'}} contentContainerStyle={[styles.container]} bounces={false}>
+          <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
+            <View style={{flex: 1, alignItems:'center', paddingBottom: 10}}>
+              <TouchableHighlight onPress={this.handleShowAll} underlayColor={'#e69500'} style={{height: 40, width: 100, alignItems:'center',justifyContent:'center', backgroundColor: 'orange', borderRadius: 5}}>
+                <Text style={{color: '#FFFFFF', fontWeight:'bold'}}>{isLoading ? 'Loading' : 'Show All'}</Text>
+              </TouchableHighlight>
+            </View>
+            {this.generateContentRows(trolleyRoutes)}
           </View>
-          {this.generateContentRows(trolleyRoutes)}
-        </View>
-      </ScrollView>
+        </ScrollView>
+        <ActivityIndicator size='large' style={{position:'absolute', top: height/2, left: width/2}} animating={isLoading} />
+      </View>
     )
   }
 
@@ -64,7 +83,8 @@ const mapActionCreators = {
 }
 
 const mapStateToProps = (state) => ({
-  trolleyRoutes: getAllRoutes(state)
+  trolleyRoutes: getAllRoutesForDrawer(state),
+  isLoading: state.mainMap.isLoading
 })
 
 export default connect(mapStateToProps, mapActionCreators)(DrawerContent)
