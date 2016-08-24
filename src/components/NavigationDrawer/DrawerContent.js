@@ -6,7 +6,7 @@ import { Actions as NavigationActions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
 
 import DrawerContentRow from './DrawerContentRow'
-
+import {RectangularButton} from '../Buttons'
 import { getAllRoutesForDrawer, toggleRoute, enableAllRoutes } from '../../routes/MainMap/modules/MainMap'
 import {routeObjects} from '../../utils'
 
@@ -56,9 +56,12 @@ class DrawerContent extends Component {
         <ScrollView style={{backgroundColor:'#FFFFFF'}} contentContainerStyle={[styles.container]} bounces={false}>
           <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
             <View style={{flex: 1, alignItems:'center', paddingBottom: 10}}>
-              <TouchableHighlight onPress={this.handleShowAll} underlayColor={'#e69500'} style={{height: 40, width: 100, alignItems:'center',justifyContent:'center', backgroundColor: 'orange', borderRadius: 5}}>
-                <Text style={{color: '#FFFFFF', fontWeight:'bold'}}>{isLoading ? 'Loading' : 'Show All'}</Text>
-              </TouchableHighlight>
+              <RectangularButton
+                onPress={this.handleShowAll}
+                underlayColor={'#e69500'}
+                style={{backgroundColor:'orange'}}
+                text={isLoading ? 'Loading' : 'Show All'}
+              />
             </View>
             {this.generateContentRows(trolleyRoutes)}
           </View>

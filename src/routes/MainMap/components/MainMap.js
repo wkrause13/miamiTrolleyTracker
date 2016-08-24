@@ -1,12 +1,16 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { Text, View, TouchableHighlight, ActivityIndicator, Platform } from 'react-native'
+import { Text, View, Image, TouchableHighlight, ActivityIndicator, Platform } from 'react-native'
+
+import MapView from 'react-native-maps'
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import TrolleyStopTooltip from './TrolleyStopTooltip'
+import {Fab, RectangularButton} from '../../../components/Buttons'
 import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
-import MapView from 'react-native-maps'
-
 import {routeObjects} from '../../../utils'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+
 
 class MainMap extends React.Component {
   constructor (props) {
@@ -15,9 +19,12 @@ class MainMap extends React.Component {
       initialLat: 25.7689000,
       initialLong: -80.2094014,
       currentStops: [],
-      stopText: ''
+      stopText: '',
+      isLoading: false,
+      closest: {name:'', rid: 2}
     }
-
+    this.handleMapViewOnPress = this.handleMapViewOnPress.bind(this)
+    this.fetchStopData = this.fetchStopData.bind(this)
     this.clearStopData = this.clearStopData.bind(this)
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
   }
@@ -39,17 +46,17 @@ class MainMap extends React.Component {
     );
   }
   fetchStopData (stopId) {
+    this.setState({isLoading: true})
     fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson.get_stop_etas[0].enRoute)
         const stops = responseJson.get_stop_etas[0].enRoute
         let stopText = ''
         if (stops.length > 0) {
             const stopData = stops[0]
             stopText = `Minutes: ${stopData.minutes}`
           }
-        this.setState({currentStop: responseJson.get_stop_etas[0].enRoute, stopText: stopText})
+        this.setState({currentStop: responseJson.get_stop_etas[0].enRoute, stopText: stopText, isLoading: false})
     })
     .catch((error) => {
       console.log(error)
@@ -79,30 +86,9 @@ class MainMap extends React.Component {
       return route.stops.map((stop, i) => {
         if (route.display) {
           const boundPress = this.fetchStopData.bind(this,stop.id)
-          const key = Platform.OS === 'ios' ? `stop-${i}-${reRenderKey}`: `stop-${i}`
-          let stopText = ''
-          if (this.state.currentStops.length > 0) {
-            const stopData = this.state.currentStops[0]
-            stopText = `Minutes: ${stopData.minutes}`
-          }
+          const key = Platform.OS === 'ios' ? `${stop.id}-${reRenderKey}`: `${stop.id}`
           return (
-            <MapView.Marker
-              onPress={boundPress}
-              onDeselect={this.clearStopData}
-              key={key}
-              anchor={{ x: 0.4, y: 0.5 }}
-              coordinate={{latitude: stop.lat, longitude: stop.lng}}
-
-            >
-              <Icon name="brightness-1" size={7} color={'rgba(0, 0, 0, 0.15)'} />
-              <MapView.Callout 
-                    style={{width: 200, backgroundColor:'transparent'}}>
-                <View style={{backgroundColor:'transparent', height: 100, alignItems: 'center', justifyContent: 'center'}}>
-                    <Text style={{fontSize: 20}}>{stop.name}</Text>
-                    <Text>{this.state.stopText}</Text>
-                </View>
-            </MapView.Callout>
-            </MapView.Marker>
+            <MapView.Circle center={{latitude: stop.lat, longitude: stop.lng}} radius={10} fillColor='black' strokeColor={route.routeColor}/>
           ) 
         }
       })
@@ -140,10 +126,62 @@ class MainMap extends React.Component {
       ...trolleys
     ]
   }
+
+
+  closestLocation (targetLocation, locationData) {
+      function vectorDistance(dx, dy) {
+          return Math.sqrt(dx * dx + dy * dy)
+      }
+
+      function locationDistance(location1, location2) {
+          const dx = location1.lat - location2.lat,
+              dy = location1.lng - location2.lng
+          return vectorDistance(dx, dy);
+      }
+
+      return locationData.reduce(function(prev, curr) {
+          const prevDistance = locationDistance(targetLocation , prev),
+              currDistance = locationDistance(targetLocation , curr)
+          return (prevDistance < currDistance) ? prev : curr
+      });
+  }
+
+  handleMapViewOnPress(e) {
+    const points = this.props.stops
+    if (points < 1){
+      return
+    }
+    const p = {lat: e.nativeEvent.coordinate.latitude, lng: e.nativeEvent.coordinate.longitude}
+    const closest = this.closestLocation(p, points)
+    const latDif = closest.lat - p.lat
+    const lngDif = closest.lng - p.lng
+    if (Math.abs(latDif) < 0.0005 && Math.abs(lngDif) < 0.0004) {
+      this.fetchStopData(closest.id)
+      this.setState({closest})
+    }
+  }
+
+  renderErrorMessage () {
+    if (this.props.error ) {
+      <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center', backgroundColor:'transparent'}}>
+        <View style={{backgroundColor: 'red', padding: 5, marginBottom: 10}}><Text style={{color: 'white'}}>{this.props.error}</Text></View>
+        <RectangularButton
+          onPress={this.props.fetchRoutes}
+          underlayColor={'#e69500'}
+          style={{backgroundColor:'orange'}}
+          text='Try Again'
+        />
+      </View>
+    }
+  }
+
   render () {
     const { routes, markers, reRenderKey, isLoading } = this.props
+    const modalRoute = this.props.routesById[this.state.closest.rid]
+    const modalColor = modalRoute ? modalRoute.routeColor : 'white'
     return (
-      <View style={[styles.MainMap, coreStyles.sceneContainer]}>
+      <View style={{flex:1}}>
+      <View style={[styles.MainMap, {flex: 4}]}>
       
         <MapView
             style={styles.map}
@@ -153,24 +191,47 @@ class MainMap extends React.Component {
                 latitudeDelta: 0.11,
                 longitudeDelta: 0.11
             }}
+            onPress={this.handleMapViewOnPress}
+            showsCompass={false}
             showsUserLocation
             followsUserLocation
           >
             {routes.length > 0 && markers.length > 0 ? this.makeAll(routes, markers, reRenderKey) : null}
         </MapView>
         <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.props.markers.length === 0} />
-        {this.props.error ?
-          <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center', backgroundColor:'transparent'}}>
-            <View style={{backgroundColor: 'red', padding: 5, marginBottom: 10}}><Text style={{color: 'white'}}>{this.props.error}</Text></View>
-            <TouchableHighlight onPress={this.props.fetchRoutes} underlayColor={'#e69500'} style={{height: 40, width: 100, alignItems:'center',justifyContent:'center', backgroundColor: 'orange', borderRadius: 5}}>
-              <Text style={{color: '#FFFFFF', fontWeight:'bold'}}>Try Again</Text>
-            </TouchableHighlight>
-          </View>
-          : null
-        }
+        {this.renderErrorMessage()}
+
+        <Fab style={{position: 'absolute',top: 0, backgroundColor:'orange'}} underlayColor={'#e69500'} onPress={this.context.drawer.toggle}>
+          <Image style={{height: 25, width: 25}} source={require('../../../static/menu_burger.png')} />
+        </Fab>
+      </View>
+        <View style={{flex:1, alignItems:'center', backgroundColor:modalColor, padding: 10}}>
+          <Text style={{fontSize: 18, fontWeight:'bold', color: 'white'}}>{this.state.closest.name}</Text>
+          {this.state.isLoading ? <ActivityIndicator color='white' size='small' animating={this.state.isLoading} /> : <Text>{this.state.stopText}</Text>}
+        </View>
       </View>
     )
+  }
+  static contextTypes = {
+    drawer: React.PropTypes.object,
   }
 }
 
 export default MainMap
+
+
+            // <MapView.Marker
+            //   onPress={boundPress}
+            //   onDeselect={this.clearStopData}
+            //   key={key}
+            //   anchor={{ x: 0.4, y: 0.5 }}
+            //   coordinate={{latitude: stop.lat, longitude: stop.lng}}
+
+            // >
+            //   <Icon name="brightness-1" size={7} color={'rgba(0, 0, 0, 0.15)'} />
+            //   <MapView.Callout
+            //     style={{width: 200}}
+            //     >
+            //         <TrolleyStopTooltip key={`callout-${stop.id}-${this.state.calloutKey}`} stopText={this.state.stopText} isLoading={this.state.isLoading[stop.id]} />
+            // </MapView.Callout>
+            // </MapView.Marker>

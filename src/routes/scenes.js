@@ -10,7 +10,7 @@ const scenes = Actions.create(
   <Scene key='root'>
     <Scene key='drawer' component={NavigationDrawer}>
       <Scene key='drawerChildrenWrapper' drawerImage={burger} leftButtonIconStyle={{width:24, height: 24, resizeMode: 'contain'}} navigationBarStyle={styles.navBar} >
-        <Scene key='MainMap' component={MainMapContainer} />
+        <Scene key='MainMap' component={MainMapContainer} hideNavBar={true}/>
       </Scene>
     </Scene>
   </Scene>

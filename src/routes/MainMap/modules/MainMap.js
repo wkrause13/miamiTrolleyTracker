@@ -95,7 +95,7 @@ export function allRoutes () {
 export function enableAllRoutes() {
   return dispatch => {
     dispatch(requestEnableAllRoutes())
-    setTimeout(() => dispatch(allRoutes()), 100)
+    setTimeout(() => dispatch(allRoutes()), 50)
     
   }
 }
@@ -115,7 +115,8 @@ export function fetchTrolleys() {
         return dispatch(receiveTrolleys(trolleys))
     })
     .catch((error) => {
-      return dispatch(receiveTrolley({error}))
+      console.log(error)
+      return dispatch(receiveTrolleys({error}))
     })
   }
 }
@@ -157,6 +158,22 @@ export const getAllRoutesForDrawer = (state) => {
   return []
 }
 
+export const getActiveStops = (state) => {
+  if (state.mainMap.routeIds) {
+    let stopArray = []
+    state.mainMap.routeIds.forEach((id) => {
+      const route = state.mainMap.routesById[id]
+      if(route.display){
+        return route.stops.forEach((stop) => {
+          stopArray.push(stop)
+        })
+      }
+    })
+    return stopArray
+  }
+  return []
+}
+
 
 // ------------------------------------
 // Action Handlers
@@ -171,6 +188,7 @@ const receiveRoutesHandler = (state, action) => {
   }
   let stopsByRoute = {}
   action.stops.forEach((stop) => {
+    stop.name =  stop.name.replace(/&nbsp;/g,'')
     if (!(stop.rid in stopsByRoute)) {
       stopsByRoute[stop.rid] = []
     }
