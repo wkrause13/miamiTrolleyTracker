@@ -2,6 +2,7 @@ import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Text, View, Image, TouchableHighlight, ActivityIndicator, Platform } from 'react-native'
 
+import _ from 'lodash'
 import MapView from 'react-native-maps'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
@@ -18,7 +19,8 @@ class MainMap extends React.Component {
     this.state = {
       initialLat: 25.7689000,
       initialLong: -80.2094014,
-      currentStops: [],
+      stopsObject: {},
+      routeOrder: [],
       stopText: '',
       isLoading: false,
       closest: {name:'', rid: 2}
@@ -50,13 +52,29 @@ class MainMap extends React.Component {
     fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
       .then((response) => response.json())
       .then((responseJson) => {
-        const stops = responseJson.get_stop_etas[0].enRoute
-        let stopText = ''
-        if (stops.length > 0) {
-            const stopData = stops[0]
-            stopText = `Minutes: ${stopData.minutes}`
+        const allStops = responseJson.get_stop_etas[0].enRoute
+        const stops = allStops.filter((stop) => {
+          return this.props.routesById[stop.routeID].display
+        })
+        const sortedStops = _.sortBy(stops, "minutes")
+        let stopsObject = {}
+        let routeOrderSet = new Set()
+        sortedStops.forEach((stop) => {
+          if (!(stop.routeID in stopsObject)) {
+            stopsObject[stop.routeID] = []
           }
-        this.setState({currentStop: responseJson.get_stop_etas[0].enRoute, stopText: stopText, isLoading: false})
+          routeOrderSet.add(stop.routeID)
+          stopsObject[stop.routeID].push(stop)
+        })
+        
+        console.log(stopsObject)
+        const routeOrder = [...routeOrderSet]
+        let stopText = ''
+        // if (stops.length > 0) {
+        //     const stopData = stops[0]
+        //     stopText = `Minutes: ${stopData.minutes}`
+        //   }
+        this.setState({stopsObject, routeOrder, stopText: stopText, isLoading: false})
     })
     .catch((error) => {
       console.log(error)
@@ -175,9 +193,18 @@ class MainMap extends React.Component {
     }
   }
 
+  renderAltRouteButtons (routeOrder) {
+    if (routeOrder.lenght === 0){
+      return null
+    }
+    return routeOrder.map((routeId) =>{ 
+      return <View key={`altRouteButton-${routeId}`} style={{top:0, right:0, height: 20, width: 20, borderRadius: 5, backgroundColor: this.props.routesById[routeId].busColor}} />
+    })
+  }
+
   render () {
-    const { routes, markers, reRenderKey, isLoading } = this.props
-    const modalRoute = this.props.routesById[this.state.closest.rid]
+    const { routes, markers, reRenderKey, routesById, isLoading } = this.props
+    const modalRoute = routesById[this.state.routeOrder[0]]
     const modalColor = modalRoute ? modalRoute.routeColor : 'white'
     return (
       <View style={{flex:1}}>
@@ -208,6 +235,10 @@ class MainMap extends React.Component {
         <View style={{flex:1, alignItems:'center', backgroundColor:modalColor, padding: 10}}>
           <Text style={{fontSize: 18, fontWeight:'bold', color: 'white'}}>{this.state.closest.name}</Text>
           {this.state.isLoading ? <ActivityIndicator color='white' size='small' animating={this.state.isLoading} /> : <Text>{this.state.stopText}</Text>}
+          
+          <View style={{position: 'absolute', top:0, right:0, flexDirection: 'row'}}>
+            {this.renderAltRouteButtons(this.state.routeOrder)}
+          </View>
         </View>
       </View>
     )
