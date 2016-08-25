@@ -8,6 +8,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import TrolleyStopTooltip from './TrolleyStopTooltip'
 import ErrorMessage from './ErrorMessage'
+import StopInfo from './StopInfo'
 import {Fab, RectangularButton} from '../../../components/Buttons'
 import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
@@ -70,7 +71,7 @@ class MainMap extends React.Component {
           const boundPress = this.props.fetchStopData.bind(this, stop.id)
           const key = Platform.OS === 'ios' ? `${stop.id}-${reRenderKey}`: `${stop.id}`
           return (
-            <MapView.Circle center={{latitude: stop.lat, longitude: stop.lng}} radius={10} fillColor={stop.fillColor ? stop.fillColor: 'black'} strokeColor={route.routeColor}/>
+            <MapView.Circle center={{latitude: stop.lat, longitude: stop.lng}} radius={stop.radius ? stop.radius : 10} fillColor={stop.fillColor ? stop.fillColor: 'black'} strokeColor={route.routeColor}/>
           ) 
         }
       })
@@ -146,40 +147,6 @@ class MainMap extends React.Component {
     }
   }
 
-  renderAltRouteButtons (routeOrder) {
-    if (routeOrder.length === 0){
-      return null
-    }
-    const realRouteIds = routeOrder.filter((rid) => {
-      return rid !== this.props.selectedRouteId
-    })
-    return realRouteIds.map((routeId) =>{
-      const boundPress = this.props.updatedSelectedRouteId.bind(this, routeId )
-      return (
-        <TouchableHighlight
-          key={`altRouteButton-${routeId}`}
-          underlayColor={'#eee'}
-          onPress={boundPress}
-          style={{margin: 5, backgroundColor:'transparent'}}
-        >
-          <View style={{height: 20, width: 20, borderRadius: 5, backgroundColor: this.props.routesById[routeId].busColor}} />
-        </TouchableHighlight>
-      )
-    })
-  }
-  renderStopInfo () {
-    const {selectedRouteId, stopsObject} = this.props
-    if (selectedRouteId in stopsObject){
-      const stops = stopsObject[selectedRouteId]
-      return stops.map((stop, i) => {
-        return (
-          <Text key={`schedule-${i}`} style={styles.stopText}>{`Vehicle ID: ${stop.equipmentID} - Minutes: ${stop.minutes < 10 ? (stop.minutes + ' ') : stop.minutes  }`}</Text>
-        )
-      })
-    }
-
-  }
-
   render () {
     const { routes, markers, reRenderKey, routesById, isLoading } = this.props
     const modalRoute = routesById[this.props.selectedRouteId]
@@ -211,18 +178,16 @@ class MainMap extends React.Component {
         </Fab>
       </View>
         <View style={{flex:1, alignItems:'center', backgroundColor: modalColor, padding: 10}}>
-        {this.props.selectedRouteId === 0 ? <Text>Route Information</Text> : null}
-          <Text style={{fontSize: 18, fontWeight:'bold', color: 'white'}}>{this.state.closest.name}</Text>
-          {this.props.stopIsLoading ? <ActivityIndicator color='white' size='small' animating={this.props.stopIsLoading} /> : <Text>{this.state.stopText}</Text>}
-          <ScrollView style={{alignSelf: 'stretch'}} >
-            <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
-            {this.props.stopIsLoading ? null : this.renderStopInfo()}
-            </View>
-          </ScrollView>
-          <View style={{position: 'absolute', top:0, right: 0, flexDirection: 'row'}}>
-            {this.renderAltRouteButtons(this.props.routeOrder)}
-          </View>
-
+          <StopInfo
+            renderAltRouteButtons={this.renderAltRouteButtons}
+            stopIsLoading={this.props.stopIsLoading}
+            closest={this.state.closest}
+            selectedRouteId={this.props.selectedRouteId}
+            stopsObject={this.props.stopsObject}
+            routeOrder={this.props.routeOrder}
+            routesById={this.props.routesById}
+            updatedSelectedRouteId={this.props.updatedSelectedRouteId}
+          />
         </View>
       </View>
     )

@@ -29,6 +29,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor:'transparent'
+  },
+  StopInfo: {
+    flex: 1,
+    alignSelf: 'stretch',
+    alignItems: 'center'
   }
 });
 

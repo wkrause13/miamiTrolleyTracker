@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import {routeObjects} from '../../../utils'
+import {Platform } from 'react-native'
 
 // ------------------------------------
 // Constants
@@ -78,10 +79,11 @@ function requestStop (stopId) {
   }
 }
 
-function receiveStop (payload, retryCount) {
+function receiveStop (payload, stopId, retryCount) {
   return {
     type: RECEIVE_STOP,
     payload,
+    stopId,
     retryCount
   }
 }
@@ -93,11 +95,9 @@ export function fetchStopData (stopId, retryCount=0) {
     fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson, retryCount)
         dispatch(receiveStop(responseJson, retryCount))
        })
       .catch((error) => {
-        console.log('fetchStopData', error)
         if (retryCount < 2 ){
           retryCount = retryCount + 1
           fetchStopData(stopId, retryCount)
@@ -297,8 +297,12 @@ const requestStopHandler = (state, action) => {
     const newStops = route.stops.map((stop) => {
       if (stop.id == action.stopId) {
         stop.fillColor = 'yellow'
+        if (Platform.OS == 'android'){
+          stop.radius = 20
+        }
       }else{
         stop.fillColor = 'black'
+        stop.radius = 10
       }
       return stop
     })
@@ -312,7 +316,7 @@ const receiveStopHandler = (state, action) => {
     const allStops = action.payload.get_stop_etas[0].enRoute
     if (allStops.length === 0 && action.retryCount < 1 ) {
       action.retryCount = action.retryCount + 1
-      fetchStopData(stopId, action.retryCount)
+      fetchStopData(action.stopId, action.retryCount)
       return state
     }
     const stops = allStops.filter((stop) => {
