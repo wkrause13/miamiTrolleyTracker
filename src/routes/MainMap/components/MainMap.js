@@ -23,7 +23,8 @@ class MainMap extends React.Component {
       routeOrder: [],
       stopText: '',
       isLoading: false,
-      closest: {name:'', rid: 2}
+      closest: {name:'', rid: 2},
+      selectedRouteId : 2
     }
     this.handleMapViewOnPress = this.handleMapViewOnPress.bind(this)
     this.fetchStopData = this.fetchStopData.bind(this)
@@ -74,7 +75,7 @@ class MainMap extends React.Component {
         //     const stopData = stops[0]
         //     stopText = `Minutes: ${stopData.minutes}`
         //   }
-        this.setState({stopsObject, routeOrder, stopText: stopText, isLoading: false})
+        this.setState({stopsObject, routeOrder, stopText: stopText, isLoading: false, selectedRouteId: routeOrder[0]})
     })
     .catch((error) => {
       console.log(error)
@@ -193,19 +194,31 @@ class MainMap extends React.Component {
     }
   }
 
+  updateCurrentStopRouteId (selectedRouteId) {
+    this.setState({selectedRouteId})
+  }
+
   renderAltRouteButtons (routeOrder) {
-    if (routeOrder.lenght === 0){
+    if (routeOrder.length === 0){
       return null
     }
-    return routeOrder.map((routeId) =>{ 
-      return <View key={`altRouteButton-${routeId}`} style={{top:0, right:0, height: 20, width: 20, borderRadius: 5, backgroundColor: this.props.routesById[routeId].busColor}} />
+    const SRID = this.state.selectedRouteId
+    const realRouteIds = routeOrder.filter((rid) => {
+      console.log(rid, SRID)
+      return rid !== this.state.selectedRouteId
+    })
+    return realRouteIds.map((routeId) =>{
+      const boundPress = this.updateCurrentStopRouteId.bind(this, routeId )
+      return (
+        <TouchableHighlight key={`altRouteButton-${routeId}`} underlayColor={'#eee'} onPress={boundPress} style={{margin: 5, backgroundColor:'transparent'}}><View style={{top:0, right:0, height: 20, width: 20, borderRadius: 5, backgroundColor: this.props.routesById[routeId].busColor}} /></TouchableHighlight>
+      )
     })
   }
 
   render () {
     const { routes, markers, reRenderKey, routesById, isLoading } = this.props
-    const modalRoute = routesById[this.state.routeOrder[0]]
-    const modalColor = modalRoute ? modalRoute.routeColor : 'white'
+    const modalRoute = routesById[this.state.selectedRouteId]
+    const modalColor = modalRoute ? modalRoute.routeColor : '#eee'
     return (
       <View style={{flex:1}}>
       <View style={[styles.MainMap, {flex: 4}]}>
@@ -232,11 +245,11 @@ class MainMap extends React.Component {
           <Image style={{height: 25, width: 25}} source={require('../../../static/menu_burger.png')} />
         </Fab>
       </View>
-        <View style={{flex:1, alignItems:'center', backgroundColor:modalColor, padding: 10}}>
+        <View style={{flex:1, alignItems:'center', backgroundColor: modalColor, padding: 10}}>
           <Text style={{fontSize: 18, fontWeight:'bold', color: 'white'}}>{this.state.closest.name}</Text>
           {this.state.isLoading ? <ActivityIndicator color='white' size='small' animating={this.state.isLoading} /> : <Text>{this.state.stopText}</Text>}
           
-          <View style={{position: 'absolute', top:0, right:0, flexDirection: 'row'}}>
+          <View style={{position: 'absolute', top:0, right: 0, flexDirection: 'row'}}>
             {this.renderAltRouteButtons(this.state.routeOrder)}
           </View>
         </View>
