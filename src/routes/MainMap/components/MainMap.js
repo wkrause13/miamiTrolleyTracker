@@ -1,6 +1,6 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { Text, View, Image, TouchableHighlight, ActivityIndicator, Platform } from 'react-native'
+import { Text, View, Image, ScrollView, TouchableHighlight, ActivityIndicator, Platform } from 'react-native'
 
 import _ from 'lodash'
 import MapView from 'react-native-maps'
@@ -68,7 +68,6 @@ class MainMap extends React.Component {
           stopsObject[stop.routeID].push(stop)
         })
         
-        console.log(stopsObject)
         const routeOrder = [...routeOrderSet]
         let stopText = ''
         // if (stops.length > 0) {
@@ -198,21 +197,39 @@ class MainMap extends React.Component {
     this.setState({selectedRouteId})
   }
 
+
   renderAltRouteButtons (routeOrder) {
     if (routeOrder.length === 0){
       return null
     }
-    const SRID = this.state.selectedRouteId
     const realRouteIds = routeOrder.filter((rid) => {
-      console.log(rid, SRID)
       return rid !== this.state.selectedRouteId
     })
     return realRouteIds.map((routeId) =>{
       const boundPress = this.updateCurrentStopRouteId.bind(this, routeId )
       return (
-        <TouchableHighlight key={`altRouteButton-${routeId}`} underlayColor={'#eee'} onPress={boundPress} style={{margin: 5, backgroundColor:'transparent'}}><View style={{top:0, right:0, height: 20, width: 20, borderRadius: 5, backgroundColor: this.props.routesById[routeId].busColor}} /></TouchableHighlight>
+        <TouchableHighlight
+          key={`altRouteButton-${routeId}`}
+          underlayColor={'#eee'}
+          onPress={boundPress}
+          style={{margin: 5, backgroundColor:'transparent'}}
+        >
+          <View style={{top:0, right:0, height: 20, width: 20, borderRadius: 5, backgroundColor: this.props.routesById[routeId].busColor}} />
+        </TouchableHighlight>
       )
     })
+  }
+  renderStopInfo () {
+    const {selectedRouteId, stopsObject} = this.state
+    if (selectedRouteId in stopsObject){
+      const stops = stopsObject[selectedRouteId]
+      return stops.map((stop, i) => {
+        return (
+          <Text key={`schedule-${i}`} style={{color: '#eee'}}>{`Vehicle ID: ${stop.equipmentID} - Minutes: ${stop.minutes}`}</Text>
+        )
+      })
+    }
+
   }
 
   render () {
@@ -248,10 +265,15 @@ class MainMap extends React.Component {
         <View style={{flex:1, alignItems:'center', backgroundColor: modalColor, padding: 10}}>
           <Text style={{fontSize: 18, fontWeight:'bold', color: 'white'}}>{this.state.closest.name}</Text>
           {this.state.isLoading ? <ActivityIndicator color='white' size='small' animating={this.state.isLoading} /> : <Text>{this.state.stopText}</Text>}
-          
+          <ScrollView style={{alignSelf: 'stretch'}} >
+            <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
+            {this.state.isLoading ? null : this.renderStopInfo()}
+            </View>
+          </ScrollView>
           <View style={{position: 'absolute', top:0, right: 0, flexDirection: 'row'}}>
             {this.renderAltRouteButtons(this.state.routeOrder)}
           </View>
+
         </View>
       </View>
     )
@@ -262,20 +284,3 @@ class MainMap extends React.Component {
 }
 
 export default MainMap
-
-
-            // <MapView.Marker
-            //   onPress={boundPress}
-            //   onDeselect={this.clearStopData}
-            //   key={key}
-            //   anchor={{ x: 0.4, y: 0.5 }}
-            //   coordinate={{latitude: stop.lat, longitude: stop.lng}}
-
-            // >
-            //   <Icon name="brightness-1" size={7} color={'rgba(0, 0, 0, 0.15)'} />
-            //   <MapView.Callout
-            //     style={{width: 200}}
-            //     >
-            //         <TrolleyStopTooltip key={`callout-${stop.id}-${this.state.calloutKey}`} stopText={this.state.stopText} isLoading={this.state.isLoading[stop.id]} />
-            // </MapView.Callout>
-            // </MapView.Marker>
