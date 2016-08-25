@@ -1,5 +1,13 @@
 import { connect } from 'react-redux'
-import { fetchRoutes, getAllRoutes,fetchTrolleys, incrementRenderKey , getActiveStops} from '../modules/MainMap'
+import {
+  fetchRoutes,
+  getAllRoutes,
+  fetchTrolleys,
+  incrementRenderKey,
+  getActiveStops,
+  fetchStopData,
+  updatedSelectedRouteId
+} from '../modules/MainMap'
 
 import MainMap from '../components/MainMap'
 
@@ -7,7 +15,9 @@ const mapActionCreators = {
   fetchRoutes,
   incrementRenderKey,
   fetchTrolleys,
-  getActiveStops
+  getActiveStops,
+  fetchStopData,
+  updatedSelectedRouteId
 }
 
 const mapStateToProps = (state) => ({
@@ -17,7 +27,11 @@ const mapStateToProps = (state) => ({
   error: state.mainMap.error,
   reRenderKey: state.mainMap.reRenderKey,
   markers: state.mainMap.markers,
-  stops: getActiveStops(state)
+  stops: getActiveStops(state),
+  stopIsLoading: state.mainMap.stopIsLoading,
+  stopsObject: state.mainMap.stopsObject,
+  selectedRouteId: state.mainMap.selectedRouteId,
+  routeOrder: state.mainMap.routeOrder
 })
 
 export default connect(mapStateToProps, mapActionCreators)(MainMap)

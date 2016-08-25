@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 const styles = StyleSheet.create({
   MainMap: {
@@ -12,6 +12,23 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  stopText :{
+    color: '#eee',
+    ...Platform.select({
+      ios: {
+        fontFamily: 'Courier-Bold'
+      },
+      android: {
+        fontFamily: 'serif'
+      }
+    })
+  },
+  ErrorMessage: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor:'transparent'
   }
 });
 

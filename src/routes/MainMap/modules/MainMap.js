@@ -7,6 +7,9 @@ import {routeObjects} from '../../../utils'
 const REQUEST_ROUTES = 'REQUEST_ROUTES'
 const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
 
+const REQUEST_STOP = 'REQUEST_STOP'
+const RECEIVE_STOP = 'RECEIVE_STOP'
+
 const RECEIVE_TROLLEYS = 'RECEIVE_TROLLEYS'
 
 const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
@@ -15,6 +18,8 @@ const REQUEST_ENABLE_ALL_ROUTES = 'REQUEST_ENABLE_ALL_ROUTES'
 const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
 
 const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
+
+const UPDATE_SELECTED_ROUTE_ID = 'UPDATE_SELECTED_ROUTE_ID'
 
 // ------------------------------------
 // Actions
@@ -64,6 +69,42 @@ export function fetchRoutes () {
     })
   }
 }
+
+
+function requestStop (stopId) {
+  return {
+    type: REQUEST_STOP,
+    stopId
+  }
+}
+
+function receiveStop (payload, retryCount) {
+  return {
+    type: RECEIVE_STOP,
+    payload,
+    retryCount
+  }
+}
+
+
+export function fetchStopData (stopId, retryCount=0) {
+  return dispatch => {
+    dispatch(requestStop(stopId))
+    fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson, retryCount)
+        dispatch(receiveStop(responseJson, retryCount))
+       })
+      .catch((error) => {
+        console.log('fetchStopData', error)
+        if (retryCount < 2 ){
+          retryCount = retryCount + 1
+          fetchStopData(stopId, retryCount)
+        }
+      })
+     }
+  }
 
 export function receiveTrolleys (trolleys) {
   return {
@@ -121,12 +162,19 @@ export function fetchTrolleys() {
   }
 }
 
+export function updatedSelectedRouteId (selectedRouteId) {
+    return {
+    type: UPDATE_SELECTED_ROUTE_ID,
+    selectedRouteId
+  }
+}
 
 export const actions = {
   fetchRoutes,
   toggleRoute,
   enableAllRoutes,
-  incrementRenderKey
+  incrementRenderKey,
+  updatedSelectedRouteId
 }
 
 // ------------------------------------
@@ -242,6 +290,50 @@ const receiveTrolleysHandler = (state, action) => {
   return {...state, markers: validMarkers, trolleyFetchFails: 0, error: null}
 }
 
+const requestStopHandler = (state, action) => {
+  let routesById = {}
+  state.routeIds.forEach((routeId) => {
+    const route = state.routesById[routeId]
+    const newStops = route.stops.map((stop) => {
+      if (stop.id == action.stopId) {
+        stop.fillColor = 'yellow'
+      }else{
+        stop.fillColor = 'black'
+      }
+      return stop
+    })
+    const newRoute = {...route, stops: newStops }
+    routesById[routeId] = newRoute
+  })
+  return {...state, stopIsLoading: true, routesById}
+ }
+
+const receiveStopHandler = (state, action) => {
+    const allStops = action.payload.get_stop_etas[0].enRoute
+    if (allStops.length === 0 && action.retryCount < 1 ) {
+      action.retryCount = action.retryCount + 1
+      fetchStopData(stopId, action.retryCount)
+      return state
+    }
+    const stops = allStops.filter((stop) => {
+      return state.routesById[stop.routeID].display
+    })
+    const sortedStops = _.sortBy(stops, "minutes")
+    let stopsObject = {}
+    let routeOrderSet = new Set()
+    sortedStops.forEach((stop) => {
+      if (!(stop.routeID in stopsObject)) {
+        stopsObject[stop.routeID] = []
+      }
+      routeOrderSet.add(stop.routeID)
+      stopsObject[stop.routeID].push(stop)
+    })
+    
+    const routeOrder = [...routeOrderSet]
+    return {...state, stopsObject: stopsObject, stopIsLoading: false, selectedRouteId: routeOrder[0], routeOrder: routeOrder }
+    // this.setState({stopsObject, routeOrder, isLoading: false, selectedRouteId: routeOrder[0]})
+ }
+
 const toggleRouteHandler = (state, action) => {
   const targetRoute = state.routesById[action.routeId]
   const newMarkers = state.markers.map((marker) => {
@@ -284,22 +376,26 @@ const enableAllRoutesHandler = (state, action) => {
   }
 }
 
+const updatedSelectedRouteIdHandler = (state, action) => { 
+  return {...state, selectedRouteId: action.selectedRouteId}
+}
+
 const ACTION_HANDLERS = {
   [REQUEST_ROUTES]: (state, action) => {return {...state, isLoading: true}},
   [RECEIVE_ROUTES]: receiveRoutesHandler,
   [TOGGLE_ROUTE]: toggleRouteHandler,
   [REQUEST_ENABLE_ALL_ROUTES]: requestEnableAllRoutesHandler,
   [ENABLE_ALL_ROUTES]: enableAllRoutesHandler,
-  [RECEIVE_TROLLEYS]: receiveTrolleysHandler
+  [RECEIVE_TROLLEYS]: receiveTrolleysHandler,
+  [REQUEST_STOP]: requestStopHandler,
+  [RECEIVE_STOP]: receiveStopHandler,
+  [UPDATE_SELECTED_ROUTE_ID]: updatedSelectedRouteIdHandler
+
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-
-const routesById = {
-
-}
 
 const initialState = {
   isLoading: false,
@@ -309,6 +405,10 @@ const initialState = {
   reRenderKey: 0,
   markers: [],
   trolleyFetchFails : 0,
+  stopIsLoading: false,
+  stopsObject: {},
+  routeOrder: [],
+  selectedRouteId: 0
 }
 export function MainMapReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
