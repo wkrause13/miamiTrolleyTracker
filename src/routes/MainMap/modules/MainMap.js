@@ -232,7 +232,8 @@ const receiveTrolleysHandler = (state, action) => {
       display: shouldDisplay,
       routeId: trolley.routeID,
       title: `Vehicle ID: ${trolley.equipmentID}`,
-      description: `Route: ${trolley.routeID}, ${trolley.inService ? 'In Service' : 'Out of Service'}`
+      routeID: trolley.routeID, 
+      description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`
     }
   })
   validMarkers = markers.filter(function( element ) {

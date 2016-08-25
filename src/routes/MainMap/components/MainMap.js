@@ -119,11 +119,10 @@ class MainMap extends React.Component {
         return null
       }
       const key = Platform.OS === 'ios' ? `trolley-${i}-${reRenderKey}`: `trolley-${i}`
-      var res = trolley.description.match(/\d+/)
-      if (res[0] in routeObjects) {
+      if (trolley.routeID in routeObjects) {
         return (
           <MapView.Marker  key={key} {...trolley}>
-            <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={routeObjects[res[0]].busColor} />
+            <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={routeObjects[trolley.routeID].busColor} />
           </MapView.Marker>
         )
       }
@@ -173,7 +172,7 @@ class MainMap extends React.Component {
     const closest = this.closestLocation(p, points)
     const latDif = closest.lat - p.lat
     const lngDif = closest.lng - p.lng
-    if (Math.abs(latDif) < 0.0005 && Math.abs(lngDif) < 0.0004) {
+    if (Math.abs(latDif) < 0.0008 && Math.abs(lngDif) < 0.0008) {
       this.fetchStopData(closest.id)
       this.setState({closest})
     }
