@@ -101,6 +101,8 @@ export function fetchStopData (stopId, retryCount=0) {
         if (retryCount < 2 ){
           retryCount = retryCount + 1
           fetchStopData(stopId, retryCount)
+        } else{
+          fetchStopData({error})
         }
       })
      }
@@ -156,7 +158,6 @@ export function fetchTrolleys() {
         return dispatch(receiveTrolleys(trolleys))
     })
     .catch((error) => {
-      console.log(error)
       return dispatch(receiveTrolleys({error}))
     })
   }
@@ -313,6 +314,9 @@ const requestStopHandler = (state, action) => {
  }
 
 const receiveStopHandler = (state, action) => {
+    if (action.payload.error) {
+      return {...state, stopFetchError: true}
+    }
     const allStops = action.payload.get_stop_etas[0].enRoute
     if (allStops.length === 0 && action.retryCount < 1 ) {
       action.retryCount = action.retryCount + 1
@@ -332,9 +336,11 @@ const receiveStopHandler = (state, action) => {
       routeOrderSet.add(stop.routeID)
       stopsObject[stop.routeID].push(stop)
     })
+
+    const stopFetchError = _.isEmpty(stopsObject)
     
     const routeOrder = [...routeOrderSet]
-    return {...state, stopsObject: stopsObject, stopIsLoading: false, selectedRouteId: routeOrder[0], routeOrder: routeOrder }
+    return {...state, stopFetchError: stopFetchError, stopsObject: stopsObject, stopIsLoading: false, selectedRouteId: routeOrder[0], routeOrder: routeOrder }
     // this.setState({stopsObject, routeOrder, isLoading: false, selectedRouteId: routeOrder[0]})
  }
 
@@ -412,7 +418,8 @@ const initialState = {
   stopIsLoading: false,
   stopsObject: {},
   routeOrder: [],
-  selectedRouteId: 0
+  selectedRouteId: 0,
+  stopFetchError: false
 }
 export function MainMapReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

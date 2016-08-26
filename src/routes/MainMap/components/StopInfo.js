@@ -41,10 +41,18 @@ function renderStopInfo (selectedRouteId, stopsObject) {
   }
 }
 
+const IntialText = (props) => (
+  <View style={{padding: 20}}>
+    <Text style={styles.StopInfoNoticeText}>* Tap on a stop to see when the next Trolley is estimated to arrive</Text>
+    <Text style={styles.StopInfoNoticeText}>* Tap the orange menu button at the top left to toggle routes</Text>
+    <Text style={styles.StopInfoNoticeText}>* Tap a trolley icon to see its ID</Text>
+  </View>
+
+)
 
 export const StopInfo = (props) => (
   <View style={[styles.StopInfo]}>
-    {props.selectedRouteId === 0 ? <Text>Route Information</Text> : null}
+    {props.selectedRouteId === 0 ? <IntialText /> : null}
     <Text style={{fontSize: 18, fontWeight:'bold', color: 'white'}}>{props.closest.name}</Text>
     {props.stopIsLoading ? <ActivityIndicator color='white' size='small' animating={props.stopIsLoading} /> : null}
     {props.stopIsLoading ? null : <View style={{paddingBottom: 10}}><Text style={styles.stopText}>Vehicle ID - Time (min)</Text></View>}

@@ -33,8 +33,14 @@ const styles = StyleSheet.create({
   StopInfo: {
     flex: 1,
     alignSelf: 'stretch',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  StopInfoNoticeText: {
+    color: 'white',
+    fontWeight:'bold',
+    lineHeight: 18
   }
+  
 });
 
 export default styles

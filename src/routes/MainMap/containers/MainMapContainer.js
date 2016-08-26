@@ -30,6 +30,7 @@ const mapStateToProps = (state) => ({
   stops: getActiveStops(state),
   stopIsLoading: state.mainMap.stopIsLoading,
   stopsObject: state.mainMap.stopsObject,
+  stopFetchError: state.mainMap.stopFetchError,
   selectedRouteId: state.mainMap.selectedRouteId,
   routeOrder: state.mainMap.routeOrder
 })

@@ -148,9 +148,9 @@ class MainMap extends React.Component {
   }
 
   render () {
-    const { routes, markers, reRenderKey, routesById, isLoading } = this.props
+    const { routes, markers, reRenderKey, routesById,stopFetchError, isLoading } = this.props
     const modalRoute = routesById[this.props.selectedRouteId]
-    const modalColor = modalRoute ? modalRoute.routeColor : '#eee'
+    const modalColor = modalRoute ? modalRoute.routeColor : ( stopFetchError ? '#eee' : 'orange')
     return (
       <View style={{flex:1}}>
       <View style={[styles.MainMap, {flex: 4}]}>
