@@ -1,6 +1,6 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { Text, View, Image, ScrollView, TouchableHighlight, ActivityIndicator, Platform, StyleSheet } from 'react-native'
+import { Text, View, Image, ScrollView, TouchableHighlight, ActivityIndicator, Platform } from 'react-native'
 
 import _ from 'lodash'
 import MapView from 'react-native-maps'
@@ -13,6 +13,8 @@ import {Fab, RectangularButton} from '../../../components/Buttons'
 import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
 import {routeObjects} from '../../../utils'
+// const metroMoverJson = require('../../../static/routes/metromover.json')
+// const metroMoverJson2 = require('../../../static/routes/metromover2.json')
 
 
 class MainMap extends React.Component {
@@ -71,7 +73,7 @@ class MainMap extends React.Component {
           const boundPress = this.props.fetchStopData.bind(this, stop.id)
           const key = Platform.OS === 'ios' ? `${stop.id}-${reRenderKey}`: `${stop.id}`
           return (
-            <MapView.Circle center={{latitude: stop.lat, longitude: stop.lng}} radius={stop.radius ? stop.radius : 10} fillColor={stop.fillColor ? stop.fillColor: 'black'} strokeColor={route.routeColor}/>
+            <MapView.Circle center={{latitude: stop.lat, longitude: stop.lng}} radius={stop.radius ? stop.radius : 10} zIndex={stop.zindex ? stop.zindex : 1} fillColor={stop.fillColor ? stop.fillColor: 'black'} strokeColor={route.routeColor}/>
           ) 
         }
       })
@@ -85,8 +87,11 @@ class MainMap extends React.Component {
       const key = Platform.OS === 'ios' ? `trolley-${i}-${reRenderKey}`: `trolley-${i}`
       if (trolley.routeID in routeObjects) {
         return (
-          <MapView.Marker  key={key} {...trolley}>
-            <Icon name="directions-bus" anchor={{ x: 0.4, y: 0.5 }} size={20} color={routeObjects[trolley.routeID].busColor} />
+          <MapView.Marker  key={key} anchor={{ x: 0.5, y: 0.5 }} {...trolley}>
+         
+          <View style={{backgroundColor: 'white', height: 30, width: 30, borderRadius: 15, justifyContent:'center', alignItems:'center'}}>
+            <Icon name="directions-bus" size={20} color={routeObjects[trolley.routeID].busColor} />
+          </View>
           </MapView.Marker>
         )
       }
@@ -97,19 +102,53 @@ class MainMap extends React.Component {
       )
     })
   }
+  // generateMetroMoverRoutes () {
+  //   return metroMoverJson2.kml.Document.Folder.Placemark.map((pm, i) => {
+  //     const coords = pm.LineString.coordinates.split(" ")
+  //     const coordinatePairs = coords.map((c) => {
+  //       const pairs = c.split(',')
+  //       return {longitude: parseFloat(pairs[0]), latitude: parseFloat(pairs[1])}
+  //     })
+  //     return (
+  //       <MapView.Polyline
+  //       key={`pm-${i}`}
+  //       strokeColor={'red'}
+  //       strokeWidth={3}
+  //       coordinates={coordinatePairs}
+  //     />
+  //     )
+  //   })
+  // }
+  // generateMetroMoverRoutes () {
+  //   const colors = {"BKL": 'yellow', "INN": 'red', 'OMN':'blue' }
+  //   let allRecords = {}
+  //   const metroMoverIds = Object.keys(metroMoverJson)
+  //   return metroMoverIds.map((mkey) => {
+  //     return (
+  //       <MapView.Polyline
+  //       key={mkey}
+  //       strokeColor={colors[mkey]}
+  //       strokeWidth={4}
+  //       coordinates={metroMoverJson[mkey]}
+  //     />
+  //     )     
+  //   })
+  // }
+
   makeAll (routes, markers, reRenderKey) {
+    // const mm = this.generateMetroMoverRoutes()
     const newRoutes = this.generateRoutes(routes, reRenderKey)
     const stops = this.generateStops(routes, reRenderKey)
     const trolleys = this.generateTrolleyMarkers(markers, reRenderKey)
     return [
       ...newRoutes,
       ...stops,
-      ...trolleys
+      ...trolleys,
     ]
   }
   closestLocation (targetLocation, locationData) {
       function vectorDistance(dx, dy) {
-          return Math.sqrt(dx * dx + dy * dy)
+          return Math.sqrt((dx * dx) + (dy * dy))
       }
 
       function locationDistance(location1, location2) {
@@ -134,8 +173,8 @@ class MainMap extends React.Component {
     const closest = this.closestLocation(p, points)
     const latDif = closest.lat - p.lat
     const lngDif = closest.lng - p.lng
-    const hypo = Math.sqrt(Math.pow(latDif,2) + Math.sqrt(Math.pow(lngDif,2)))
-    if (hypo < 0.02) {
+    const hypo = Math.sqrt(latDif * latDif + lngDif * lngDif)
+    if (hypo < 0.002) {
       this.props.fetchStopData(closest.id)
       this.setState({closest})
     }
@@ -167,10 +206,11 @@ class MainMap extends React.Component {
             showsCompass={false}
             showsUserLocation
             followsUserLocation
+            onRegionChangeComplete={this.props.updateRegion}
           >
             {routes.length > 0 && markers.length > 0 ? this.makeAll(routes, markers, reRenderKey) : null}
         </MapView>
-        <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.props.markers.length === 0} />
+        {isLoading ? <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.props.markers.length === 0} /> : null }
         {this.renderErrorMessage()}
 
         <Fab style={{position: 'absolute',top: 0, backgroundColor:'orange'}} underlayColor={'#e69500'} onPress={this.context.drawer.toggle}>
@@ -178,6 +218,7 @@ class MainMap extends React.Component {
         </Fab>
       </View>
         <View style={{flex:1, alignItems:'center', backgroundColor: modalColor, padding: 10}}>
+
           <StopInfo
             renderAltRouteButtons={this.renderAltRouteButtons}
             stopIsLoading={this.props.stopIsLoading}

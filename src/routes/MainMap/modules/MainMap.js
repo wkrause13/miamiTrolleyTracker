@@ -22,6 +22,9 @@ const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
 
 const UPDATE_SELECTED_ROUTE_ID = 'UPDATE_SELECTED_ROUTE_ID'
 
+const UPDATE_REGION = 'UPDATE_REGION'
+
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -170,12 +173,21 @@ export function updatedSelectedRouteId (selectedRouteId) {
   }
 }
 
+export function updateRegion (region) {
+  return {
+    type: UPDATE_REGION,
+    region
+  }
+}
+
+
 export const actions = {
   fetchRoutes,
   toggleRoute,
   enableAllRoutes,
   incrementRenderKey,
-  updatedSelectedRouteId
+  updatedSelectedRouteId,
+  updateRegion
 }
 
 // ------------------------------------
@@ -208,16 +220,30 @@ export const getAllRoutesForDrawer = (state) => {
 }
 
 export const getActiveStops = (state) => {
+  if (_.isEmpty(state.mainMap.region)){
+    return []
+  }
+  const {latitude, longitude, latitudeDelta, longitudeDelta} = state.mainMap.region
+  const upperLat = latitude + latitudeDelta/2
+  const lowerLat = latitude - latitudeDelta/2
+  const upperLng = longitude + longitudeDelta/2
+  const lowerLng = longitude - longitudeDelta/2
+
+  // console.log(state.mainMap.region, upperLat, lowerLat, upperLng, lowerLng )
+
   if (state.mainMap.routeIds) {
     let stopArray = []
     state.mainMap.routeIds.forEach((id) => {
       const route = state.mainMap.routesById[id]
       if(route.display){
         return route.stops.forEach((stop) => {
-          stopArray.push(stop)
+          if(stop.lat > lowerLat &&  stop.lat < upperLat && stop.lng > lowerLng && stop.lng < upperLng ) {
+            stopArray.push(stop)
+          }
         })
       }
     })
+    // console.log(stopArray.length)
     return stopArray
   }
   return []
@@ -300,10 +326,14 @@ const requestStopHandler = (state, action) => {
         stop.fillColor = 'yellow'
         if (Platform.OS == 'android'){
           stop.radius = 20
+          stop.zindex = 2
         }
       }else{
         stop.fillColor = 'black'
-        stop.radius = 10
+        if (Platform.OS == 'android'){
+          stop.radius = 10
+          stop.zindex = 1
+        }
       }
       return stop
     })
@@ -390,6 +420,10 @@ const updatedSelectedRouteIdHandler = (state, action) => {
   return {...state, selectedRouteId: action.selectedRouteId}
 }
 
+const updateRegionHandler = (state, action) => {
+  return {...state, region: action.region}
+}
+
 const ACTION_HANDLERS = {
   [REQUEST_ROUTES]: (state, action) => {return {...state, isLoading: true}},
   [RECEIVE_ROUTES]: receiveRoutesHandler,
@@ -399,9 +433,11 @@ const ACTION_HANDLERS = {
   [RECEIVE_TROLLEYS]: receiveTrolleysHandler,
   [REQUEST_STOP]: requestStopHandler,
   [RECEIVE_STOP]: receiveStopHandler,
-  [UPDATE_SELECTED_ROUTE_ID]: updatedSelectedRouteIdHandler
+  [UPDATE_SELECTED_ROUTE_ID]: updatedSelectedRouteIdHandler,
+  [UPDATE_REGION]: updateRegionHandler
 
 }
+
 
 // ------------------------------------
 // Reducer
@@ -419,11 +455,11 @@ const initialState = {
   stopsObject: {},
   routeOrder: [],
   selectedRouteId: 0,
-  stopFetchError: false
+  stopFetchError: false,
+  region: {}
 }
 export function MainMapReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
-
   return handler ? handler(state, action) : state
 }
 

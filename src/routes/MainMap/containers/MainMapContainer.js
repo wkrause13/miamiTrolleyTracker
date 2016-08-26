@@ -6,7 +6,8 @@ import {
   incrementRenderKey,
   getActiveStops,
   fetchStopData,
-  updatedSelectedRouteId
+  updatedSelectedRouteId,
+  updateRegion
 } from '../modules/MainMap'
 
 import MainMap from '../components/MainMap'
@@ -17,7 +18,8 @@ const mapActionCreators = {
   fetchTrolleys,
   getActiveStops,
   fetchStopData,
-  updatedSelectedRouteId
+  updatedSelectedRouteId,
+  updateRegion
 }
 
 const mapStateToProps = (state) => ({
@@ -32,7 +34,8 @@ const mapStateToProps = (state) => ({
   stopsObject: state.mainMap.stopsObject,
   stopFetchError: state.mainMap.stopFetchError,
   selectedRouteId: state.mainMap.selectedRouteId,
-  routeOrder: state.mainMap.routeOrder
+  routeOrder: state.mainMap.routeOrder,
+  region: state.mainMap.region
 })
 
 export default connect(mapStateToProps, mapActionCreators)(MainMap)

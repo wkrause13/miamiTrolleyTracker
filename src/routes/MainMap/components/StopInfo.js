@@ -55,7 +55,7 @@ export const StopInfo = (props) => (
     {props.selectedRouteId === 0 ? <IntialText /> : null}
     <Text style={{fontSize: 18, fontWeight:'bold', color: 'white'}}>{props.closest.name}</Text>
     {props.stopIsLoading ? <ActivityIndicator color='white' size='small' animating={props.stopIsLoading} /> : null}
-    {props.stopIsLoading ? null : <View style={{paddingBottom: 10}}><Text style={styles.stopText}>Vehicle ID - Time (min)</Text></View>}
+    {!props.stopIsLoading && props.selectedRouteId !== 0 ?  <View style={{paddingBottom: 10}}><Text style={styles.stopText}>Vehicle ID - Time (min)</Text></View> : null}
     <ScrollView style={{alignSelf: 'stretch'}} >
       <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
       {props.stopIsLoading ? null : renderStopInfo(props.selectedRouteId, props.stopsObject)}
