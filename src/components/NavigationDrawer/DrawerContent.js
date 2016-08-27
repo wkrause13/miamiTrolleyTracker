@@ -63,7 +63,8 @@ class DrawerContent extends Component {
       <View style={{flex: 1}}>
         <ScrollView style={{backgroundColor:'#FFFFFF'}} contentContainerStyle={[styles.container]} bounces={false}>
           <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
-            <View style={{flex: 1, alignItems:'center', paddingBottom: 10}}>
+            <View style={{alignItems:'center', paddingBottom: 10}}><Text style={{color: 'grey', fontSize: 20, fontWeight: 'bold'}}>Trolley Routes</Text></View>
+              <View style={{flex: 1, alignItems:'center'}}>
               <RectangularButton
                 onPress={this.handleShowAll}
                 underlayColor={'#e69500'}
@@ -72,6 +73,7 @@ class DrawerContent extends Component {
               />
             </View>
             {this.generateContentRows(trolleyRoutes)}
+            <View style={{alignItems:'center', paddingTop: 5}}><Text style={{color: 'grey', fontSize: 20, fontWeight: 'bold'}}>Bikes</Text></View>
             <DrawerContentRow
               color={'#052b6c'}
               toggleValue={this.props.showBikes}
