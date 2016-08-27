@@ -7,7 +7,8 @@ import {
   getActiveStops,
   fetchStopData,
   updatedSelectedRouteId,
-  updateRegion
+  updateRegion,
+  fetchBikeLocations,
 } from '../modules/MainMap'
 
 import MainMap from '../components/MainMap'
@@ -19,10 +20,12 @@ const mapActionCreators = {
   getActiveStops,
   fetchStopData,
   updatedSelectedRouteId,
-  updateRegion
+  updateRegion,
+  fetchBikeLocations
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state) => {
+  return ({
   routes: getAllRoutes(state),
   routesById: state.mainMap.routesById,
   isLoading: state.mainMap.isLoading,
@@ -35,7 +38,10 @@ const mapStateToProps = (state) => ({
   stopFetchError: state.mainMap.stopFetchError,
   selectedRouteId: state.mainMap.selectedRouteId,
   routeOrder: state.mainMap.routeOrder,
-  region: state.mainMap.region
+  region: state.mainMap.region,
+  bikeLocations: state.mainMap.visibleBikes,
+  bikeLoading: state.mainMap.bikesIsLoading
 })
+}
 
 export default connect(mapStateToProps, mapActionCreators)(MainMap)

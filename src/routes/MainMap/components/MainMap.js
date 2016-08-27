@@ -9,10 +9,19 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import TrolleyStopTooltip from './TrolleyStopTooltip'
 import ErrorMessage from './ErrorMessage'
 import StopInfo from './StopInfo'
+import CitiBikeIcon from './CitiBikeIcon'
 import {Fab, RectangularButton} from '../../../components/Buttons'
 import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
 import {routeObjects} from '../../../utils'
+
+import Svg,{
+  ClipPath,
+  Defs,
+  Rect,
+    Path,
+    Circle
+} from 'react-native-svg';
 // const metroMoverJson = require('../../../static/routes/metromover.json')
 // const metroMoverJson2 = require('../../../static/routes/metromover2.json')
 
@@ -44,6 +53,7 @@ class MainMap extends React.Component {
   }
   componentDidMount () {
     this.props.fetchRoutes()
+    this.props.fetchBikeLocations()
     // initial trolley fetch happens in fetchRoutes
     setInterval(
       () => { this.props.fetchTrolleys() },
@@ -140,10 +150,23 @@ class MainMap extends React.Component {
     const newRoutes = this.generateRoutes(routes, reRenderKey)
     const stops = this.generateStops(routes, reRenderKey)
     const trolleys = this.generateTrolleyMarkers(markers, reRenderKey)
+    // this.props.incrementRenderKey ()
+            const bob = this.props.bikeLocations.map((location) => {
+                    const key = Platform.OS === 'ios' ? `bike-${location.id}-${reRenderKey}`: `bike-${location.id}`
+            return (
+            <MapView.Marker
+              key={key} 
+              coordinate={{latitude:location.lat, longitude:location.lng}}
+              title={location.address}
+            >
+            <CitiBikeIcon circleDiameter={15} fillRatio={location.bikes/(location.bikes+location.dockings)} />
+            </MapView.Marker>
+          )})
     return [
       ...newRoutes,
       ...stops,
       ...trolleys,
+      ...bob
     ]
   }
   closestLocation (targetLocation, locationData) {
@@ -206,7 +229,7 @@ class MainMap extends React.Component {
             showsCompass={false}
             showsUserLocation
             followsUserLocation
-            onRegionChangeComplete={this.props.updateRegion}
+            onRegionChangeComplete={_.debounce(this.props.updateRegion, 300)}
           >
             {routes.length > 0 && markers.length > 0 ? this.makeAll(routes, markers, reRenderKey) : null}
         </MapView>
@@ -218,7 +241,6 @@ class MainMap extends React.Component {
         </Fab>
       </View>
         <View style={{flex:1, alignItems:'center', backgroundColor: modalColor, padding: 10}}>
-
           <StopInfo
             renderAltRouteButtons={this.renderAltRouteButtons}
             stopIsLoading={this.props.stopIsLoading}

@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 
 import DrawerContentRow from './DrawerContentRow'
 import {RectangularButton} from '../Buttons'
-import { getAllRoutesForDrawer, toggleRoute, enableAllRoutes } from '../../routes/MainMap/modules/MainMap'
+import { getAllRoutesForDrawer, toggleRoute, enableAllRoutes, toggleBikes } from '../../routes/MainMap/modules/MainMap'
 import {routeObjects} from '../../utils'
 
 class DrawerContent extends Component {
@@ -32,7 +32,15 @@ class DrawerContent extends Component {
     if (trolleyRoutes){
       return trolleyRoutes.map((route, i) => {
         const boundPress = this.handlePressAction.bind(this, route.id)
-        return <DrawerContentRow key={`DrawerContentRow-${i}`} route={route} pressAction={boundPress} />
+        return (
+          <DrawerContentRow
+            key={`DrawerContentRow-${i}`}
+            color={route.routeColor}
+            toggleValue={route.display}
+            text={route.name}
+            pressAction={boundPress}
+          />
+        )
       })
     }
   }
@@ -64,6 +72,12 @@ class DrawerContent extends Component {
               />
             </View>
             {this.generateContentRows(trolleyRoutes)}
+            <DrawerContentRow
+              color={'#052b6c'}
+              toggleValue={this.props.showBikes}
+              text={'Citi Bikes'}
+              pressAction={this.props.toggleBikes}
+            />
           </View>
         </ScrollView>
         <ActivityIndicator size='large' style={{position:'absolute', top: height/2, left: width/2}} animating={isLoading} />
@@ -82,12 +96,14 @@ DrawerContent.contextTypes = {
 
 const mapActionCreators = {
   toggleRoute,
-  enableAllRoutes
+  enableAllRoutes,
+  toggleBikes
 }
 
 const mapStateToProps = (state) => ({
   trolleyRoutes: getAllRoutesForDrawer(state),
-  isLoading: state.mainMap.isLoading
+  isLoading: state.mainMap.isLoading,
+  showBikes: state.mainMap.showBikes
 })
 
 export default connect(mapStateToProps, mapActionCreators)(DrawerContent)

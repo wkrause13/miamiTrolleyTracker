@@ -1,6 +1,9 @@
-import _ from 'lodash'
-import {routeObjects} from '../../../utils'
 import {Platform } from 'react-native'
+
+import _ from 'lodash'
+import { DOMParser } from 'xmldom'
+
+import {routeObjects} from '../../../utils'
 
 // ------------------------------------
 // Constants
@@ -23,6 +26,10 @@ const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
 const UPDATE_SELECTED_ROUTE_ID = 'UPDATE_SELECTED_ROUTE_ID'
 
 const UPDATE_REGION = 'UPDATE_REGION'
+
+const REQUEST_BIKES = 'REQUEST_BIKES'
+const RECEIVE_BIKES = 'RECEIVE_BIKES'
+const TOGGLE_BIKES = 'TOGGLE_BIKES'
 
 
 // ------------------------------------
@@ -74,7 +81,6 @@ export function fetchRoutes () {
   }
 }
 
-
 function requestStop (stopId) {
   return {
     type: REQUEST_STOP,
@@ -91,7 +97,6 @@ function receiveStop (payload, stopId, retryCount) {
   }
 }
 
-
 export function fetchStopData (stopId, retryCount=0) {
   return dispatch => {
     dispatch(requestStop(stopId))
@@ -99,7 +104,7 @@ export function fetchStopData (stopId, retryCount=0) {
       .then((response) => response.json())
       .then((responseJson) => {
         dispatch(receiveStop(responseJson, retryCount))
-       })
+      })
       .catch((error) => {
         if (retryCount < 2 ){
           retryCount = retryCount + 1
@@ -108,8 +113,8 @@ export function fetchStopData (stopId, retryCount=0) {
           fetchStopData({error})
         }
       })
-     }
   }
+}
 
 export function receiveTrolleys (trolleys) {
   return {
@@ -124,7 +129,6 @@ export function toggleRoute (routeId) {
     routeId
   }
 }
-
 
 export function requestEnableAllRoutes () {
   return {
@@ -180,6 +184,42 @@ export function updateRegion (region) {
   }
 }
 
+function requestBikes () {
+  return {
+    type: REQUEST_BIKES
+  }
+}
+
+function receiveBikes (payload) {
+  return {
+    type: RECEIVE_BIKES,
+		payload
+  }
+}
+
+export function	fetchBikeLocations() {
+		const url = 'http://citibikemiami.com/downtown-miami-locations2.xml';
+  return dispatch => {
+    dispatch(requestBikes())
+		fetch(url, { method: 'GET',
+							mode: 'cors',
+							cache: 'default' })
+			.then(response => response.text())
+			.then((data) => {
+				return dispatch(receiveBikes(data))
+			})
+		.catch((error) =>{
+			console.log(error)
+			dispatch(receiveBikes({error}))
+		})
+	}
+}
+
+export function toggleBikes () {
+  return {
+    type: TOGGLE_BIKES
+  }
+}
 
 export const actions = {
   fetchRoutes,
@@ -187,7 +227,9 @@ export const actions = {
   enableAllRoutes,
   incrementRenderKey,
   updatedSelectedRouteId,
-  updateRegion
+  updateRegion,
+  fetchBikeLocations,
+  toggleBikes
 }
 
 // ------------------------------------
@@ -249,7 +291,6 @@ export const getActiveStops = (state) => {
   return []
 }
 
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -293,10 +334,11 @@ const receiveTrolleysHandler = (state, action) => {
       return undefined
     }
     let shouldDisplay = false
-    if (!(trolley.routeID in state.routesById)) {
-      shouldDisplay = false
-    } else {
+    if ((trolley.routeID in state.routesById)) {
       shouldDisplay = state.routesById[trolley.routeID].display
+    }
+    if (state.initialTrolleyFetch && trolley.routeID == 2 ) {
+      shouldDisplay = true
     }
     return {
       coordinate: {
@@ -314,7 +356,7 @@ const receiveTrolleysHandler = (state, action) => {
   validMarkers = markers.filter(function( element ) {
     return element !== undefined;
   });
-  return {...state, markers: validMarkers, trolleyFetchFails: 0, error: null}
+  return {...state, initialTrolleyFetch: false, markers: validMarkers, trolleyFetchFails: 0, error: null}
 }
 
 const requestStopHandler = (state, action) => {
@@ -341,7 +383,7 @@ const requestStopHandler = (state, action) => {
     routesById[routeId] = newRoute
   })
   return {...state, stopIsLoading: true, routesById}
- }
+}
 
 const receiveStopHandler = (state, action) => {
     if (action.payload.error) {
@@ -371,8 +413,7 @@ const receiveStopHandler = (state, action) => {
     
     const routeOrder = [...routeOrderSet]
     return {...state, stopFetchError: stopFetchError, stopsObject: stopsObject, stopIsLoading: false, selectedRouteId: routeOrder[0], routeOrder: routeOrder }
-    // this.setState({stopsObject, routeOrder, isLoading: false, selectedRouteId: routeOrder[0]})
- }
+}
 
 const toggleRouteHandler = (state, action) => {
   const targetRoute = state.routesById[action.routeId]
@@ -421,7 +462,64 @@ const updatedSelectedRouteIdHandler = (state, action) => {
 }
 
 const updateRegionHandler = (state, action) => {
-  return {...state, region: action.region}
+  let locations = []
+  let newRenderKey = state.reRenderKey
+  if (state.showBikes){
+		const {latitude, longitude, latitudeDelta, longitudeDelta} = action.region
+		const upperLat = latitude + latitudeDelta/2
+		const lowerLat = latitude - latitudeDelta/2
+		const upperLng = longitude + longitudeDelta/2
+		const lowerLng = longitude - longitudeDelta/2
+    locations = state.bikeLocations.filter((l) => {
+			return l.lat > lowerLat &&  l.lat < upperLat && l.lng > lowerLng && l.lng < upperLng
+    })
+    newRenderKey = newRenderKey + 1
+  }
+  return {...state, region: action.region, visibleBikes: locations, reRenderKey: newRenderKey }
+}
+
+const incrementRenderKeyHandler = (state, action) => {
+  return {...state, reRenderKey: state.reRenderKey + 1}
+}
+
+const requestBikesHandler = (state, action) => {
+	return {...state, bikesIsLoading: true}
+}
+
+const receiveBikesHandler = (state, action) => {
+	let doc = new DOMParser().parseFromString(action.payload,'text/xml');
+	let locations = doc.getElementsByTagName("location");
+	let locationList = new Array;
+	for (let i = 0; i < locations.length; ++i) {
+		const lng = parseFloat(locations[i].getElementsByTagName('Longitude')[0].textContent);
+		const lat = parseFloat(locations[i].getElementsByTagName('Latitude')[0].textContent);
+		const id = parseInt(locations[i].getElementsByTagName('Id')[0].textContent);
+		const address = locations[i].getElementsByTagName('Address')[0].textContent;
+		const bikes = parseInt(locations[i].getElementsByTagName('Bikes')[0].textContent);
+		const dockings = parseInt(locations[i].getElementsByTagName('Dockings')[0].textContent);
+		// Lazy way to check for bad data
+		if (lng){
+			locationList.push({lng,lat,id,address,bikes,dockings});						
+		}
+	};
+	return {...state, bikeLocations: locationList, bikesIsLoading: false}
+}
+
+const toggleBikesHandler = (state, action) => {
+  let locations = []
+  let newRenderKey = state.reRenderKey
+  if (!state.showBikes){
+		const {latitude, longitude, latitudeDelta, longitudeDelta} = state.region
+		const upperLat = latitude + latitudeDelta/2
+		const lowerLat = latitude - latitudeDelta/2
+		const upperLng = longitude + longitudeDelta/2
+		const lowerLng = longitude - longitudeDelta/2
+    locations = state.bikeLocations.filter((l) => {
+			return l.lat > lowerLat &&  l.lat < upperLat && l.lng > lowerLng && l.lng < upperLng
+    })
+    newRenderKey = newRenderKey + 1
+  } 
+  return {...state, visibleBikes: locations, showBikes: !state.showBikes, reRenderKey: newRenderKey }
 }
 
 const ACTION_HANDLERS = {
@@ -434,8 +532,11 @@ const ACTION_HANDLERS = {
   [REQUEST_STOP]: requestStopHandler,
   [RECEIVE_STOP]: receiveStopHandler,
   [UPDATE_SELECTED_ROUTE_ID]: updatedSelectedRouteIdHandler,
-  [UPDATE_REGION]: updateRegionHandler
-
+  [UPDATE_REGION]: updateRegionHandler,
+  [INCREMENT_RENDER_KEY]: incrementRenderKeyHandler,
+  [REQUEST_BIKES]: requestBikesHandler,
+	[RECEIVE_BIKES]: receiveBikesHandler,
+  [TOGGLE_BIKES]: toggleBikesHandler
 }
 
 
@@ -448,6 +549,7 @@ const initialState = {
   error: null,
   routesById: {},
   routeIds: [],
+  initialTrolleyFetch: true,
   reRenderKey: 0,
   markers: [],
   trolleyFetchFails : 0,
@@ -456,7 +558,11 @@ const initialState = {
   routeOrder: [],
   selectedRouteId: 0,
   stopFetchError: false,
-  region: {}
+  region: {},
+  bikesIsLoading: false,
+  bikeLocations: [],
+  showBikes: false,
+  visibleBikes: []
 }
 export function MainMapReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

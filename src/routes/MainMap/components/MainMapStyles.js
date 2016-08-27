@@ -39,6 +39,20 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight:'bold',
     lineHeight: 18
+  },
+  CitiBikeIconContainer: {
+    backgroundColor: 'white',
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  CitiBikeIconContainerInner: {
+    backgroundColor: 'transparent',
+    borderBottomColor: '#0098e4',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderStyle: 'solid',
+    borderRadius: 5,
+    borderBottomWidth: 5
   }
   
 });

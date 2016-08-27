@@ -13,13 +13,13 @@ const DrawerContentRow = (props) => {
           <View style={{flex: 1}}>
             <Switch
               onValueChange={props.pressAction}
-              value={props.route.display}
-              onTintColor={props.route.routeColor}
+              value={props.toggleValue}
+              onTintColor={props.color}
             />
           </View>
           <View style={{flex: 4}}>
-            <Text pointerEvents="none" style={{color: props.route.routeColor, fontWeight:'bold', fontSize: 16, paddingLeft: 15}}>
-              {props.route.name}
+            <Text pointerEvents="none" style={{color: props.color, fontWeight:'bold', fontSize: 16, paddingLeft: 15}}>
+              {props.text}
             </Text>
           </View>
         </View>
@@ -28,7 +28,10 @@ const DrawerContentRow = (props) => {
 };
 
 DrawerContentRow.propTypes = {
-  pressAction: React.PropTypes.func.isRequired
+  pressAction: React.PropTypes.func.isRequired,
+  toggleValue: React.PropTypes.bool.isRequired,
+  color: React.PropTypes.string.isRequired,
+  text: React.PropTypes.string.isRequired
 }
 
 export default DrawerContentRow
