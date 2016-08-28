@@ -4,6 +4,9 @@ import Root from './src/main'
 import './src/config/reactotronConfig'
 import createStore from './src/store/createStore'
 
+import codePush from "react-native-code-push"
+
+
 // import Reactotron from 'reactotron'
 
 const store = createStore()
@@ -14,5 +17,7 @@ class MiamiTrolleyTracker extends React.Component {
     return <Root {...this.props} store={store} />
   }
 }
+
+MiamiTrolleyTracker = codePush(MiamiTrolleyTracker)
 
 AppRegistry.registerComponent('miamiTrolleyTracker', () => MiamiTrolleyTracker);

@@ -8,28 +8,28 @@ import {routeObjects} from '../../../utils'
 // ------------------------------------
 // Constants
 // ------------------------------------
-const REQUEST_ROUTES = 'REQUEST_ROUTES'
-const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
+export const REQUEST_ROUTES = 'REQUEST_ROUTES'
+export const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
 
-const REQUEST_STOP = 'REQUEST_STOP'
-const RECEIVE_STOP = 'RECEIVE_STOP'
+export const REQUEST_STOP = 'REQUEST_STOP'
+export const RECEIVE_STOP = 'RECEIVE_STOP'
 
-const RECEIVE_TROLLEYS = 'RECEIVE_TROLLEYS'
+export const RECEIVE_TROLLEYS = 'RECEIVE_TROLLEYS'
 
-const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
+export const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
 
-const REQUEST_ENABLE_ALL_ROUTES = 'REQUEST_ENABLE_ALL_ROUTES'
-const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
+export const REQUEST_ENABLE_ALL_ROUTES = 'REQUEST_ENABLE_ALL_ROUTES'
+export const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
 
-const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
+export const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
 
-const UPDATE_SELECTED_ROUTE_ID = 'UPDATE_SELECTED_ROUTE_ID'
+export const UPDATE_SELECTED_ROUTE_ID = 'UPDATE_SELECTED_ROUTE_ID'
 
-const UPDATE_REGION = 'UPDATE_REGION'
+export const UPDATE_REGION = 'UPDATE_REGION'
 
-const REQUEST_BIKES = 'REQUEST_BIKES'
-const RECEIVE_BIKES = 'RECEIVE_BIKES'
-const TOGGLE_BIKES = 'TOGGLE_BIKES'
+export const REQUEST_BIKES = 'REQUEST_BIKES'
+export const RECEIVE_BIKES = 'RECEIVE_BIKES'
+export const TOGGLE_BIKES = 'TOGGLE_BIKES'
 
 
 // ------------------------------------
@@ -97,13 +97,24 @@ function receiveStop (payload, stopId, retryCount) {
   }
 }
 
+// function rawFetchStopData (stopId) {
+//   fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
+//   .then((response) => response.json())
+//   .then((responseJson) => {
+//     return responseJson
+//   })
+//   .catch((error) => {
+//     return({error})
+//   })
+// }
+
 export function fetchStopData (stopId, retryCount=0) {
   return dispatch => {
     dispatch(requestStop(stopId))
     fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
       .then((response) => response.json())
       .then((responseJson) => {
-        dispatch(receiveStop(responseJson, retryCount))
+        dispatch(receiveStop(responseJson,stopId, retryCount))
       })
       .catch((error) => {
         if (retryCount < 2 ){
@@ -390,11 +401,6 @@ const receiveStopHandler = (state, action) => {
       return {...state, stopFetchError: true}
     }
     const allStops = action.payload.get_stop_etas[0].enRoute
-    if (allStops.length === 0 && action.retryCount < 1 ) {
-      action.retryCount = action.retryCount + 1
-      fetchStopData(action.stopId, action.retryCount)
-      return state
-    }
     const stops = allStops.filter((stop) => {
       return state.routesById[stop.routeID].display
     })

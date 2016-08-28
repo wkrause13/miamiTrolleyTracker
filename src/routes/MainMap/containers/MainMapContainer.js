@@ -34,13 +34,16 @@ const mapStateToProps = (state) => {
   markers: state.mainMap.markers,
   stops: getActiveStops(state),
   stopIsLoading: state.mainMap.stopIsLoading,
+  retryCount: state.mainMap.retryCount,
+  firstFetch: state.mainMap.firstFetch,
   stopsObject: state.mainMap.stopsObject,
   stopFetchError: state.mainMap.stopFetchError,
   selectedRouteId: state.mainMap.selectedRouteId,
   routeOrder: state.mainMap.routeOrder,
   region: state.mainMap.region,
   bikeLocations: state.mainMap.visibleBikes,
-  bikeLoading: state.mainMap.bikesIsLoading
+  bikeLoading: state.mainMap.bikesIsLoading,
+  gotGoodData: state.mainMap.gotGoodData
 })
 }
 
