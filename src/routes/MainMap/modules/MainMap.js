@@ -112,14 +112,20 @@ export function fetchStopData (stopId) {
   return dispatch => {
     dispatch(requestStop(stopId))
     rawFetchStopData(stopId).then((responseJson) => {
-      if (responseJson[1] < 1 && responseJson[0].get_stop_etas.length === 0){
-        rawFetchStopData(stopId, 1)
-        .then(responseJson2 => {
-          return dispatch(receiveStop(responseJson2[0]))
-          })
+      if (responseJson[1] < 1 && (responseJson[0].get_stop_etas.length === 0 || responseJson[0].get_stop_etas[0].enRoute.length === 0)){
+          setTimeout(() => {
+            // dispatch(increment(getState().counter))
+            rawFetchStopData(stopId, 1)
+            .then(responseJson2 => {
+              return dispatch(receiveStop(responseJson2[0]))
+              })
+          }, 400)
       } else {
         dispatch(receiveStop(responseJson[0]))
       }
+    })
+    .catch((error) => {
+      return([{error}, retryCount])
     })
   }
 }
@@ -164,13 +170,12 @@ export function incrementRenderKey () {
   }
 }
 
-export function fetchTrolleys() {
-  return dispatch => {
-    fetch('https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json')
+export function fetchTrolleys (){
+  return (dispatch, getState) => {
+    return fetch('https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json')
       .then((response) => response.json())
       .then((responseJson) => {
-        const trolleys = responseJson.get_vehicles
-        return dispatch(receiveTrolleys(trolleys))
+        return dispatch(receiveTrolleys(responseJson.get_vehicles))
     })
     .catch((error) => {
       return dispatch(receiveTrolleys({error}))
