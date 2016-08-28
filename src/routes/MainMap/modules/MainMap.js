@@ -78,7 +78,7 @@ export function fetchRoutes () {
           return fetch(url).then((response) => response.json())
         }
       })
-    Promise.all(promises).then(results => {
+    return Promise.all(promises).then(results => {
       const routeOverlays = processShapeData(results[0])
       const stops = results[1]['get_stops']
       // both of the following maps will make it easier to support user defaults when app loads
@@ -402,6 +402,7 @@ const receiveTrolleysHandler = (state, action) => {
 }
 
 const requestStopHandler = (state, action) => {
+  console.log(JSON.stringify(state))
   let routesById = {}
   state.routeIds.forEach((routeId) => {
     const route = state.routesById[routeId]

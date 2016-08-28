@@ -13,6 +13,7 @@ const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 
 const trolleyMock = require('../../../tests/data/vehicles.json');
+const loadedState = require('../../../tests/data/loadedState.json')
 
 const initialState = {
   isLoading: false,
@@ -69,13 +70,24 @@ describe('(Redux Module) MainMap', () => {
     })
   })
 
+  describe('(Action Creator) toggleRoute', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.toggleRoute).to.be.a('function')
+    })
+
+    it('Should return an action with type "TOGGLE_ROUTE and property RoutedID".', () => {
+      expect(actions.toggleRoute(2)).to.have.property('type', types.TOGGLE_ROUTE)
+      expect(actions.toggleRoute(2)).to.have.property('routeId', 2)
+    })
+  })
+
   describe('(Action Creator) fetchTrolleys', () => {
 
     let _globalState
     let _dispatchSpy
     let _getStateSpy
 
-    beforeEach(() => {
+    beforeEach((done) => {
       _globalState = {
         mainMap: MainMapReducer(undefined, {})
       }
@@ -88,10 +100,12 @@ describe('(Redux Module) MainMap', () => {
       _getStateSpy = sinon.spy(() => {
         return _globalState
       })
+      done();
     })
 
-    afterEach(() => {
+    afterEach((done) => {
       nock.cleanAll()
+      done();
     })
 
     it('Should be exported as a function.', () => {
@@ -103,16 +117,22 @@ describe('(Redux Module) MainMap', () => {
     })
 
     it('Should return a promise from that thunk that gets fulfilled.', () => {
+      nock('https://miami-transit-api.herokuapp.com/api/trolley/')
+        .get('/vehicles.json')
+        .reply(200, trolleyMock)
+
       return actions.fetchTrolleys()(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
-      done();
     })
 
     it('Should call dispatch exactly once.', () => {
+      nock('https://miami-transit-api.herokuapp.com/api/trolley/')
+        .get('/vehicles.json')
+        .reply(200, trolleyMock)
+
       return actions.fetchTrolleys()(_dispatchSpy)
         .then(() => {
           _dispatchSpy.should.have.been.calledOnce
         })
-        done();
     })
 
     it('Creates RECEIVE_TROLLEYS when fetching todos has been done', () => {
@@ -202,6 +222,36 @@ describe('(Redux Module) MainMap', () => {
       expect(state.reRenderKey).to.equal(0)
       state = MainMapReducer(state, actions.incrementRenderKey())
       expect(state.reRenderKey).to.equal(1)
+    })
+  })
+
+  describe('(Action Handler) TOGGLE_ROUTE', () => {
+    it('Should toggle selected routes display value', () => {
+      let state = MainMapReducer(loadedState, {})
+      expect(state.routesById[5].display).to.be.false
+      const newRoutesById= {...state.routesById, 5: {...state.routesById[5], display: true }}
+      state = MainMapReducer(state, actions.toggleRoute(5))
+      expect(state.routesById[5].display).to.be.true
+      // Nothing else should change
+      expect(state.routesById).to.eql(newRoutesById)
+    })
+    it('Should increment reRenderKey by 1', () => {
+      let state = MainMapReducer(loadedState, {})
+      const initialRenderKey = state.reRenderKey
+      state = MainMapReducer(state, actions.toggleRoute(5))
+      expect(state.reRenderKey).to.be.equal(initialRenderKey + 1)
+    })
+    it('Should toggle marker display value', () => {
+      let state = MainMapReducer(loadedState, {})
+      const postUpdateMarkers = state.markers.map((marker) => {
+         if (marker.routeId == 5) {
+           return {...marker, display: !marker.display}
+        } else{
+          return marker
+        }
+      })
+      state = MainMapReducer(state, actions.toggleRoute(5))
+      expect(state.markers).to.be.eql(postUpdateMarkers)
     })
   })
 })
