@@ -97,33 +97,30 @@ function receiveStop (payload, stopId, retryCount) {
   }
 }
 
-// function rawFetchStopData (stopId) {
-//   fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
-//   .then((response) => response.json())
-//   .then((responseJson) => {
-//     return responseJson
-//   })
-//   .catch((error) => {
-//     return({error})
-//   })
-// }
+function rawFetchStopData (stopId, retryCount=0) {
+  return fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
+  .then((response) => response.json())
+  .then((responseJson) => {
+    return [responseJson, retryCount]
+  })
+  .catch((error) => {
+    return([{error}, retryCount])
+  })
+}
 
-export function fetchStopData (stopId, retryCount=0) {
+export function fetchStopData (stopId) {
   return dispatch => {
     dispatch(requestStop(stopId))
-    fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&stopID=${stopId}&statusData=1&token=TESTING`)
-      .then((response) => response.json())
-      .then((responseJson) => {
-        dispatch(receiveStop(responseJson,stopId, retryCount))
-      })
-      .catch((error) => {
-        if (retryCount < 2 ){
-          retryCount = retryCount + 1
-          fetchStopData(stopId, retryCount)
-        } else{
-          fetchStopData({error})
-        }
-      })
+    rawFetchStopData(stopId).then((responseJson) => {
+      if (responseJson[1] < 1 && responseJson[0].get_stop_etas.length === 0){
+        rawFetchStopData(stopId, 1)
+        .then(responseJson2 => {
+          return dispatch(receiveStop(responseJson2[0]))
+          })
+      } else {
+        dispatch(receiveStop(responseJson[0]))
+      }
+    })
   }
 }
 
@@ -570,6 +567,7 @@ const initialState = {
   showBikes: false,
   visibleBikes: []
 }
+
 export function MainMapReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
   return handler ? handler(state, action) : state
