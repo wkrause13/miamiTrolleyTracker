@@ -8,6 +8,7 @@ import {
   RECEIVE_TROLLEYS,
   incrementRenderKey,
   fetchTrolleys,
+  receiveTrolleys,
   MainMapReducer
 } from './MainMap'
 
@@ -157,10 +158,49 @@ describe('(Redux Module) MainMap', () => {
   
   })
 
+  describe('(Action Handler) RECEIVE_TROLLEYS', () => {
+    it('Should add to state.markers, removing any undefined objects', () => {
+      let state = MainMapReducer(undefined, initialState)
+      expect(state.markers).to.be.empty
+      state = MainMapReducer(state, receiveTrolleys(trolleyMock.get_vehicles))
+      expect(state.markers).to.have.length.above(0)
+      expect(state.markers).to.not.include(undefined)
+
+    })
+    it('Should toggle the initialTrolleyFetch property', () => {
+      let state = MainMapReducer(undefined, initialState)
+      expect(state.initialTrolleyFetch).to.be.true
+      state = MainMapReducer(state, receiveTrolleys(trolleyMock.get_vehicles))
+      expect(state.initialTrolleyFetch).to.be.false
+    })
+    it('Should increment trolleyFetchFails when receiving object with error attribute', () => {
+      let state = MainMapReducer(undefined, initialState)
+      expect(state.trolleyFetchFails).to.equal(0)
+      state = MainMapReducer(state, receiveTrolleys({error: 'error received'}))
+      expect(state.trolleyFetchFails).to.equal(1)
+    })
+    it('Should update the state\'s error attribute after failing 6 times', () => {
+      let state = MainMapReducer(undefined, initialState)
+      expect(state.trolleyFetchFails).to.equal(0)
+      for(let i = 0; i <= 6; i++) {
+        state = MainMapReducer(state, receiveTrolleys({error: 'error received'}))        
+      }
+      expect(state.trolleyFetchFails).to.equal(6)
+      expect(state.error).to.not.be.null
+    })
+    it('Should reset error attribute to null when successfully updated', () => {
+      const newState = {...initialState, error: 'some error message'}
+      let state = MainMapReducer(newState, {})
+      expect(state.error).to.not.be.null
+      state = MainMapReducer(state, receiveTrolleys(trolleyMock.get_vehicles))
+      expect(state.error).to.be.null
+    })
+  })
+
   describe('(Action Handler) INCREMENT_RENDER_KEY', () => {
     it('Should increment the state by 1', () => {
       let state = MainMapReducer(undefined, {})
-      expect(state.reRenderKey).to.eql(0)
+      expect(state.reRenderKey).to.equal(0)
       state = MainMapReducer(state, incrementRenderKey())
       expect(state.reRenderKey).to.equal(1)
     })

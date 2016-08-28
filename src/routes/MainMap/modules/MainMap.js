@@ -337,7 +337,7 @@ const receiveTrolleysHandler = (state, action) => {
   if (action.trolleys.error && state.trolleyFetchFails < 6) {
     return {...state, trolleyFetchFails: state.trolleyFetchFails + 1}
   }
-  if (state.trolleyFetchFails >= 6){
+  if (state.trolleyFetchFails > 5){
     return {...state, error: 'Having trouble updating trolley data'}
   }
   const markers = action.trolleys.map((trolley) => {
