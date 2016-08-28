@@ -8,29 +8,45 @@ import {routeObjects} from '../../../utils'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const REQUEST_ROUTES = 'REQUEST_ROUTES'
-export const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
+const REQUEST_ROUTES = 'REQUEST_ROUTES'
+const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
 
-export const REQUEST_STOP = 'REQUEST_STOP'
-export const RECEIVE_STOP = 'RECEIVE_STOP'
+const REQUEST_STOP = 'REQUEST_STOP'
+const RECEIVE_STOP = 'RECEIVE_STOP'
 
-export const RECEIVE_TROLLEYS = 'RECEIVE_TROLLEYS'
+const RECEIVE_TROLLEYS = 'RECEIVE_TROLLEYS'
 
-export const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
+const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
 
-export const REQUEST_ENABLE_ALL_ROUTES = 'REQUEST_ENABLE_ALL_ROUTES'
-export const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
+const REQUEST_ENABLE_ALL_ROUTES = 'REQUEST_ENABLE_ALL_ROUTES'
+const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
 
-export const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
+const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
 
-export const UPDATE_SELECTED_ROUTE_ID = 'UPDATE_SELECTED_ROUTE_ID'
+const UPDATE_SELECTED_ROUTE_ID = 'UPDATE_SELECTED_ROUTE_ID'
 
-export const UPDATE_REGION = 'UPDATE_REGION'
+const UPDATE_REGION = 'UPDATE_REGION'
 
-export const REQUEST_BIKES = 'REQUEST_BIKES'
-export const RECEIVE_BIKES = 'RECEIVE_BIKES'
-export const TOGGLE_BIKES = 'TOGGLE_BIKES'
+const REQUEST_BIKES = 'REQUEST_BIKES'
+const RECEIVE_BIKES = 'RECEIVE_BIKES'
+const TOGGLE_BIKES = 'TOGGLE_BIKES'
 
+export const types = {
+  REQUEST_ROUTES,
+  RECEIVE_ROUTES,
+  REQUEST_STOP,
+  RECEIVE_STOP,
+  RECEIVE_TROLLEYS,
+  TOGGLE_ROUTE,
+  REQUEST_ENABLE_ALL_ROUTES,
+  ENABLE_ALL_ROUTES,
+  INCREMENT_RENDER_KEY,
+  UPDATE_SELECTED_ROUTE_ID,
+  UPDATE_REGION,
+  REQUEST_BIKES,
+  RECEIVE_BIKES,
+  TOGGLE_BIKES
+}
 
 // ------------------------------------
 // Actions
@@ -234,15 +250,28 @@ export function toggleBikes () {
   }
 }
 
+// For making testing easier. I perfer explicit imports of action creators in containers
 export const actions = {
+  requestRoutes,
+  receiveRoutes,
   fetchRoutes,
   toggleRoute,
+  receiveStop,
+  requestStop,
+  fetchStopData,
+  allRoutes,
+  requestEnableAllRoutes,
   enableAllRoutes,
   incrementRenderKey,
+  receiveTrolleys,
+  fetchTrolleys,
   updatedSelectedRouteId,
   updateRegion,
+  requestBikes,
+  receiveBikes,
   fetchBikeLocations,
-  toggleBikes
+  toggleBikes,
+  incrementRenderKey
 }
 
 // ------------------------------------
