@@ -481,6 +481,9 @@ const updateRegionHandler = (state, action) => {
     locations = state.bikeLocations.filter((l) => {
 			return l.lat > lowerLat &&  l.lat < upperLat && l.lng > lowerLng && l.lng < upperLng
     })
+    // if( latitudeDelta < state.region.latitudeDelta && longitudeDelta < state.region.longitudeDelta){
+    //   newRenderKey = newRenderKey + 1
+    // }
     newRenderKey = newRenderKey + 1
   }
   return {...state, region: action.region, visibleBikes: locations, reRenderKey: newRenderKey }
