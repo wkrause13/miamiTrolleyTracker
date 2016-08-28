@@ -333,6 +333,12 @@ export const getActiveStops = (state) => {
   return []
 }
 
+export const selectors = {
+  getAllRoutes,
+  getAllRoutesForDrawer,
+  getActiveStops
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -402,7 +408,6 @@ const receiveTrolleysHandler = (state, action) => {
 }
 
 const requestStopHandler = (state, action) => {
-  console.log(JSON.stringify(state))
   let routesById = {}
   state.routeIds.forEach((routeId) => {
     const route = state.routesById[routeId]

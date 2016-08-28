@@ -6,7 +6,8 @@ import nock from 'nock'
 import {
   MainMapReducer,
   actions,
-  types
+  types,
+  selectors
 } from './MainMap'
 
 const middlewares = [thunk]
@@ -177,44 +178,37 @@ describe('(Redux Module) MainMap', () => {
   
   })
 
-  describe('(Action Handler) RECEIVE_TROLLEYS', () => {
-    it('Should add to state.markers, removing any undefined objects', () => {
-      let state = MainMapReducer(undefined, initialState)
-      expect(state.markers).to.be.empty
-      state = MainMapReducer(state, actions.receiveTrolleys(trolleyMock.get_vehicles))
-      expect(state.markers).to.have.length.above(0)
-      expect(state.markers).to.not.include(undefined)
+  describe('(Action Creator) updatedSelectedRouteId', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.updatedSelectedRouteId).to.be.a('function')
+    })
 
-    })
-    it('Should toggle the initialTrolleyFetch property', () => {
-      let state = MainMapReducer(undefined, initialState)
-      expect(state.initialTrolleyFetch).to.be.true
-      state = MainMapReducer(state, actions.receiveTrolleys(trolleyMock.get_vehicles))
-      expect(state.initialTrolleyFetch).to.be.false
-    })
-    it('Should increment trolleyFetchFails when receiving object with error attribute', () => {
-      let state = MainMapReducer(undefined, initialState)
-      expect(state.trolleyFetchFails).to.equal(0)
-      state = MainMapReducer(state, actions.receiveTrolleys({error: 'error received'}))
-      expect(state.trolleyFetchFails).to.equal(1)
-    })
-    it('Should update the state\'s error attribute after failing 6 times', () => {
-      let state = MainMapReducer(undefined, initialState)
-      expect(state.trolleyFetchFails).to.equal(0)
-      for(let i = 0; i <= 6; i++) {
-        state = MainMapReducer(state, actions.receiveTrolleys({error: 'error received'}))        
-      }
-      expect(state.trolleyFetchFails).to.equal(6)
-      expect(state.error).to.not.be.null
-    })
-    it('Should reset error attribute to null when successfully updated', () => {
-      const newState = {...initialState, error: 'some error message'}
-      let state = MainMapReducer(newState, {})
-      expect(state.error).to.not.be.null
-      state = MainMapReducer(state, actions.receiveTrolleys(trolleyMock.get_vehicles))
-      expect(state.error).to.be.null
+    it('Should return an action with type "UPDATE_SELECTED_ROUTE_ID and property RoutedID".', () => {
+      expect(actions.updatedSelectedRouteId(2)).to.have.property('type', types.UPDATE_SELECTED_ROUTE_ID)
+      expect(actions.updatedSelectedRouteId(2)).to.have.property('selectedRouteId', 2)
     })
   })
+
+  describe('(Selector) getAllRoutes', () => {
+    it('Should be exported as a function.', () => {
+      expect(selectors.getAllRoutes).to.be.a('function')
+    })
+
+    it('Should return an empty array for initial state', () => {
+      let state = MainMapReducer(initialState, {})
+      const realState = {mainMap: state}
+      expect(selectors.getAllRoutes(realState)).to.be.instanceof(Array)
+      expect(selectors.getAllRoutes(realState)).to.be.empty
+    })
+
+    it('Should return a none empty array when there are routes', () => {
+      let state = MainMapReducer(loadedState, {})
+      const realState = {mainMap: state}
+      expect(selectors.getAllRoutes(realState)).to.be.instanceof(Array)
+      expect(selectors.getAllRoutes(realState)).to.not.be.empty
+    })
+  })
+
 
   describe('(Action Handler) INCREMENT_RENDER_KEY', () => {
     it('Should increment the state by 1', () => {
@@ -254,4 +248,53 @@ describe('(Redux Module) MainMap', () => {
       expect(state.markers).to.be.eql(postUpdateMarkers)
     })
   })
+
+  describe('(Action Handler) RECEIVE_TROLLEYS', () => {
+    it('Should add to state.markers, removing any undefined objects', () => {
+      let state = MainMapReducer(undefined, initialState)
+      expect(state.markers).to.be.empty
+      state = MainMapReducer(state, actions.receiveTrolleys(trolleyMock.get_vehicles))
+      expect(state.markers).to.have.length.above(0)
+      expect(state.markers).to.not.include(undefined)
+
+    })
+    it('Should toggle the initialTrolleyFetch property', () => {
+      let state = MainMapReducer(undefined, initialState)
+      expect(state.initialTrolleyFetch).to.be.true
+      state = MainMapReducer(state, actions.receiveTrolleys(trolleyMock.get_vehicles))
+      expect(state.initialTrolleyFetch).to.be.false
+    })
+    it('Should increment trolleyFetchFails when receiving object with error attribute', () => {
+      let state = MainMapReducer(undefined, initialState)
+      expect(state.trolleyFetchFails).to.equal(0)
+      state = MainMapReducer(state, actions.receiveTrolleys({error: 'error received'}))
+      expect(state.trolleyFetchFails).to.equal(1)
+    })
+    it('Should update the state\'s error attribute after failing 6 times', () => {
+      let state = MainMapReducer(undefined, initialState)
+      expect(state.trolleyFetchFails).to.equal(0)
+      for(let i = 0; i <= 6; i++) {
+        state = MainMapReducer(state, actions.receiveTrolleys({error: 'error received'}))        
+      }
+      expect(state.trolleyFetchFails).to.equal(6)
+      expect(state.error).to.not.be.null
+    })
+    it('Should reset error attribute to null when successfully updated', () => {
+      const newState = {...initialState, error: 'some error message'}
+      let state = MainMapReducer(newState, {})
+      expect(state.error).to.not.be.null
+      state = MainMapReducer(state, actions.receiveTrolleys(trolleyMock.get_vehicles))
+      expect(state.error).to.be.null
+    })
+  })
+
+  describe('(Action Handler) UPDATE_SELECTED_ROUTE_ID', () => {
+    it('Should toggle selected routes display value', () => {
+      let state = MainMapReducer(initialState, {})
+      expect(state.selectedRouteId).to.be.equal(0)
+      state = MainMapReducer(state, actions.updatedSelectedRouteId(2))
+      expect(state.selectedRouteId).to.be.equal(2)
+    })
+  })
+
 })
