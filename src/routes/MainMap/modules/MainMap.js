@@ -104,12 +104,12 @@ function requestStop (stopId) {
   }
 }
 
-function receiveStop (payload, stopId, retryCount) {
+function receiveStop (payload, stopId, routeId) {
   return {
     type: RECEIVE_STOP,
     payload,
     stopId,
-    retryCount
+    routeId
   }
 }
 
@@ -124,7 +124,7 @@ function rawFetchStopData (stopId, retryCount=0) {
   })
 }
 
-export function fetchStopData (stopId) {
+export function fetchStopData (stopId, routeId) {
   return dispatch => {
     dispatch(requestStop(stopId))
     rawFetchStopData(stopId).then((responseJson) => {
@@ -133,15 +133,15 @@ export function fetchStopData (stopId) {
             // dispatch(increment(getState().counter))
             rawFetchStopData(stopId, 1)
             .then(responseJson2 => {
-              return dispatch(receiveStop(responseJson2[0]))
+              return dispatch(receiveStop(responseJson2[0], stopId, routeId))
               })
           }, 400)
       } else {
-        dispatch(receiveStop(responseJson[0]))
+        dispatch(receiveStop(responseJson[0], stopId, routeId))
       }
     })
     .catch((error) => {
-      return([{error}, retryCount])
+      return([{error}, retryCount], stopId, routeId)
     })
   }
 }
@@ -376,12 +376,11 @@ const receiveTrolleysHandler = (state, action) => {
     return {...state, error: 'Having trouble updating trolley data'}
   }
   const markers = action.trolleys.map((trolley) => {
-
     // not going to plot buses with bad or unknown route information
-    if (!(trolley.routeID in routeObjects)) {
+    if (!(Object.keys(routeObjects).includes(trolley.routeID.toString()))) {
       return undefined
     }
-    let shouldDisplay = false
+    let shouldDisplay = true
     if ((trolley.routeID in state.routesById)) {
       shouldDisplay = state.routesById[trolley.routeID].display
     }
@@ -398,13 +397,30 @@ const receiveTrolleysHandler = (state, action) => {
       routeId: trolley.routeID,
       title: `Vehicle ID: ${trolley.equipmentID}`,
       routeID: trolley.routeID, 
-      description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`
+      description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`,
+      inService: trolley.inService
     }
   })
   validMarkers = markers.filter(function( element ) {
     return element !== undefined;
   });
-  return {...state, initialTrolleyFetch: false, markers: validMarkers, trolleyFetchFails: 0, error: null}
+
+    let routeSet = new Set()
+    validMarkers.forEach((marker) => {
+      if (marker.inService) {
+        routeSet.add(marker.routeId)
+      }
+    })    
+    const routesArray = [...routeSet]
+    let routesById = {}
+    state.routeIds.forEach((routeId) => {
+      if (routesArray.includes(routeId)) {
+        routesById[routeId] = {...state.routesById[routeId], activeBuses: true}
+      } else {
+        routesById[routeId] = {...state.routesById[routeId], activeBuses: false}
+      }
+    })
+  return {...state, routesById: routesById, initialTrolleyFetch: false, markers: validMarkers, trolleyFetchFails: 0, error: null}
 }
 
 const requestStopHandler = (state, action) => {
@@ -455,7 +471,7 @@ const receiveStopHandler = (state, action) => {
     const stopFetchError = _.isEmpty(stopsObject)
     
     const routeOrder = [...routeOrderSet]
-    return {...state, stopFetchError: stopFetchError, stopsObject: stopsObject, stopIsLoading: false, selectedRouteId: routeOrder[0], routeOrder: routeOrder }
+    return {...state, stopFetchError: stopFetchError, stopsObject: stopsObject, stopIsLoading: false, selectedRouteId: routeOrder[0] ? routeOrder[0] : action.routeId, routeOrder: routeOrder }
 }
 
 const toggleRouteHandler = (state, action) => {

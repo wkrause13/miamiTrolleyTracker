@@ -80,7 +80,7 @@ class MainMap extends React.Component {
     return routes.map((route) => {
       return route.stops.map((stop, i) => {
         if (route.display) {
-          const boundPress = this.props.fetchStopData.bind(this, stop.id)
+          // const boundPress = this.props.fetchStopData.bind(this, stop.id, route.id)
           const key = Platform.OS === 'ios' ? `${stop.id}-${reRenderKey}`: `${stop.id}`
           return (
             <MapView.Circle center={{latitude: stop.lat, longitude: stop.lng}} radius={stop.radius ? stop.radius : 10} zIndex={stop.zindex ? stop.zindex : 1} fillColor={stop.fillColor ? stop.fillColor: 'black'} strokeColor={route.routeColor}/>
@@ -198,7 +198,8 @@ class MainMap extends React.Component {
     const lngDif = closest.lng - p.lng
     const hypo = Math.sqrt(latDif * latDif + lngDif * lngDif)
     if (hypo < 0.002) {
-      this.props.fetchStopData(closest.id)
+      console.log(closest)
+      this.props.fetchStopData(closest.id, closest.rid)
       this.setState({closest})
     }
   }
@@ -229,7 +230,7 @@ class MainMap extends React.Component {
             showsCompass={false}
             showsUserLocation
             followsUserLocation
-            onRegionChangeComplete={_.debounce(this.props.updateRegion, 300)}
+            onRegionChangeComplete={_.debounce(this.props.updateRegion, 600)}
           >
             {routes.length > 0 && markers.length > 0 ? this.makeAll(routes, markers, reRenderKey) : null}
         </MapView>

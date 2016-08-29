@@ -30,6 +30,9 @@ import styles from './MainMapStyles.js'
 function renderStopInfo (selectedRouteId, stopsObject) {
     if (selectedRouteId in stopsObject){
       const stops = stopsObject[selectedRouteId]
+      if (!stops){
+        return null
+      }
       return stops.map((stop, i) => {
         return (
           <View key={`schedule-${i}`} style={{flex:1, flexDirection: 'row', paddingRight: 20, paddingLeft: 20}}>
@@ -56,6 +59,7 @@ export const StopInfo = (props) => (
     <Text style={{fontSize: 18, fontWeight:'bold', color: 'white'}}>{props.closest.name}</Text>
     {props.stopIsLoading ? <ActivityIndicator color='white' size='small' animating={props.stopIsLoading} /> : null}
     {!props.stopIsLoading && props.selectedRouteId !== 0 ?  <View style={{paddingBottom: 10}}><Text style={styles.stopText}>Vehicle ID - Time (min)</Text></View> : null}
+    {props.routesById[props.selectedRouteId] && props.routesById[props.selectedRouteId].activeBuses ? null : <Text style={{color: 'pink'}}>No active trolleys found for this route</Text> }
     <ScrollView style={{alignSelf: 'stretch'}} >
       <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
       {props.stopIsLoading ? null : renderStopInfo(props.selectedRouteId, props.stopsObject)}
