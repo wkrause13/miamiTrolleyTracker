@@ -45,7 +45,9 @@ class MainMap extends React.Component {
   componentWillMount () {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.setState({initialLong: position.coords.longitude, initialLat: position.coords.latitude});
+        if (position.coords.longitude < 26 && position.coords.longitude > 25.6 && position.coords.latitude < -79.9 && position.coords.latitude > -80.5) {
+          this.setState({initialLong: position.coords.longitude, initialLat: position.coords.latitude})
+        }
       },
       (error) => null,
       {enableHighAccuracy: true, timeout: 20000}
@@ -198,7 +200,6 @@ class MainMap extends React.Component {
     const lngDif = closest.lng - p.lng
     const hypo = Math.sqrt(latDif * latDif + lngDif * lngDif)
     if (hypo < 0.002) {
-      console.log(closest)
       this.props.fetchStopData(closest.id, closest.rid)
       this.setState({closest})
     }
