@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid'
   },
   sceneContainer: {
-    marginTop: (Platform.OS === 'ios') ? 64 : 44,
+    marginTop: (Platform.OS === 'ios') ? 64 : 54,
   }
 })
 

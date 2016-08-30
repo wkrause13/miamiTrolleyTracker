@@ -1,4 +1,4 @@
-import {Platform } from 'react-native'
+import {AsyncStorage, Platform} from 'react-native'
 
 import _ from 'lodash'
 import { DOMParser } from 'xmldom'
@@ -8,6 +8,9 @@ import {routeObjects} from '../../../utils'
 // ------------------------------------
 // Constants
 // ------------------------------------
+
+const START = 'START'
+
 const REQUEST_ROUTES = 'REQUEST_ROUTES'
 const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
 
@@ -52,18 +55,26 @@ export const types = {
 // Actions
 // ------------------------------------
 
+function start () {
+  return {
+    type: START
+  }
+}
+
 function requestRoutes () {
   return {
     type: REQUEST_ROUTES
   }
 }
 
-function receiveRoutes (routeOverlays, stops, routes) {
+function receiveRoutes (routeOverlays, stops, routes, trolleys, defaultRoutes) {
   return {
     type: RECEIVE_ROUTES,
     routeOverlays,
     stops,
-    routes
+    routes,
+    trolleys,
+    defaultRoutes
   }
 }
 
@@ -71,25 +82,35 @@ export function fetchRoutes () {
   const urls = ['https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt','https://miami-transit-api.herokuapp.com/api/trolley/stops.json', 'https://miami-transit-api.herokuapp.com/api/trolley/routes.json', 'https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json' ]
   return dispatch => {
     dispatch(requestRoutes())
-    const promises = urls.map((url, i) => {
+    let promises = urls.map((url, i) => {
         if (i === 0) {
           return fetch(url).then((response) => response.text())
         } else{
           return fetch(url).then((response) => response.json())
         }
       })
+    async function readDefaultRoutes() {
+      try {
+        const value = await AsyncStorage.getItem('defaultRoutes');
+        if (value !== null) {
+          return JSON.parse(value)
+        } else{
+          return routeObjects
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  const defaultRoutesPromise = readDefaultRoutes()
+  promises.push(defaultRoutesPromise)
     return Promise.all(promises).then(results => {
       const routeOverlays = processShapeData(results[0])
       const stops = results[1]['get_stops']
       // both of the following maps will make it easier to support user defaults when app loads
-      const routes = results[2]['get_routes'].map((route) => {
-        return {...route, display: route.id == 2}
-      })
-      const trolleys = results[3].get_vehicles.map((trolley) => {
-        return {...trolley, display: (trolley.routeID == 2)}
-      })
-      dispatch(receiveTrolleys(trolleys))
-      return dispatch(receiveRoutes(routeOverlays, stops, routes))
+      const routes = results[2]['get_routes']
+      const trolleys = results[3].get_vehicles
+      // dispatch(receiveTrolleys(trolleys))
+      return dispatch(receiveRoutes(routeOverlays, stops, routes, trolleys, results[4] ))
     })
     .catch((error) => {
       return dispatch(receiveRoutes({error}))
@@ -252,6 +273,7 @@ export function toggleBikes () {
 
 // For making testing easier. I perfer explicit imports of action creators in containers
 export const actions = {
+  start,
   requestRoutes,
   receiveRoutes,
   fetchRoutes,
@@ -343,6 +365,19 @@ export const selectors = {
 // Action Handlers
 // ------------------------------------
 
+const startHandler = (state, action) => {
+  // async function readDefaultRoutes() {
+  //   try {
+  //     const value = await AsyncStorage.getItem('defaultRoutes');
+  //     if (value !== null) {
+        
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+}
+
 const receiveRoutesHandler = (state, action) => {
   if (action.routeOverlays.error) {
     return {...state, error: 'Had trouble getting data :-(', isLoading: false}
@@ -358,14 +393,42 @@ const receiveRoutesHandler = (state, action) => {
     }
     stopsByRoute[stop.rid].push(stop)
   })
+  const markers = action.trolleys.map((trolley) => {
+    // not going to plot buses with bad or unknown route information
+    if (!(Object.keys(routeObjects).includes(trolley.routeID.toString()))) {
+      return undefined
+    }
+    let shouldDisplay = false
+    if ((trolley.routeID in action.defaultRoutes)) {
+      shouldDisplay = action.defaultRoutes[trolley.routeID].defaultOn 
+    }
+    return {
+      coordinate: {
+        latitude: trolley.lat,
+        longitude: trolley.lng
+      },
+      // trolley.display allows us to eventually support user defualt preferences
+      display: shouldDisplay,
+      routeId: trolley.routeID,
+      title: `Vehicle ID: ${trolley.equipmentID}`,
+      routeID: trolley.routeID, 
+      description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`,
+      inService: trolley.inService
+    }
+  })
+  validMarkers = markers.filter(function( element ) {
+    return element !== undefined;
+  });
 
   let routesById = {}
   const routeIds = action.routes.map((route, i) => {
-    const newRoute = {...route, ...action.routeOverlays[route['id']], stops:stopsByRoute[route.id] }
+    const newRoute = {...route, ...action.routeOverlays[route['id']], stops:stopsByRoute[route.id], display: action.defaultRoutes[route.id].defaultOn }
     routesById[route['id']] = newRoute
     return route['id'] 
   })
-  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById, error: null, reRenderKey: state.reRenderKey + 1 }
+  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById, markers: validMarkers, error: null, reRenderKey: state.reRenderKey + 1 }    
+
+
 }
 
 const receiveTrolleysHandler = (state, action) => {
@@ -380,7 +443,7 @@ const receiveTrolleysHandler = (state, action) => {
     if (!(Object.keys(routeObjects).includes(trolley.routeID.toString()))) {
       return undefined
     }
-    let shouldDisplay = true
+    let shouldDisplay = false
     if ((trolley.routeID in state.routesById)) {
       shouldDisplay = state.routesById[trolley.routeID].display
     }

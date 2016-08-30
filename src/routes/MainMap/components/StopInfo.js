@@ -55,10 +55,10 @@ const IntialText = (props) => (
 
 export const StopInfo = (props) => (
   <View style={[styles.StopInfo]}>
-    {props.selectedRouteId === 0 ? <IntialText /> : <Text style={{fontSize: 18, fontWeight:'bold', color: 'white'}}>{props.closest.name}</Text>}
+    <Text style={{fontSize: 20, fontWeight: 'bold', color:'white', paddingBottom: 5}}>{props.closest.name}</Text>
     {props.stopIsLoading && props.selectedRouteId !== 0 ? <ActivityIndicator color='white' size='small' animating={props.stopIsLoading} /> : null}
     {!props.stopIsLoading && props.selectedRouteId !== 0 ?  <View style={{paddingBottom: 10}}><Text style={styles.stopText}>Vehicle ID - Time (min)</Text></View> : null}
-    {(props.routesById[props.selectedRouteId] && props.routesById[props.selectedRouteId].activeBuses) || props.selectedRouteId === 0 || props.stopIsLoading ? null : <Text style={{color: 'pink'}}>No active trolleys found for this route</Text> }
+    {(props.routesById[props.selectedRouteId] && props.routesById[props.selectedRouteId].activeBuses) || props.selectedRouteId === 0 || props.stopIsLoading || props.routeOrder.length !== 0 ? null : <Text style={{color: 'pink'}}>No active trolleys found for this route</Text> }
     <ScrollView style={{alignSelf: 'stretch'}} >
       <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
       {props.stopIsLoading ? null : renderStopInfo(props.selectedRouteId, props.stopsObject)}

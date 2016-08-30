@@ -1,13 +1,15 @@
 import React from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import { Text, View, Image, ScrollView, TouchableHighlight, ActivityIndicator, Platform } from 'react-native'
+import { Text, View, Image, ScrollView, TouchableHighlight, AsyncStorage, ActivityIndicator, Platform } from 'react-native'
 
 import _ from 'lodash'
 import MapView from 'react-native-maps'
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import Swiper from 'react-native-swiper'
 
 import TrolleyStopTooltip from './TrolleyStopTooltip'
 import ErrorMessage from './ErrorMessage'
+import HelpText from './HelpText'
 import StopInfo from './StopInfo'
 import CitiBikeIcon from './CitiBikeIcon'
 import {Fab, RectangularButton} from '../../../components/Buttons'
@@ -15,13 +17,6 @@ import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
 import {routeObjects} from '../../../utils'
 
-import Svg,{
-  ClipPath,
-  Defs,
-  Rect,
-    Path,
-    Circle
-} from 'react-native-svg';
 // const metroMoverJson = require('../../../static/routes/metromover.json')
 // const metroMoverJson2 = require('../../../static/routes/metromover2.json')
 
@@ -35,11 +30,14 @@ class MainMap extends React.Component {
       stopsObject: {},
       routeOrder: [],
       stopText: '',
+      showHelpText: false,
       isLoading: false,
       closest: {name:'', rid: 2},
       selectedRouteId : 0
     }
+    this.readShowHelp = this.readShowHelp.bind(this)
     this.handleMapViewOnPress = this.handleMapViewOnPress.bind(this)
+    this.handleDismissHelp = this.handleDismissHelp.bind(this)
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
   }
   componentWillMount () {
@@ -51,7 +49,8 @@ class MainMap extends React.Component {
       },
       (error) => null,
       {enableHighAccuracy: true, timeout: 20000}
-    );
+    )
+    this.readShowHelp()
   }
   componentDidMount () {
     this.props.fetchRoutes()
@@ -61,6 +60,16 @@ class MainMap extends React.Component {
       () => { this.props.fetchTrolleys() },
       10000
     );
+  }
+  async readShowHelp(){
+    try {
+      const value = await AsyncStorage.getItem('showHelpText');
+      if (value === null){
+        this.setState({showHelpText: true})
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }   
   generateRoutes (routes, reRenderKey) {
     return routes.map((route, i) => {
@@ -210,38 +219,60 @@ class MainMap extends React.Component {
       return <ErrorMessage error={this.props.error} fetchRoutes={this.props.fetchRoutes} />
     }
   }
+  handleDismissHelp () {
+    this.setState({showHelpText: false})
+    write()
+    async function write() {
+     try {
+      await AsyncStorage.setItem('showHelpText', 'false');
+    } catch (error) {
+      console.log(error)
+    }
+}
+  }
+  renderHelpText () {
+    if (this.state.showHelpText){
+      return (
+        <View style={{paddingRight: -3}}>
+        <HelpText />
+        <Fab style={{position: 'absolute',top: 80, right: 20, backgroundColor:'white'}} underlayColor={'#e69500'} onPress={this.handleDismissHelp}>
+          <Icon name="clear" size={25} color={'red'} />
+        </Fab>
+        </View>
+      )
+    }
 
+  }
   render () {
     const { routes, markers, reRenderKey, routesById,stopFetchError, isLoading } = this.props
     const modalRoute = routesById[this.props.selectedRouteId]
     const modalColor = modalRoute ? modalRoute.routeColor : ( stopFetchError ? '#eee' : 'orange')
     return (
       <View style={{flex:1}}>
-      <View style={[styles.MainMap, {flex: 4}]}>
-      
-        <MapView
-            style={styles.map}
-            initialRegion={{
-                latitude: this.state.initialLat,
-                longitude: this.state.initialLong,
-                latitudeDelta: 0.11,
-                longitudeDelta: 0.11
-            }}
-            onPress={this.handleMapViewOnPress}
-            showsCompass={false}
-            showsUserLocation
-            followsUserLocation
-            onRegionChangeComplete={_.debounce(this.props.updateRegion, 600)}
-          >
-            {routes.length > 0 && markers.length > 0 ? this.makeAll(routes, markers, reRenderKey) : null}
-        </MapView>
-        {isLoading ? <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.props.markers.length === 0} /> : null }
-        {this.renderErrorMessage()}
-
-        <Fab style={{position: 'absolute',top: 0, backgroundColor:'orange'}} underlayColor={'#e69500'} onPress={this.context.drawer.toggle}>
-          <Image style={{height: 25, width: 25}} source={require('../../../static/menu_burger.png')} />
-        </Fab>
-      </View>
+        <View style={[styles.MainMap, {flex: 4}]}>  
+          <MapView
+              style={styles.map}
+              initialRegion={{
+                  latitude: this.state.initialLat,
+                  longitude: this.state.initialLong,
+                  latitudeDelta: 0.11,
+                  longitudeDelta: 0.11
+              }}
+              onPress={this.handleMapViewOnPress}
+              showsCompass={false}
+              showsUserLocation
+              followsUserLocation
+              onRegionChangeComplete={_.debounce(this.props.updateRegion, 400)}
+            >
+              {routes.length > 0 && markers.length > 0 ? this.makeAll(routes, markers, reRenderKey) : null}
+          </MapView>
+          {isLoading ? <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.props.markers.length === 0} /> : null }
+          {this.renderErrorMessage()}
+          <Fab style={{position: 'absolute',top: 0, backgroundColor:'orange', elevation: this.state.showHelpText ? 0 : 10}} underlayColor={'#e69500'} onPress={this.context.drawer.toggle}>
+            <Image style={{height: 25, width: 25}} source={require('../../../static/menu_burger.png')} />
+          </Fab>
+          {this.renderHelpText()}
+        </View>
         <View style={{flex:1, alignItems:'center', backgroundColor: modalColor, padding: 10}}>
           <StopInfo
             renderAltRouteButtons={this.renderAltRouteButtons}
@@ -252,7 +283,7 @@ class MainMap extends React.Component {
             routeOrder={this.props.routeOrder}
             routesById={this.props.routesById}
             updatedSelectedRouteId={this.props.updatedSelectedRouteId}
-          />
+          />  
         </View>
       </View>
     )

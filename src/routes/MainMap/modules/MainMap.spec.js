@@ -209,6 +209,35 @@ describe('(Redux Module) MainMap', () => {
     })
   })
 
+  describe('(Selector) getActiveStops', () => {
+    it('Should be exported as a function.', () => {
+      expect(selectors.getActiveStops).to.be.a('function')
+    })
+
+    it('Should return an empty array for initial state', () => {
+      let state = MainMapReducer(initialState, {})
+      const realState = {mainMap: state}
+      expect(selectors.getActiveStops(realState)).to.be.instanceof(Array)
+      expect(selectors.getActiveStops(realState)).to.be.empty
+    })
+
+    it('Should return a none empty array when there are routes', () => {
+      let state = MainMapReducer(loadedState, {})
+      const realState = {mainMap: state}
+      expect(selectors.getActiveStops(realState)).to.be.instanceof(Array)
+      expect(selectors.getActiveStops(realState)).to.not.be.empty
+    })
+
+    it('Should return a smaller array when zoomed in', () => {
+      let state = MainMapReducer(loadedState, {})
+      const realState = {mainMap: state}
+      const originalLength = selectors.getActiveStops(realState).length
+      state.region.longitudeDelta = state.region.longitudeDelta - 0.003
+      const newState = {mainMap: state}
+      const newLength = selectors.getActiveStops(newState).length
+      expect(originalLength).to.be.above(newLength)
+    })
+  })
 
   describe('(Action Handler) INCREMENT_RENDER_KEY', () => {
     it('Should increment the state by 1', () => {

@@ -1,14 +1,15 @@
 import React, { Component, PropTypes } from 'react'
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {Text, View, ActivityIndicator, ScrollView, Image, TouchableHighlight, Dimensions } from 'react-native'
-import styles from './NavigationDrawerStyles'
 import { Actions as NavigationActions } from 'react-native-router-flux'
 import { connect } from 'react-redux'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import DrawerContentRow from './DrawerContentRow'
 import {RectangularButton} from '../Buttons'
 import { getAllRoutesForDrawer, toggleRoute, enableAllRoutes, toggleBikes } from '../../routes/MainMap/modules/MainMap'
 import {routeObjects} from '../../utils'
+import styles from './NavigationDrawerStyles'
 
 class DrawerContent extends Component {
   constructor (props) {
@@ -56,13 +57,25 @@ class DrawerContent extends Component {
     this.props.enableAllRoutes()
   }
 
+  handlePressPrefrences = () => {
+    this.toggleDrawer()
+    NavigationActions.Preferences()
+  }
+
   render () {
     const {trolleyRoutes, isLoading} = this.props
     var {height, width} = Dimensions.get('window')
     return (
       <View style={{flex: 1}}>
         <ScrollView style={{backgroundColor:'#FFFFFF'}} contentContainerStyle={[styles.container]} bounces={false}>
-          <View style={{flex: 1,alignSelf:'stretch',  paddingTop:64}}>
+          <View style={{flex: 1, alignSelf:'stretch',  paddingTop:64}}>
+              <TouchableHighlight
+                onPress={this.handlePressPrefrences}
+                underlayColor={'#eee'}
+                style={{height: 30, alignSelf: 'flex-end', marginRight: 20, justifyContent:'center'}}
+              >
+                  <Icon name="settings" size={20} color={'grey'} />
+              </TouchableHighlight>
             <View style={{alignItems:'center', paddingBottom: 10}}><Text style={{color: 'grey', fontSize: 20, fontWeight: 'bold'}}>Trolley Routes</Text></View>
               <View style={{flex: 1, alignItems:'center'}}>
               <RectangularButton
