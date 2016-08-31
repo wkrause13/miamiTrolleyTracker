@@ -4,11 +4,14 @@ This is an open source (MIT License) vehicle tracking and route visualization ap
 
 ## Screenshots
 ### Cross Platform (Android & iOS)
-![Trolley Tracker Screenshot](screenshots/dualscreens.png "Trolley Tracker Screenshot")
+<img src="https://github.com/wkrause13/miamiTrolleyTracker/blob/master/screenshots/dualscreens.png?raw=true" alt="directional.png"  height="300" width="350.50">
+
 ### Directional information on Trolley icons
-![Trolley Tracker Screenshot](screenshots/directional.png "Trolley Tracker Screenshot")
+<img src="https://github.com/wkrause13/miamiTrolleyTracker/blob/master/screenshots/directional.png?raw=true" alt="directional.png"  height="300" width="168.75">
+
 ### Support for both English and Spanish
-![Trolley Tracker Screenshot](screenshots/multi-language.png "Trolley Tracker Screenshot")
+
+<img src="https://github.com/wkrause13/miamiTrolleyTracker/blob/master/screenshots/multi-language.png?raw=true" alt="directional.png"  height="300" width="168.75">
 
 ## User Testing
 For android users, there is a pre-compiled apk associated with each release. This project uses [CodePush](https://microsoft.github.io/code-push/) so most updates will be pushed out automatically. However, each upgrade of React Native or the addition of certain React Native libraries may require a new apk. New apks will only be built in such cases. 
