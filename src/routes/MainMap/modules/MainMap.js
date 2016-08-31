@@ -393,15 +393,18 @@ const receiveRoutesHandler = (state, action) => {
     }
     stopsByRoute[stop.rid].push(stop)
   })
+  let trolleyPositionById = {}
   const markers = action.trolleys.map((trolley) => {
     // not going to plot buses with bad or unknown route information
     if (!(Object.keys(routeObjects).includes(trolley.routeID.toString()))) {
       return undefined
     }
+    trolleyPositionById[trolley.equipmentID] = {latitude: trolley.lat, longitude: trolley.lng, prevRad: 0}
     let shouldDisplay = false
     if ((trolley.routeID in action.defaultRoutes)) {
       shouldDisplay = action.defaultRoutes[trolley.routeID].defaultOn 
     }
+    
     return {
       coordinate: {
         latitude: trolley.lat,
@@ -413,12 +416,15 @@ const receiveRoutesHandler = (state, action) => {
       title: `Vehicle ID: ${trolley.equipmentID}`,
       routeID: trolley.routeID, 
       description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`,
-      inService: trolley.inService
+      inService: trolley.inService,
+      rad: 0
     }
   })
   validMarkers = markers.filter(function( element ) {
     return element !== undefined;
   });
+
+
 
   let routesById = {}
   const routeIds = action.routes.map((route, i) => {
@@ -426,7 +432,7 @@ const receiveRoutesHandler = (state, action) => {
     routesById[route['id']] = newRoute
     return route['id'] 
   })
-  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById, markers: validMarkers, error: null, reRenderKey: state.reRenderKey + 1 }    
+  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById, markers: validMarkers, error: null, reRenderKey: state.reRenderKey + 1, trolleyPositionById }    
 
 
 }
@@ -438,17 +444,26 @@ const receiveTrolleysHandler = (state, action) => {
   if (state.trolleyFetchFails > 5){
     return {...state, error: 'Having trouble updating trolley data'}
   }
+  let trolleyPositionById ={}
   const markers = action.trolleys.map((trolley) => {
     // not going to plot buses with bad or unknown route information
     if (!(Object.keys(routeObjects).includes(trolley.routeID.toString()))) {
       return undefined
     }
+    let rad = 0
+    if (state.trolleyPositionById[trolley.equipmentID]) {
+      const deltaX = trolley.lat - state.trolleyPositionById[trolley.equipmentID].latitude
+      const deltaY = trolley.lng - state.trolleyPositionById[trolley.equipmentID].longitude
+      if (deltaX !== 0 && deltaY !== 0) {
+        rad = Math.atan2(deltaY, deltaX)
+      } else {
+        rad = state.trolleyPositionById[trolley.equipmentID].prevRad
+      }
+    }
+    trolleyPositionById[trolley.equipmentID] = {latitude: trolley.lat, longitude: trolley.lng, prevRad: rad}
     let shouldDisplay = false
     if ((trolley.routeID in state.routesById)) {
       shouldDisplay = state.routesById[trolley.routeID].display
-    }
-    if (state.initialTrolleyFetch && trolley.routeID == 2 ) {
-      shouldDisplay = true
     }
     return {
       coordinate: {
@@ -461,7 +476,8 @@ const receiveTrolleysHandler = (state, action) => {
       title: `Vehicle ID: ${trolley.equipmentID}`,
       routeID: trolley.routeID, 
       description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`,
-      inService: trolley.inService
+      inService: trolley.inService,
+      rad
     }
   })
   validMarkers = markers.filter(function( element ) {
@@ -483,7 +499,7 @@ const receiveTrolleysHandler = (state, action) => {
         routesById[routeId] = {...state.routesById[routeId], activeBuses: false}
       }
     })
-  return {...state, routesById: routesById, initialTrolleyFetch: false, markers: validMarkers, trolleyFetchFails: 0, error: null}
+  return {...state, routesById: routesById, initialTrolleyFetch: false, markers: validMarkers, trolleyFetchFails: 0, error: null, trolleyPositionById}
 }
 
 const requestStopHandler = (state, action) => {
@@ -680,6 +696,7 @@ const initialState = {
   initialTrolleyFetch: true,
   reRenderKey: 0,
   markers: [],
+  trolleyPositionById: {},
   trolleyFetchFails : 0,
   stopIsLoading: false,
   stopsObject: {},
