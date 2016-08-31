@@ -11,6 +11,10 @@ import {
   fetchBikeLocations,
 } from '../modules/MainMap'
 
+import {
+  setLanguage
+} from '../../Preferences/modules/Preferences'
+
 import MainMap from '../components/MainMap'
 
 const mapActionCreators = {
@@ -21,7 +25,8 @@ const mapActionCreators = {
   fetchStopData,
   updatedSelectedRouteId,
   updateRegion,
-  fetchBikeLocations
+  fetchBikeLocations,
+  setLanguage
 }
 
 const mapStateToProps = (state) => {
@@ -43,7 +48,8 @@ const mapStateToProps = (state) => {
   region: state.mainMap.region,
   bikeLocations: state.mainMap.visibleBikes,
   bikeLoading: state.mainMap.bikesIsLoading,
-  gotGoodData: state.mainMap.gotGoodData
+  gotGoodData: state.mainMap.gotGoodData,
+  language: state.preferences.language
 })
 }
 

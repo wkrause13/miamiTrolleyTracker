@@ -2,6 +2,8 @@ import React from 'react'
 import { View, Text, ScrollView, TouchableHighlight, ActivityIndicator } from 'react-native'
 import styles from './MainMapStyles.js'
 
+import {RadioButton} from '../../../components/Buttons'
+import translations from '../../../utils/translations'
 
 
  function renderAltRouteButtons (routeOrder, selectedRouteId, routesById, updatedSelectedRouteId) {
@@ -44,20 +46,17 @@ function renderStopInfo (selectedRouteId, stopsObject) {
   }
 }
 
-const IntialText = (props) => (
-  <View style={{padding: 20}}>
-    <Text style={styles.StopInfoNoticeText}>* Tap on a stop to see when the next Trolley is estimated to arrive</Text>
-    <Text style={styles.StopInfoNoticeText}>* Tap the orange menu button at the top left to toggle routes</Text>
-    <Text style={styles.StopInfoNoticeText}>* Tap a trolley icon to see its ID</Text>
-  </View>
-
-)
-
 export const StopInfo = (props) => (
   <View style={[styles.StopInfo]}>
+    {!props.closest.name ? <RadioButton language={props.language} setLanguage={props.setLanguage} /> : null }
     <Text style={{fontSize: 20, fontWeight: 'bold', color:'white', paddingBottom: 5}}>{props.closest.name}</Text>
     {props.stopIsLoading && props.selectedRouteId !== 0 ? <ActivityIndicator color='white' size='small' animating={props.stopIsLoading} /> : null}
-    {!props.stopIsLoading && props.selectedRouteId !== 0 ?  <View style={{paddingBottom: 10}}><Text style={styles.stopText}>Vehicle ID - Time (min)</Text></View> : null}
+    {!props.stopIsLoading && props.selectedRouteId !== 0 ? 
+      <View style={{paddingBottom: 10}}>
+        <Text style={styles.stopText}>
+          {translations[props.language].vehicleTime}
+        </Text>
+      </View> : null}
     {(props.routesById[props.selectedRouteId] && props.routesById[props.selectedRouteId].activeBuses) || props.selectedRouteId === 0 || props.stopIsLoading || props.routeOrder.length !== 0 ? null : <Text style={{color: 'pink'}}>No active trolleys found for this route</Text> }
     <ScrollView style={{alignSelf: 'stretch'}} >
       <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>

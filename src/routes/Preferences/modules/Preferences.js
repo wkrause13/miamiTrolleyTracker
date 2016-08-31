@@ -1,34 +1,59 @@
+import {AsyncStorage} from 'react-native'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const DEFAULT_ACTION = 'DEFAULT_ACTION'
+export const SET_LANGUAGE = 'SET_LANGUAGE'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function defaultActionFunction (value = 1) {
+
+
+export function setLanguage (language) {
+  writeLanguage(language)
+  async function writeLanguage(language) {
+      try {
+        await AsyncStorage.setItem('language', language);
+      } catch (error) {
+        console.log(error)
+    }
+  }
   return {
-    type: DEFAULT_ACTION,
-    payload: value
+    type: SET_LANGUAGE,
+    language
   }
 }
 
+// export function setLanguage (language) {
+//   return {
+//     type: SET_LANGUAGE,
+//     language
+//   }
+// }
+
 export const actions = {
-  defaultActionFunction
+  setLanguage
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+const setLanguageHandler = (state, action) => {
+  return {...state, language: action.language}
+}
+
 const ACTION_HANDLERS = {
-  [DEFAULT_ACTION]: (state, action) => state + action.payload
+  [SET_LANGUAGE]: setLanguageHandler
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = 0
-export default function PreferencesReducer (state = initialState, action) {
+const initialState = {
+  language: 'en'
+}
+export function PreferencesReducer (state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

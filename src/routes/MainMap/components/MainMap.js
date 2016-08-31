@@ -39,6 +39,7 @@ class MainMap extends React.Component {
     this.handleMapViewOnPress = this.handleMapViewOnPress.bind(this)
     this.handleDismissHelp = this.handleDismissHelp.bind(this)
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
+    this.setDefaultLanguage = this.setDefaultLanguage.bind(this)
   }
   componentWillMount () {
     navigator.geolocation.getCurrentPosition(
@@ -51,6 +52,7 @@ class MainMap extends React.Component {
       {enableHighAccuracy: true, timeout: 20000}
     )
     this.readShowHelp()
+    this.setDefaultLanguage()
   }
   componentDidMount () {
     this.props.fetchRoutes()
@@ -61,6 +63,24 @@ class MainMap extends React.Component {
       10000
     );
   }
+  setDefaultLanguage () {
+    async function getLanguage(){
+      try {
+        const value = await AsyncStorage.getItem('language');
+        if (value !== null){
+          return value
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    } 
+    getLanguage().then((language) => {
+      if (language) {
+        this.props.setLanguage(language)
+      }
+    })
+  }
+ 
   async readShowHelp(){
     try {
       const value = await AsyncStorage.getItem('showHelpText');
@@ -228,20 +248,19 @@ class MainMap extends React.Component {
     } catch (error) {
       console.log(error)
     }
-}
+  }
   }
   renderHelpText () {
     if (this.state.showHelpText){
       return (
-        <View style={{paddingRight: -3}}>
-        <HelpText />
+        <View style={{marginRight: -3}}>
+        <HelpText language={this.props.language}/>
         <Fab style={{position: 'absolute',top: 80, right: 20, backgroundColor:'white'}} underlayColor={'#e69500'} onPress={this.handleDismissHelp}>
           <Icon name="clear" size={25} color={'red'} />
         </Fab>
         </View>
       )
     }
-
   }
   render () {
     const { routes, markers, reRenderKey, routesById,stopFetchError, isLoading } = this.props
@@ -283,6 +302,8 @@ class MainMap extends React.Component {
             routeOrder={this.props.routeOrder}
             routesById={this.props.routesById}
             updatedSelectedRouteId={this.props.updatedSelectedRouteId}
+            setLanguage={this.props.setLanguage}
+            language={this.props.language}
           />  
         </View>
       </View>

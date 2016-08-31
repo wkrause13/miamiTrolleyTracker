@@ -612,22 +612,23 @@ const requestBikesHandler = (state, action) => {
 }
 
 const receiveBikesHandler = (state, action) => {
-	let doc = new DOMParser().parseFromString(action.payload,'text/xml');
-	let locations = doc.getElementsByTagName("location");
-	let locationList = new Array;
-	for (let i = 0; i < locations.length; ++i) {
-		const lng = parseFloat(locations[i].getElementsByTagName('Longitude')[0].textContent);
-		const lat = parseFloat(locations[i].getElementsByTagName('Latitude')[0].textContent);
-		const id = parseInt(locations[i].getElementsByTagName('Id')[0].textContent);
-		const address = locations[i].getElementsByTagName('Address')[0].textContent;
-		const bikes = parseInt(locations[i].getElementsByTagName('Bikes')[0].textContent);
-		const dockings = parseInt(locations[i].getElementsByTagName('Dockings')[0].textContent);
-		// Lazy way to check for bad data
-		if (lng){
-			locationList.push({lng,lat,id,address,bikes,dockings});						
-		}
-	};
-	return {...state, bikeLocations: locationList, bikesIsLoading: false}
+	// let doc = new DOMParser().parseFromString(action.payload,'text/xml');
+	// let locations = doc.getElementsByTagName("location");
+	// let locationList = new Array;
+	// for (let i = 0; i < locations.length; ++i) {
+	// 	const lng = parseFloat(locations[i].getElementsByTagName('Longitude')[0].textContent);
+	// 	const lat = parseFloat(locations[i].getElementsByTagName('Latitude')[0].textContent);
+	// 	const id = parseInt(locations[i].getElementsByTagName('Id')[0].textContent);
+	// 	const address = locations[i].getElementsByTagName('Address')[0].textContent;
+	// 	const bikes = parseInt(locations[i].getElementsByTagName('Bikes')[0].textContent);
+	// 	const dockings = parseInt(locations[i].getElementsByTagName('Dockings')[0].textContent);
+	// 	// Lazy way to check for bad data
+	// 	if (lng){
+	// 		locationList.push({lng,lat,id,address,bikes,dockings});						
+	// 	}
+	// };
+	// return {...state, bikeLocations: locationList, bikesIsLoading: false}
+  return state
 }
 
 const toggleBikesHandler = (state, action) => {

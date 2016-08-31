@@ -6,6 +6,9 @@ import _ from 'lodash'
 import styles from './PreferencesStyles.js'
 import coreStyles from '../../../styles/Core'
 import {routeObjects} from '../../../utils'
+import {RadioButton} from '../../../components/Buttons'
+import translations from '../../../utils/translations'
+
 
 
 class Preferences extends React.Component {
@@ -77,8 +80,12 @@ async writeDefaults(routeObject) {
   render() {
     return (
       <View style={[styles['Preferences'], coreStyles.sceneContainer]}>
-        <Text style={{fontSize: 20, fontWeight: 'bold'}}>Default Routes</Text>
+        <Text style={{fontSize: 20, fontWeight: 'bold'}}>{translations[this.props.language].defaultRoutes}</Text>
         <View style={{flexDirection:'row', flex: 1, margin: 10, justifyContent: 'flex-start', alignItems: 'flex-start', flexWrap:'wrap'}}>{this.renderRoutes()}</View>
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}>{translations[this.props.language].language}</Text>
+          <RadioButton language={this.props.language} setLanguage={this.props.setLanguage} borderColor='orange' />
+        </View>
       </View>
     )
   }
