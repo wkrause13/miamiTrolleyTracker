@@ -1,8 +1,14 @@
 # Miami Trolley Tracker
 
-This is an open source (MIT License) vehicle tracking and route visualization app for some of the City of Miami's transit options. It is being developed for ios and android using React Native. Currently it supports Miami's trolley system and Citi Bike program. Support for the Metro Mover will be added shortly. The app may support the bus and train systems at a later date.
+This is an open source (MIT License) vehicle tracking and route visualization app for some of the City of Miami's transit options. It is available for beta testing for Android users in the [Releases Page](https://github.com/wkrause13/miamiTrolleyTracker/releases) and will be available on iOS when released. Currently it supports Miami's trolley system and Citi Bike program. Support for the Metro Mover will be added shortly. The app may support the bus and train systems at a later date.
 
+## Screenshots
+### Cross Platform (Android & iOS)
 ![Trolley Tracker Screenshot](screenshots/dualscreens.png "Trolley Tracker Screenshot")
+### Directional information on Trolley icons
+![Trolley Tracker Screenshot](screenshots/directional.png "Trolley Tracker Screenshot")
+### Support for both English and Spanish
+![Trolley Tracker Screenshot](screenshots/multi-language.png "Trolley Tracker Screenshot")
 
 ## User Testing
 For android users, there is a pre-compiled apk associated with each release. This project uses [CodePush](https://microsoft.github.io/code-push/) so most updates will be pushed out automatically. However, each upgrade of React Native or the addition of certain React Native libraries may require a new apk. New apks will only be built in such cases. 
