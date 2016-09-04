@@ -423,7 +423,6 @@ const receiveRoutesHandler = (state, action) => {
       routeId: trolley.routeID,
       title: `Vehicle ID: ${trolley.equipmentID}`,
       routeID: trolley.routeID, 
-      description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`,
       inService: trolley.inService,
       rad: 0
     }
@@ -483,7 +482,6 @@ const receiveTrolleysHandler = (state, action) => {
       routeId: trolley.routeID,
       title: `Vehicle ID: ${trolley.equipmentID}`,
       routeID: trolley.routeID, 
-      description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`,
       inService: trolley.inService,
       rad
     }

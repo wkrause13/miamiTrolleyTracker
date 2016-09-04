@@ -1,5 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux'
-import Reactotron from 'reactotron'
+// import Reactotron from 'reactotron'
 import thunk from 'redux-thunk'
 import makeRootReducer from './reducers'
 
@@ -13,7 +13,7 @@ export default (initialState = {}) => {
   // ======================================================
   // Store Enhancers
   // ======================================================
-  const enhancers = [Reactotron.storeEnhancer()]
+  const enhancers = []
 
   // ======================================================
   // Store Instantiation

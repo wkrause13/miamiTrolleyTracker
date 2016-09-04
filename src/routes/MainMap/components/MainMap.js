@@ -16,6 +16,7 @@ import {Fab, RectangularButton} from '../../../components/Buttons'
 import styles from './MainMapStyles.js'
 import coreStyles from '../../../styles/Core'
 import {routeObjects} from '../../../utils'
+import translations from '../../../utils/translations'
 
 // const metroMoverJson = require('../../../static/routes/metromover.json')
 // const metroMoverJson2 = require('../../../static/routes/metromover2.json')
@@ -128,7 +129,7 @@ class MainMap extends React.Component {
       const key = Platform.OS === 'ios' ? `trolley-${i}-${reRenderKey}`: `trolley-${i}`
       if (trolley.routeID in routeObjects) {
         return (
-          <MapView.Marker  key={key} anchor={{ x: 0.5, y: 0.5 }} {...trolley}>
+          <MapView.Marker  key={key} anchor={{ x: 0.5, y: 0.5 }} description={`${trolley.inService === 0 ? translations[this.props.language].outOfService : translations[this.props.language].inService}`} {...trolley}>
          
           <View style={{backgroundColor: 'white', height: 30, width: 30, borderRadius: 15, justifyContent:'center', alignItems:'center'}}>
             <Icon name="directions-bus" size={20} color={routeObjects[trolley.routeID].busColor} />
