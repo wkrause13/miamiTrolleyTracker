@@ -24,6 +24,7 @@ const initialState = {
   initialTrolleyFetch: true,
   reRenderKey: 0,
   markers: [],
+  trolleyPositionById: {},
   trolleyFetchFails : 0,
   stopIsLoading: false,
   stopsObject: {},

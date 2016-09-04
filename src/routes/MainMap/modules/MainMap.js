@@ -79,7 +79,12 @@ function receiveRoutes (routeOverlays, stops, routes, trolleys, defaultRoutes) {
 }
 
 export function fetchRoutes () {
-  const urls = ['https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt','https://miami-transit-api.herokuapp.com/api/trolley/stops.json', 'https://miami-transit-api.herokuapp.com/api/trolley/routes.json', 'https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json' ]
+  const urls = [
+    'https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt',
+    'https://miami-transit-api.herokuapp.com/api/trolley/stops.json',
+    'https://miami-transit-api.herokuapp.com/api/trolley/routes.json',
+    'https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json'
+    ]
   return dispatch => {
     dispatch(requestRoutes())
     let promises = urls.map((url, i) => {

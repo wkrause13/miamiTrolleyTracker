@@ -1,0 +1,2327 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for routes/MainMap/modules/MainMap.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">routes/MainMap/modules</a> MainMap.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">33.75% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>109/323</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">29.66% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>35/118</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">26.09% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>24/92</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">34.31% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>105/306</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">40x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">912x</span>
+<span class="cline-any cline-yes">172x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">160x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">150x</span>
+<span class="cline-any cline-yes">150x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">150x</span>
+<span class="cline-any cline-yes">150x</span>
+<span class="cline-any cline-yes">150x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">150x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">160x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">150x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">72x</span>
+<span class="cline-any cline-yes">15x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">57x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-yes">44x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {AsyncStorage, Platform} from 'react-native'
+&nbsp;
+import _ from 'lodash'
+import { DOMParser } from 'xmldom'
+&nbsp;
+import {routeObjects} from '../../../utils'
+&nbsp;
+// ------------------------------------
+// Constants
+// ------------------------------------
+&nbsp;
+const START = 'START'
+&nbsp;
+const REQUEST_ROUTES = 'REQUEST_ROUTES'
+const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
+&nbsp;
+const REQUEST_STOP = 'REQUEST_STOP'
+const RECEIVE_STOP = 'RECEIVE_STOP'
+&nbsp;
+const RECEIVE_TROLLEYS = 'RECEIVE_TROLLEYS'
+&nbsp;
+const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
+&nbsp;
+const REQUEST_ENABLE_ALL_ROUTES = 'REQUEST_ENABLE_ALL_ROUTES'
+const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
+&nbsp;
+const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
+&nbsp;
+const UPDATE_SELECTED_ROUTE_ID = 'UPDATE_SELECTED_ROUTE_ID'
+&nbsp;
+const UPDATE_REGION = 'UPDATE_REGION'
+&nbsp;
+const REQUEST_BIKES = 'REQUEST_BIKES'
+const RECEIVE_BIKES = 'RECEIVE_BIKES'
+const TOGGLE_BIKES = 'TOGGLE_BIKES'
+&nbsp;
+export const types = {
+  REQUEST_ROUTES,
+  RECEIVE_ROUTES,
+  REQUEST_STOP,
+  RECEIVE_STOP,
+  RECEIVE_TROLLEYS,
+  TOGGLE_ROUTE,
+  REQUEST_ENABLE_ALL_ROUTES,
+  ENABLE_ALL_ROUTES,
+  INCREMENT_RENDER_KEY,
+  UPDATE_SELECTED_ROUTE_ID,
+  UPDATE_REGION,
+  REQUEST_BIKES,
+  RECEIVE_BIKES,
+  TOGGLE_BIKES
+}
+&nbsp;
+// ------------------------------------
+// Actions
+// ------------------------------------
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >start () {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: START
+  }
+}
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >requestRoutes () {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: REQUEST_ROUTES
+  }
+}
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >receiveRoutes (routeOverlays, stops, routes, trolleys, defaultRoutes) {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: RECEIVE_ROUTES,
+    routeOverlays,
+    stops,
+    routes,
+    trolleys,
+    defaultRoutes
+  }
+}
+&nbsp;
+export f</span>unction <span class="fstat-no" title="function not covered" >fetchRoutes () {
+  c</span>onst urls = <span class="cstat-no" title="statement not covered" >[
+    'https://raw.githubusercontent.com/qtrandev/OneBusAway/master/GTFS/Miami/shapes.txt',
+    'https://miami-transit-api.herokuapp.com/api/trolley/stops.json',
+    'https://miami-transit-api.herokuapp.com/api/trolley/routes.json',
+    'https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json'
+    ]
+<span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >dispatch =&gt; </span>{</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(requestRoutes())</span>
+    l</span>et promises = <span class="cstat-no" title="statement not covered" >urls.map(<span class="fstat-no" title="function not covered" >(</span>url, i) =&gt; {
+<span class="cstat-no" title="statement not covered" >        if (i === 0) {</span>
+<span class="cstat-no" title="statement not covered" >          return </span>fetch(url).then(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>response) =&gt; response.text())</span>
+        } else{
+<span class="cstat-no" title="statement not covered" >          return </span>fetch(url).then(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>response) =&gt; response.json())</span>
+        }
+      })
+<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >    a</span>sync function <span class="fstat-no" title="function not covered" >readDefaultRoutes() {</span></span></span></span></span></span></span>
+      try {
+        const <span class="cstat-no" title="statement not covered" >value = await AsyncStorage.getItem('defaultRoutes');</span>
+        if (value !== null) {
+          return JSON.parse(value)
+        } else{
+          return routeObjects
+        }
+      } catch (error) {
+<span class="cstat-no" title="statement not covered" >        console.log(error)</span>
+      }
+    }
+  c</span>onst defaultRoutesPromise = <span class="cstat-no" title="statement not covered" >readDefaultRoutes()
+<span class="cstat-no" title="statement not covered" >  promises.push(defaultRoutesPromise)</span>
+<span class="cstat-no" title="statement not covered" >    return Promise.all(promises).then(<span class="fstat-no" title="function not covered" >results =&gt; </span>{</span>
+      c</span>onst routeOverlays = <span class="cstat-no" title="statement not covered" >processShapeData(results[0])
+      c</span>onst stops = <span class="cstat-no" title="statement not covered" >results[1]['get_stops']
+      // both of the following maps will make it easier to support user defaults when app loads
+      c</span>onst routes = <span class="cstat-no" title="statement not covered" >results[2]['get_routes']
+      c</span>onst trolleys = <span class="cstat-no" title="statement not covered" >results[3].get_vehicles
+      // dispatch(receiveTrolleys(trolleys))
+<span class="cstat-no" title="statement not covered" >      return dispatch(receiveRoutes(routeOverlays, stops, routes, trolleys, results[4] ))</span>
+    })
+    .catch(<span class="fstat-no" title="function not covered" >(</span>error) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return dispatch(receiveRoutes({error}))</span>
+    })
+  }
+}
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >requestStop (stopId) {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: REQUEST_STOP,
+    stopId
+  }
+}
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >receiveStop (payload, stopId, routeId) {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: RECEIVE_STOP,
+    payload,
+    stopId,
+    routeId
+  }
+}
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >rawFetchStopData (stopId, retryCount=0) <span class="cstat-no" title="statement not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >  return fetch(`http://miami.etaspot.net/service.php?service=get_stop_etas&amp;stopID=${stopId}&amp;statusData=1&amp;token=TESTING`)</span>
+  .then(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(</span>response) =&gt; response.json())</span>
+  .then(<span class="fstat-no" title="function not covered" >(</span>responseJson) =&gt; {
+<span class="cstat-no" title="statement not covered" >    return [responseJson, retryCount]</span>
+  })
+  .catch(<span class="fstat-no" title="function not covered" >(</span>error) =&gt; {
+<span class="cstat-no" title="statement not covered" >    return([{error}, retryCount])</span>
+  })
+}
+&nbsp;
+export f</span>unction <span class="fstat-no" title="function not covered" >fetchStopData (stopId, routeId) {
+<span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >dispatch =&gt; </span>{</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(requestStop(stopId))</span>
+<span class="cstat-no" title="statement not covered" >    rawFetchStopData(stopId).then(<span class="fstat-no" title="function not covered" >(</span>responseJson) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (responseJson[1] &lt; 1 &amp;&amp; (responseJson[0].get_stop_etas.length === 0 || responseJson[0].get_stop_etas[0].enRoute.length === 0)){</span>
+<span class="cstat-no" title="statement not covered" >          setTimeout(<span class="fstat-no" title="function not covered" >() =&gt; </span>{</span>
+            // dispatch(increment(getState().counter))
+<span class="cstat-no" title="statement not covered" >            rawFetchStopData(stopId, 1)</span>
+            .then(<span class="fstat-no" title="function not covered" >responseJson2 =&gt; </span>{
+<span class="cstat-no" title="statement not covered" >              return dispatch(receiveStop(responseJson2[0], stopId, routeId))</span>
+              })
+          }, 400)
+      } else {
+<span class="cstat-no" title="statement not covered" >        dispatch(receiveStop(responseJson[0], stopId, routeId))</span>
+      }
+    })
+    .catch(<span class="fstat-no" title="function not covered" >(</span>error) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return([{error}, retryCount], stopId, routeId)</span>
+    })
+  }
+}
+&nbsp;
+export function receiveTrolleys (trolleys) {
+  return {
+    type: RECEIVE_TROLLEYS,
+    trolleys
+  }
+}
+&nbsp;
+export function toggleRoute (routeId) {
+  return {
+    type: TOGGLE_ROUTE,
+    routeId
+  }
+}
+&nbsp;
+export f</span>unction <span class="fstat-no" title="function not covered" >requestEnableAllRoutes () {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: REQUEST_ENABLE_ALL_ROUTES
+  }
+}
+&nbsp;
+export f</span>unction <span class="fstat-no" title="function not covered" >allRoutes () {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: ENABLE_ALL_ROUTES
+  }
+}
+&nbsp;
+export f</span>unction <span class="fstat-no" title="function not covered" >enableAllRoutes() {
+<span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >dispatch =&gt; </span>{</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(requestEnableAllRoutes())</span>
+<span class="cstat-no" title="statement not covered" ></span>    setTimeout(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >() =&gt; </span>dispatch(allRoutes()), 50)</span>
+    
+  }
+}
+&nbsp;
+export function incrementRenderKey () {
+  return {
+    type: INCREMENT_RENDER_KEY
+  }
+}
+&nbsp;
+export function fetchTrolleys (){
+  return (dispatch, getState) =&gt; {
+    return fetch('https://miami-transit-api.herokuapp.com/api/trolley/vehicles.json')
+      .then((response) =&gt; response.json())
+      .then((responseJson) =&gt; {
+        return dispatch(receiveTrolleys(responseJson.get_vehicles))
+    })
+    .catch((error) =&gt; {
+      return dispatch(receiveTrolleys({error}))
+    })
+  }
+}
+&nbsp;
+export function updatedSelectedRouteId (selectedRouteId) {
+    return {
+    type: UPDATE_SELECTED_ROUTE_ID,
+    selectedRouteId
+  }
+}
+&nbsp;
+export f</span>unction <span class="fstat-no" title="function not covered" >updateRegion (region) {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: UPDATE_REGION,
+    region
+  }
+}
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >requestBikes () {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: REQUEST_BIKES
+  }
+}
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >receiveBikes (payload) {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: RECEIVE_BIKES,
+		payload
+  }
+}
+&nbsp;
+export f</span>unction	<span class="fstat-no" title="function not covered" >fetchBikeLocations() {
+		c</span>onst url = <span class="cstat-no" title="statement not covered" >'http://citibikemiami.com/downtown-miami-locations2.xml';
+<span class="cstat-no" title="statement not covered" >  return <span class="fstat-no" title="function not covered" >dispatch =&gt; </span>{</span>
+<span class="cstat-no" title="statement not covered" >    dispatch(requestBikes())</span>
+<span class="cstat-no" title="statement not covered" >		fetch(url, { method: 'GET',</span>
+							mode: 'cors',
+							cache: 'default' })
+			.then(<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >response =&gt; </span>response.text())</span>
+			.then(<span class="fstat-no" title="function not covered" >(</span>data) =&gt; {
+<span class="cstat-no" title="statement not covered" >				return dispatch(receiveBikes(data))</span>
+			})
+		.catch(<span class="fstat-no" title="function not covered" >(</span>error) =&gt;{
+<span class="cstat-no" title="statement not covered" >			console.log(error)</span>
+<span class="cstat-no" title="statement not covered" >			dispatch(receiveBikes({error}))</span>
+		})
+	}
+}
+&nbsp;
+export f</span>unction <span class="fstat-no" title="function not covered" >toggleBikes () {
+<span class="cstat-no" title="statement not covered" >  return {</span>
+    type: TOGGLE_BIKES
+  }
+}
+&nbsp;
+// For making testing easier. I perfer explicit imports of action creators in containers
+export const actions = {
+  start,
+  requestRoutes,
+  receiveRoutes,
+  fetchRoutes,
+  toggleRoute,
+  receiveStop,
+  requestStop,
+  fetchStopData,
+  allRoutes,
+  requestEnableAllRoutes,
+  enableAllRoutes,
+  incrementRenderKey,
+  receiveTrolleys,
+  fetchTrolleys,
+  updatedSelectedRouteId,
+  updateRegion,
+  requestBikes,
+  receiveBikes,
+  fetchBikeLocations,
+  toggleBikes,
+  incrementRenderKey
+}
+&nbsp;
+// ------------------------------------
+// Selectors
+// ------------------------------------
+export const getAllRoutes = (state) =&gt; {
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (state.mainMap.routeIds){
+    const routeArray = state.mainMap.routeIds.map((id) =&gt; {
+      return state.mainMap.routesById[id]
+    })
+    return _.sortBy(routeArray, 'name')
+  }
+<span class="cstat-no" title="statement not covered" >  return []</span>
+}
+&nbsp;
+export const <span class="fstat-no" title="function not covered" >getAllRoutesForDrawer = (</span>state) =&gt; {
+<span class="cstat-no" title="statement not covered" >  if (state.mainMap.routeIds){</span>
+    c</span>onst routeArray = <span class="cstat-no" title="statement not covered" >state.mainMap.routeIds.map(<span class="fstat-no" title="function not covered" >(</span>rid) =&gt; <span class="cstat-no" title="statement not covered" ></span>{
+      const {routeColor, display, id, name} = <span class="cstat-no" title="statement not covered" >state.mainMap.routesById[rid]</span>
+<span class="cstat-no" title="statement not covered" >      return {</span>
+        routeColor,
+        display,
+        id,
+        name
+      }
+    })
+<span class="cstat-no" title="statement not covered" >    return _.sortBy(routeArray, 'name')</span>
+  }
+<span class="cstat-no" title="statement not covered" >  return []</span>
+}
+&nbsp;
+export const getActiveStops = (state) =&gt; {
+  if (_.isEmpty(state.mainMap.region)){
+    return []
+  }
+  const {latitude, longitude, latitudeDelta, longitudeDelta} = state.mainMap.region
+  const upperLat = latitude + latitudeDelta/2
+  const lowerLat = latitude - latitudeDelta/2
+  const upperLng = longitude + longitudeDelta/2
+  const lowerLng = longitude - longitudeDelta/2
+&nbsp;
+  // console.log(state.mainMap.region, upperLat, lowerLat, upperLng, lowerLng )
+&nbsp;
+  <span class="missing-if-branch" title="else path not taken" >E</span>if (state.mainMap.routeIds) <span class="missing-if-branch" title="else path not taken" >E</span>{
+    let stopArray = []
+    state.mainMap.routeIds.forEach((id) =&gt; {
+      const route = state.mainMap.routesById[id]
+      if(route.display){
+        return route.stops.forEach((stop) =&gt; {
+          if(stop.lat &gt; lowerLat &amp;&amp;  stop.lat &lt; upperLat &amp;&amp; stop.lng &gt; lowerLng &amp;&amp; stop.lng &lt; upperLng ) {
+            stopArray.push(stop)
+          }
+        })
+      }
+    })
+    // console.log(stopArray.length)
+    return stopArray
+  }
+<span class="cstat-no" title="statement not covered" >  return []</span>
+}
+&nbsp;
+export const selectors = {
+  getAllRoutes,
+  getAllRoutesForDrawer,
+  getActiveStops
+}
+&nbsp;
+// ------------------------------------
+// Action Handlers
+// ------------------------------------
+&nbsp;
+const <span class="fstat-no" title="function not covered" >startHandler = (</span>state, action) =&gt; {
+  // async function readDefaultRoutes() {
+  //   try {
+  //     const value = await AsyncStorage.getItem('defaultRoutes');
+  //     if (value !== null) {
+        
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+}
+&nbsp;
+const <span class="fstat-no" title="function not covered" >receiveRoutesHandler = (</span>state, action) =&gt; {
+<span class="cstat-no" title="statement not covered" >  if (action.routeOverlays.error) {</span>
+<span class="cstat-no" title="statement not covered" >    return {...state, error: 'Had trouble getting data :-(', isLoading: false}</span>
+  }
+<span class="cstat-no" title="statement not covered" >  if (action.stops.length &lt; 1 || action.routes.length &lt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >    return {...state, isLoading: false}</span>
+  }
+  l</span>et stopsByRoute = <span class="cstat-no" title="statement not covered" >{}
+<span class="cstat-no" title="statement not covered" >  action.stops.forEach(<span class="fstat-no" title="function not covered" >(</span>stop) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    stop.name =  stop.name.replace(/&amp;nbsp;/g,'')</span>
+<span class="cstat-no" title="statement not covered" >    if (!(stop.rid in stopsByRoute)) {</span>
+<span class="cstat-no" title="statement not covered" >      stopsByRoute[stop.rid] = []</span>
+    }
+<span class="cstat-no" title="statement not covered" >    stopsByRoute[stop.rid].push(stop)</span>
+  })
+  l</span>et trolleyPositionById = <span class="cstat-no" title="statement not covered" >{}
+  c</span>onst markers = <span class="cstat-no" title="statement not covered" >action.trolleys.map(<span class="fstat-no" title="function not covered" >(</span>trolley) =&gt; {
+    // not going to plot buses with bad or unknown route information
+<span class="cstat-no" title="statement not covered" >    if (!(Object.keys(routeObjects).includes(trolley.routeID.toString()))) {</span>
+<span class="cstat-no" title="statement not covered" >      return undefined</span>
+    }
+<span class="cstat-no" title="statement not covered" >    trolleyPositionById[trolley.equipmentID] = {latitude: trolley.lat, longitude: trolley.lng, prevRad: 0}</span>
+    l</span>et shouldDisplay = <span class="cstat-no" title="statement not covered" >false
+<span class="cstat-no" title="statement not covered" >    if ((trolley.routeID in action.defaultRoutes)) {</span>
+<span class="cstat-no" title="statement not covered" >      shouldDisplay = action.defaultRoutes[trolley.routeID].defaultOn </span>
+    }
+    
+<span class="cstat-no" title="statement not covered" >    return {</span>
+      coordinate: {
+        latitude: trolley.lat,
+        longitude: trolley.lng
+      },
+      // trolley.display allows us to eventually support user defualt preferences
+      display: shouldDisplay,
+      routeId: trolley.routeID,
+      title: `Vehicle ID: ${trolley.equipmentID}`,
+      routeID: trolley.routeID, 
+      description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`,
+      inService: trolley.inService,
+      rad: 0
+    }
+  })
+<span class="cstat-no" title="statement not covered" >  validMarkers = markers.filter(<span class="fstat-no" title="function not covered" >function( </span>element ) {</span>
+<span class="cstat-no" title="statement not covered" >    return element !== undefined;</span>
+  });
+&nbsp;
+&nbsp;
+&nbsp;
+  l</span>et routesById = <span class="cstat-no" title="statement not covered" >{}
+  c</span>onst routeIds = <span class="cstat-no" title="statement not covered" >action.routes.map(<span class="fstat-no" title="function not covered" >(</span>route, i) =&gt; {
+    c</span>onst <span class="cstat-no" title="statement not covered" >newRoute = {...route, ...action.routeOverlays[route['id']], stops:stopsByRoute[route.id], display: action.defaultRoutes[route.id].defaultOn }
+<span class="cstat-no" title="statement not covered" >    routesById[route['id']] = newRoute</span>
+<span class="cstat-no" title="statement not covered" >    return route['id'] </span>
+  })
+<span class="cstat-no" title="statement not covered" >  return { ...state, isLoading: false, routes: action.payload, routeIds, routesById, markers: validMarkers, error: null, reRenderKey: state.reRenderKey + 1, trolleyPositionById }    </span>
+&nbsp;
+&nbsp;
+}
+&nbsp;
+const receiveTrolleysHandler = (state, action) =&gt; {
+  if (action.trolleys.error &amp;&amp; state.trolleyFetchFails &lt; 6) {
+    return {...state, trolleyFetchFails: state.trolleyFetchFails + 1}
+  }
+  if (state.trolleyFetchFails &gt; 5){
+    return {...state, error: 'Having trouble updating trolley data'}
+  }
+  let trolleyPositionById ={}
+  const markers = action.trolleys.map((trolley) =&gt; {
+    // not going to plot buses with bad or unknown route information
+    if (!(Object.keys(routeObjects).includes(trolley.routeID.toString()))) {
+      return undefined
+    }
+    let rad = 0
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (state.trolleyPositionById[trolley.equipmentID]) {
+      c</span>onst deltaX = <span class="cstat-no" title="statement not covered" >trolley.lat - state.trolleyPositionById[trolley.equipmentID].latitude
+      c</span>onst deltaY = <span class="cstat-no" title="statement not covered" >trolley.lng - state.trolleyPositionById[trolley.equipmentID].longitude
+<span class="cstat-no" title="statement not covered" >      if (deltaX !== 0 &amp;&amp; deltaY !== 0) {</span>
+<span class="cstat-no" title="statement not covered" >        rad = Math.atan2(deltaY, deltaX)</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        rad = state.trolleyPositionById[trolley.equipmentID].prevRad</span>
+      }
+    }
+    trolleyPositionById[trolley.equipmentID] = {latitude: trolley.lat, longitude: trolley.lng, prevRad: rad}
+    let shouldDisplay = false
+    <span class="missing-if-branch" title="if path not taken" >I</span>if ((trolley.routeID in state.routesById)) {
+<span class="cstat-no" title="statement not covered" >      shouldDisplay = state.routesById[trolley.routeID].display</span>
+    }
+    return {
+      coordinate: {
+        latitude: trolley.lat,
+        longitude: trolley.lng
+      },
+      // trolley.display allows us to eventually support user defualt preferences
+      display: shouldDisplay,
+      routeId: trolley.routeID,
+      title: `Vehicle ID: ${trolley.equipmentID}`,
+      routeID: trolley.routeID, 
+      description: `${trolley.inService === 0 ? 'Out of Service' : 'In Service'}`,
+      inService: trolley.inService,
+      rad
+    }
+  })
+  validMarkers = markers.filter(function( element ) {
+    return element !== undefined;
+  });
+&nbsp;
+    let routeSet = new Set()
+    validMarkers.forEach((marker) =&gt; {
+      if (marker.inService) {
+        routeSet.add(marker.routeId)
+      }
+    })    
+    const routesArray = [...routeSet]
+    let routesById = {}
+    state.routeIds.forEach(<span class="fstat-no" title="function not covered" >(</span>routeId) =&gt; {
+<span class="cstat-no" title="statement not covered" >      if (routesArray.includes(routeId)) {</span>
+<span class="cstat-no" title="statement not covered" >        routesById[routeId] = {...state.routesById[routeId], activeBuses: true}</span>
+      } else {
+<span class="cstat-no" title="statement not covered" >        routesById[routeId] = {...state.routesById[routeId], activeBuses: false}</span>
+      }
+    })
+  return {...state, routesById: routesById, initialTrolleyFetch: false, markers: validMarkers, trolleyFetchFails: 0, error: null, trolleyPositionById}
+}
+&nbsp;
+const <span class="fstat-no" title="function not covered" >requestStopHandler = (</span>state, action) =&gt; {
+  l</span>et routesById = <span class="cstat-no" title="statement not covered" >{}
+<span class="cstat-no" title="statement not covered" >  state.routeIds.forEach(<span class="fstat-no" title="function not covered" >(</span>routeId) =&gt; {</span>
+    c</span>onst route = <span class="cstat-no" title="statement not covered" >state.routesById[routeId]
+    c</span>onst newStops = <span class="cstat-no" title="statement not covered" >route.stops.map(<span class="fstat-no" title="function not covered" >(</span>stop) =&gt; {
+<span class="cstat-no" title="statement not covered" >      if (stop.id == action.stopId) {</span>
+<span class="cstat-no" title="statement not covered" >        stop.fillColor = 'yellow'</span>
+<span class="cstat-no" title="statement not covered" >        if (Platform.OS == 'android'){</span>
+<span class="cstat-no" title="statement not covered" >          stop.radius = 20</span>
+<span class="cstat-no" title="statement not covered" >          stop.zindex = 2</span>
+        }
+      }else{
+<span class="cstat-no" title="statement not covered" >        stop.fillColor = 'black'</span>
+<span class="cstat-no" title="statement not covered" >        if (Platform.OS == 'android'){</span>
+<span class="cstat-no" title="statement not covered" >          stop.radius = 10</span>
+<span class="cstat-no" title="statement not covered" >          stop.zindex = 1</span>
+        }
+      }
+<span class="cstat-no" title="statement not covered" >      return stop</span>
+    })
+    c</span>onst <span class="cstat-no" title="statement not covered" >newRoute = {...route, stops: newStops }
+<span class="cstat-no" title="statement not covered" >    routesById[routeId] = newRoute</span>
+  })
+<span class="cstat-no" title="statement not covered" >  return {...state, stopIsLoading: true, routesById}</span>
+}
+&nbsp;
+const <span class="fstat-no" title="function not covered" >receiveStopHandler = (</span>state, action) =&gt; {
+<span class="cstat-no" title="statement not covered" >    if (action.payload.error) {</span>
+<span class="cstat-no" title="statement not covered" >      return {...state, stopFetchError: true}</span>
+    }
+    c</span>onst allStops = <span class="cstat-no" title="statement not covered" >action.payload.get_stop_etas[0].enRoute
+    c</span>onst stops = <span class="cstat-no" title="statement not covered" >allStops.filter(<span class="fstat-no" title="function not covered" >(</span>stop) =&gt; {
+<span class="cstat-no" title="statement not covered" >      return state.routesById[stop.routeID].display</span>
+    })
+    c</span>onst sortedStops = <span class="cstat-no" title="statement not covered" >_.sortBy(stops, "minutes")
+    l</span>et stopsObject = <span class="cstat-no" title="statement not covered" >{}
+    l</span>et routeOrderSet = <span class="cstat-no" title="statement not covered" >new Set()
+<span class="cstat-no" title="statement not covered" >    sortedStops.forEach(<span class="fstat-no" title="function not covered" >(</span>stop) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      if (!(stop.routeID in stopsObject)) {</span>
+<span class="cstat-no" title="statement not covered" >        stopsObject[stop.routeID] = []</span>
+      }
+<span class="cstat-no" title="statement not covered" >      routeOrderSet.add(stop.routeID)</span>
+<span class="cstat-no" title="statement not covered" >      stopsObject[stop.routeID].push(stop)</span>
+    })
+&nbsp;
+    c</span>onst stopFetchError = <span class="cstat-no" title="statement not covered" >_.isEmpty(stopsObject)
+    
+    c</span>onst <span class="cstat-no" title="statement not covered" >routeOrder = [...routeOrderSet]
+<span class="cstat-no" title="statement not covered" >    return {...state, stopFetchError: stopFetchError, stopsObject: stopsObject, stopIsLoading: false, selectedRouteId: routeOrder[0] ? routeOrder[0] : action.routeId, routeOrder: routeOrder }</span>
+}
+&nbsp;
+const toggleRouteHandler = (state, action) =&gt; {
+  const targetRoute = state.routesById[action.routeId]
+  const newMarkers = state.markers.map((marker) =&gt; {
+    if (marker.routeId == action.routeId) {
+      return {...marker, display: !targetRoute.display}
+    }
+    return marker
+  })
+  return {...state,
+      routesById: {
+        ...state.routesById,
+        [action.routeId]: {
+          ...targetRoute,
+          display: !targetRoute.display
+        } 
+      },
+      reRenderKey: state.reRenderKey + 1,
+      markers: newMarkers
+  }
+}
+&nbsp;
+const <span class="fstat-no" title="function not covered" >requestEnableAllRoutesHandler = (</span>state, action) =&gt; {
+<span class="cstat-no" title="statement not covered" >  return {...state, isLoading: true}</span>
+}
+&nbsp;
+const <span class="fstat-no" title="function not covered" >enableAllRoutesHandler = (</span>state, action) =&gt; {
+  l</span>et newRoutesById = <span class="cstat-no" title="statement not covered" >{}
+<span class="cstat-no" title="statement not covered" >  state.routeIds.map(<span class="fstat-no" title="function not covered" >(</span>routeId) =&gt; {</span>
+    c</span>onst <span class="cstat-no" title="statement not covered" >newRoute = {...state.routesById[routeId], display: true}
+<span class="cstat-no" title="statement not covered" >    newRoutesById[routeId] = newRoute</span>
+  })
+  c</span>onst newMarkers = <span class="cstat-no" title="statement not covered" >state.markers.map(<span class="fstat-no" title="function not covered" >(</span>marker) =&gt; {
+<span class="cstat-no" title="statement not covered" >    return {...marker, display: true}</span>
+  })
+<span class="cstat-no" title="statement not covered" >  return {...state,</span>
+    routesById: newRoutesById,
+    reRenderKey: state.reRenderKey + 1,
+    markers: newMarkers,
+    isLoading: false
+  }
+}
+&nbsp;
+const updatedSelectedRouteIdHandler = (state, action) =&gt; { 
+  return {...state, selectedRouteId: action.selectedRouteId}
+}
+&nbsp;
+const <span class="fstat-no" title="function not covered" >updateRegionHandler = (</span>state, action) =&gt; {
+  l</span>et locations = <span class="cstat-no" title="statement not covered" >[]
+  l</span>et newRenderKey = <span class="cstat-no" title="statement not covered" >state.reRenderKey
+<span class="cstat-no" title="statement not covered" >  if (state.showBikes)<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span>{</span></span></span>
+		const {latitude, longitude, latitudeDelta, longitudeDelta} = <span class="cstat-no" title="statement not covered" >action.region</span>
+		c</span>onst upperLat = <span class="cstat-no" title="statement not covered" >latitude + latitudeDelta/2
+		c</span>onst lowerLat = <span class="cstat-no" title="statement not covered" >latitude - latitudeDelta/2
+		c</span>onst upperLng = <span class="cstat-no" title="statement not covered" >longitude + longitudeDelta/2
+		c</span>onst lowerLng = <span class="cstat-no" title="statement not covered" >longitude - longitudeDelta/2
+<span class="cstat-no" title="statement not covered" >    locations = state.bikeLocations.filter(<span class="fstat-no" title="function not covered" >(</span>l) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >			return l.lat &gt; lowerLat &amp;&amp;  l.lat &lt; upperLat &amp;&amp; l.lng &gt; lowerLng &amp;&amp; l.lng &lt; upperLng</span>
+    })
+    // if( latitudeDelta &lt; state.region.latitudeDelta &amp;&amp; longitudeDelta &lt; state.region.longitudeDelta){
+    //   newRenderKey = newRenderKey + 1
+    // }
+<span class="cstat-no" title="statement not covered" >    newRenderKey = newRenderKey + 1</span>
+  }
+<span class="cstat-no" title="statement not covered" >  return {...state, region: action.region, visibleBikes: locations, reRenderKey: newRenderKey }</span>
+}
+&nbsp;
+const incrementRenderKeyHandler = (state, action) =&gt; {
+  return {...state, reRenderKey: state.reRenderKey + 1}
+}
+&nbsp;
+const <span class="fstat-no" title="function not covered" >requestBikesHandler = (</span>state, action) =&gt; {
+<span class="cstat-no" title="statement not covered" >	return {...state, bikesIsLoading: true}</span>
+}
+&nbsp;
+const <span class="fstat-no" title="function not covered" >receiveBikesHandler = (</span>state, action) =&gt; {
+	l</span>et doc = <span class="cstat-no" title="statement not covered" >new DOMParser().parseFromString(action.payload,'text/xml');
+<span class="cstat-no" title="statement not covered" >  if (!doc) {</span>
+<span class="cstat-no" title="statement not covered" >    return {...state, bikesIsLoading: false}</span>
+  }
+	l</span>et locations = <span class="cstat-no" title="statement not covered" >doc.getElementsByTagName("location");
+	l</span>et locationList = <span class="cstat-no" title="statement not covered" >new Array;
+<span class="cstat-no" title="statement not covered" >	for (let i = 0; i &lt; locations.length; ++i) {</span>
+		c</span>onst lng = <span class="cstat-no" title="statement not covered" >parseFloat(locations[i].getElementsByTagName('Longitude')[0].textContent);
+		c</span>onst lat = <span class="cstat-no" title="statement not covered" >parseFloat(locations[i].getElementsByTagName('Latitude')[0].textContent);
+		c</span>onst id = <span class="cstat-no" title="statement not covered" >parseInt(locations[i].getElementsByTagName('Id')[0].textContent);
+		c</span>onst address = <span class="cstat-no" title="statement not covered" >locations[i].getElementsByTagName('Address')[0].textContent;
+		c</span>onst bikes = <span class="cstat-no" title="statement not covered" >parseInt(locations[i].getElementsByTagName('Bikes')[0].textContent);
+		c</span>onst dockings = <span class="cstat-no" title="statement not covered" >parseInt(locations[i].getElementsByTagName('Dockings')[0].textContent);
+		// Lazy way to check for bad data
+<span class="cstat-no" title="statement not covered" >		if (lng){</span>
+<span class="cstat-no" title="statement not covered" >			locationList.push({lng,lat,id,address,bikes,dockings});						</span>
+		}
+	};
+<span class="cstat-no" title="statement not covered" >	return {...state, bikeLocations: locationList, bikesIsLoading: false}</span>
+}
+&nbsp;
+const <span class="fstat-no" title="function not covered" >toggleBikesHandler = (</span>state, action) =&gt; {
+  l</span>et locations = <span class="cstat-no" title="statement not covered" >[]
+  l</span>et newRenderKey = <span class="cstat-no" title="statement not covered" >state.reRenderKey
+<span class="cstat-no" title="statement not covered" >  if (!state.showBikes)<span class="cstat-no" title="statement not covered" ><span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span>{</span></span></span>
+		const {latitude, longitude, latitudeDelta, longitudeDelta} = <span class="cstat-no" title="statement not covered" >state.region</span>
+		c</span>onst upperLat = <span class="cstat-no" title="statement not covered" >latitude + latitudeDelta/2
+		c</span>onst lowerLat = <span class="cstat-no" title="statement not covered" >latitude - latitudeDelta/2
+		c</span>onst upperLng = <span class="cstat-no" title="statement not covered" >longitude + longitudeDelta/2
+		c</span>onst lowerLng = <span class="cstat-no" title="statement not covered" >longitude - longitudeDelta/2
+<span class="cstat-no" title="statement not covered" >    locations = state.bikeLocations.filter(<span class="fstat-no" title="function not covered" >(</span>l) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >			return l.lat &gt; lowerLat &amp;&amp;  l.lat &lt; upperLat &amp;&amp; l.lng &gt; lowerLng &amp;&amp; l.lng &lt; upperLng</span>
+    })
+<span class="cstat-no" title="statement not covered" >    newRenderKey = newRenderKey + 1</span>
+  } 
+<span class="cstat-no" title="statement not covered" >  return {...state, visibleBikes: locations, showBikes: !state.showBikes, reRenderKey: newRenderKey }</span>
+}
+&nbsp;
+const ACTION_HANDLERS = {
+  [REQUEST_ROUTES]: <span class="fstat-no" title="function not covered" >(</span>state, action) =&gt; {<span class="cstat-no" title="statement not covered" >return {...state, isLoading: true}},</span>
+  [RECEIVE_ROUTES]: receiveRoutesHandler,
+  [TOGGLE_ROUTE]: toggleRouteHandler,
+  [REQUEST_ENABLE_ALL_ROUTES]: requestEnableAllRoutesHandler,
+  [ENABLE_ALL_ROUTES]: enableAllRoutesHandler,
+  [RECEIVE_TROLLEYS]: receiveTrolleysHandler,
+  [REQUEST_STOP]: requestStopHandler,
+  [RECEIVE_STOP]: receiveStopHandler,
+  [UPDATE_SELECTED_ROUTE_ID]: updatedSelectedRouteIdHandler,
+  [UPDATE_REGION]: updateRegionHandler,
+  [INCREMENT_RENDER_KEY]: incrementRenderKeyHandler,
+  [REQUEST_BIKES]: requestBikesHandler,
+	[RECEIVE_BIKES]: receiveBikesHandler,
+  [TOGGLE_BIKES]: toggleBikesHandler
+}
+&nbsp;
+&nbsp;
+// ------------------------------------
+// Reducer
+// ------------------------------------
+&nbsp;
+const initialState = {
+  isLoading: false,
+  error: null,
+  routesById: {},
+  routeIds: [],
+  initialTrolleyFetch: true,
+  reRenderKey: 0,
+  markers: [],
+  trolleyPositionById: {},
+  trolleyFetchFails : 0,
+  stopIsLoading: false,
+  stopsObject: {},
+  routeOrder: [],
+  selectedRouteId: 0,
+  stopFetchError: false,
+  region: {},
+  bikesIsLoading: false,
+  bikeLocations: [],
+  showBikes: false,
+  visibleBikes: []
+}
+&nbsp;
+export function MainMapReducer (state = initialState, action) {
+  const handler = ACTION_HANDLERS[action.type]
+  return handler ? handler(state, action) : state
+}
+&nbsp;
+// ------------------------------------
+// Utility Functions
+// ------------------------------------
+&nbsp;
+f</span>unction <span class="fstat-no" title="function not covered" >processShapeData(allText) {
+  v</span>ar allTextLines = <span class="cstat-no" title="statement not covered" >allText.split(/\r\n|\n/);
+  v</span>ar headers = <span class="cstat-no" title="statement not covered" >allTextLines[0].split(',');
+  v</span>ar routes = <span class="cstat-no" title="statement not covered" >[];
+<span class="cstat-no" title="statement not covered" >  for (var i=1; i&lt; allTextLines.length; i++) {</span>
+      v</span>ar data = <span class="cstat-no" title="statement not covered" >allTextLines[i].split(',');
+<span class="cstat-no" title="statement not covered" >      if (data.length &gt;= 4) {</span>
+<span class="cstat-no" title="statement not covered" >        if (routes[data[0]] === undefined) {</span>
+<span class="cstat-no" title="statement not covered" >          routes[data[0]] = [];</span>
+        }
+<span class="cstat-no" title="statement not covered" >        routes[data[0]].push(data);</span>
+      }
+  }
+  v</span>ar routeOverlays = <span class="cstat-no" title="statement not covered" >{};
+<span class="cstat-no" title="statement not covered" >  for (var index in routes) {</span>
+    v</span>ar route = <span class="cstat-no" title="statement not covered" >routes[index];
+    c</span>onst coordinates = <span class="cstat-no" title="statement not covered" >route.map(<span class="fstat-no" title="function not covered" >(</span>coordinate) =&gt; {
+      c</span>onst latitude = <span class="cstat-no" title="statement not covered" >parseFloat(coordinate[1])
+      c</span>onst longitude = <span class="cstat-no" title="statement not covered" >parseFloat(coordinate[2])
+<span class="cstat-no" title="statement not covered" >      if (latitude &amp;&amp; longitude){</span>
+<span class="cstat-no" title="statement not covered" >        return {latitude, longitude}</span>
+      }
+    })
+    c</span>onst <span class="cstat-no" title="statement not covered" >routeInfo = { ...routeObjects[index], coordinates: coordinates, id: index, stops: []}
+<span class="cstat-no" title="statement not covered" >    routeOverlays[index] = routeInfo </span>
+  }
+<span class="cstat-no" title="statement not covered" >  return routeOverlays;</span>
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Sep 04 2016 00:28:48 GMT-0400 (EDT)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

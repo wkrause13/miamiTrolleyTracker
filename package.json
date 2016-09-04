@@ -5,9 +5,10 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
-    "tron": "node_modules/.bin/reactotron",
-    "test": "mocha --require setupTests.js src/**/*.spec.js",
-    "test:dev": "mocha --require setupTests.js src/**/*.spec.js --watch"
+    "coverage": "nyc --require babel-register --require babel-polyfill npm test && nyc report --reporter=html && open coverage/index.html",
+    "test": "mocha --require setupTests.js \"src/**/*.spec.js\"",
+    "test:dev": "mocha --require setupTests.js \"src/**/*.spec.js\" --watch",
+    "tron": "node_modules/.bin/reactotron"
   },
   "dependencies": {
     "lodash": "^4.15.0",
@@ -38,6 +39,7 @@
     "isomorphic-fetch": "^2.2.1",
     "mocha": "^3.0.2",
     "nock": "^8.0.0",
+    "nyc": "^8.1.0",
     "react": "^15.2.1",
     "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.3.0",
@@ -46,5 +48,13 @@
     "redux-mock-store": "^1.1.4",
     "sinon": "^1.17.5",
     "sinon-chai": "^2.8.0"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "exclude": [
+      "src/**/*.spec.js"
+    ]
   }
 }

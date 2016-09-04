@@ -132,7 +132,7 @@ class MainMap extends React.Component {
          
           <View style={{backgroundColor: 'white', height: 30, width: 30, borderRadius: 15, justifyContent:'center', alignItems:'center'}}>
             <Icon name="directions-bus" size={20} color={routeObjects[trolley.routeID].busColor} />
-            <Icon name="arrow-upward" size={5} color={'black'} style={{position: 'absolute', bottom: 15.5, left: 12.5, backgroundColor:'transparent', transform: [{rotate: `${trolley.rad}rad`}]}} />
+            {trolley.rad ? <Icon name="arrow-upward" size={5} color={'black'} style={{position: 'absolute', bottom: 15.5, left: 12.5, backgroundColor:'transparent', transform: [{rotate: `${trolley.rad}rad`}]}} /> : null }
           </View>
           </MapView.Marker>
         )
