@@ -1,0 +1,1493 @@
+<?xml version="1.0"?>
+<locations>
+  <location>
+    <Id>601</Id>
+    <Address>Grand Ave &amp; Main Hwy</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7281844</Latitude>
+    <Longitude>-80.2405497</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>605</Id>
+    <Address>Virginia St &amp; Florida Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7292750</Latitude>
+    <Longitude>-80.2415810</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>606</Id>
+    <Address>S Bayshor Dr &amp; Aviation Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7325220</Latitude>
+    <Longitude>-80.2332440</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>608</Id>
+    <Address>City Hall</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7284370</Latitude>
+    <Longitude>-80.2344430</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>612</Id>
+    <Address>SE Brickell Ave &amp; 25th Rd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7511000</Latitude>
+    <Longitude>-80.2026410</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>616</Id>
+    <Address>150 SW 15th Road</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7600820</Latitude>
+    <Longitude>-80.1962170</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>617</Id>
+    <Address>S Miami Ave &amp; 13th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7618840</Latitude>
+    <Longitude>-80.1931010</Longitude>
+    <Bikes>1</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>618</Id>
+    <Address>SE 5th Street &amp; Brickell Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7684830</Latitude>
+    <Longitude>-80.1905470</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>620</Id>
+    <Address>14th Street &amp; SE Brickell Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7604000</Latitude>
+    <Longitude>-80.1918600</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>6</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>621</Id>
+    <Address>SE 14th St &amp; S Miami Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7603710</Latitude>
+    <Longitude>-80.1936570</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>624</Id>
+    <Address>SW 9th St &amp; S Miami Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7654110</Latitude>
+    <Longitude>-80.1934420</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>625</Id>
+    <Address>SE 10th St &amp; S Miami Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7645300</Latitude>
+    <Longitude>-80.1934000</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>627</Id>
+    <Address>SW 9th St &amp; 1st Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7654320</Latitude>
+    <Longitude>-80.1950390</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>629</Id>
+    <Address>SW 3rd Ave &amp; 7th St</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7674140</Latitude>
+    <Longitude>-80.1991660</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>630</Id>
+    <Address>10th Ave &amp; SW 8th St</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7657690</Latitude>
+    <Longitude>-80.2113730</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>632</Id>
+    <Address>1st CT &amp; SW 7th St</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7674970</Latitude>
+    <Longitude>-80.1957320</Longitude>
+    <Bikes>2</Bikes>
+    <Dockings>14</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>633</Id>
+    <Address>SW 12th Street &amp; S Miami Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7625800</Latitude>
+    <Longitude>-80.1939480</Longitude>
+    <Bikes>2</Bikes>
+    <Dockings>14</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>634</Id>
+    <Address>Brickell Ave &amp; SE 8th Street (east side)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7658900</Latitude>
+    <Longitude>-80.1910420</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>640</Id>
+    <Address>SE 2nd Ave &amp; 4st ( James L. Knight Center)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7714280</Latitude>
+    <Longitude>-80.1908150</Longitude>
+    <Bikes>1</Bikes>
+    <Dockings>15</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>667</Id>
+    <Address>SE 3 Ave &amp; North of 1 Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7736900</Latitude>
+    <Longitude>-80.1889600</Longitude>
+    <Bikes>2</Bikes>
+    <Dockings>14</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>650</Id>
+    <Address>NE 14th Terr &amp; Biscayne Blvd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7890520</Latitude>
+    <Longitude>-80.1888320</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>651</Id>
+    <Address>Biscayne Blvd &amp; NE 15th Terr</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7897220</Latitude>
+    <Longitude>-80.1889520</Longitude>
+    <Bikes>2</Bikes>
+    <Dockings>14</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>652</Id>
+    <Address>NE 15th St &amp; Herald Plaza</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7897400</Latitude>
+    <Longitude>-80.1862200</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>653</Id>
+    <Address>N. Bayshore Dr btw NE 17th &amp; 18th St</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7927400</Latitude>
+    <Longitude>-80.1864600</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>654</Id>
+    <Address>NE 19th St &amp; Biscayne Blvd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7948950</Latitude>
+    <Longitude>-80.1886720</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>655</Id>
+    <Address>NW 2nd Ave &amp; 24th St</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7998250</Latitude>
+    <Longitude>-80.1991000</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>656</Id>
+    <Address>NE 25th St &amp; Biscayne Blvd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8010000</Latitude>
+    <Longitude>-80.1888800</Longitude>
+    <Bikes>9</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>657</Id>
+    <Address>NE 30th St &amp; Biscayne Blvd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8053300</Latitude>
+    <Longitude>-80.1891000</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>664</Id>
+    <Address>NW 3rd Ave &amp; 27th Terr</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8024500</Latitude>
+    <Longitude>-80.2011900</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>665</Id>
+    <Address>26th St &amp; NW 2nd Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8012910</Latitude>
+    <Longitude>-80.1990440</Longitude>
+    <Bikes>1</Bikes>
+    <Dockings>15</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>666</Id>
+    <Address>NE 27th St &amp; N. Miami Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8025270</Latitude>
+    <Longitude>-80.1947540</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>643</Id>
+    <Address>NE 3rd Ave &amp; 2 Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7759860</Latitude>
+    <Longitude>-80.1886500</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>676</Id>
+    <Address>NW 1st Street &amp; 1st Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7750190</Latitude>
+    <Longitude>-80.1964290</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>2</Id>
+    <Address>DEMO DeocBike</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7925043</Latitude>
+    <Longitude>-80.1936853</Longitude>
+    <Bikes>0</Bikes>
+    <Dockings>0</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>611</Id>
+    <Address>32 Rd &amp; South Miami Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7479760</Latitude>
+    <Longitude>-80.2100540</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>646</Id>
+    <Address>NE 3 Street &amp; Biscayne Blvd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7771710</Latitude>
+    <Longitude>-80.1868880</Longitude>
+    <Bikes>0</Bikes>
+    <Dockings>16</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>639</Id>
+    <Address>Chopin Plaza &amp; Biscayne Blvd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7729120</Latitude>
+    <Longitude>-80.1860800</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>647</Id>
+    <Address>Biscayne Blvd &amp; NE 8th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7822580</Latitude>
+    <Longitude>-80.1891910</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>648</Id>
+    <Address>Museum Park</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7849430</Latitude>
+    <Longitude>-80.1868300</Longitude>
+    <Bikes>11</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>675</Id>
+    <Address>444 SW 2 Ave (Miami River Side Center)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7705900</Latitude>
+    <Longitude>-80.1978090</Longitude>
+    <Bikes>2</Bikes>
+    <Dockings>14</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>615</Id>
+    <Address>Brickell Ave &amp; SW 18 Road</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7558180</Latitude>
+    <Longitude>-80.1964670</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>101</Id>
+    <Address>Inside South Pointe Park</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7653270</Latitude>
+    <Longitude>-80.1313240</Longitude>
+    <Bikes>11</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>102</Id>
+    <Address>Entrance to South Pointe Park</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7673790</Latitude>
+    <Longitude>-80.1358710</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>103</Id>
+    <Address>Ocean Dr &amp; 1st Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7694350</Latitude>
+    <Longitude>-80.1330490</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>105</Id>
+    <Address>1st Street &amp; Alton Rd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7697750</Latitude>
+    <Longitude>-80.1373900</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>106</Id>
+    <Address>Ocean Dr &amp; 2nd Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7711036</Latitude>
+    <Longitude>-80.1327318</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>107</Id>
+    <Address>2nd Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7697500</Latitude>
+    <Longitude>-80.1347500</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>6</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>109</Id>
+    <Address>Michigan Ave &amp; 3rd Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7721320</Latitude>
+    <Longitude>-80.1383130</Longitude>
+    <Bikes>1</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>111</Id>
+    <Address>4th Street &amp; Alton Rd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7735110</Latitude>
+    <Longitude>-80.1396860</Longitude>
+    <Bikes>1</Bikes>
+    <Dockings>15</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>112</Id>
+    <Address>Washington Ave &amp; 3rd Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7726770</Latitude>
+    <Longitude>-80.1346440</Longitude>
+    <Bikes>13</Bikes>
+    <Dockings>3</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>114</Id>
+    <Address>Ocean Dr &amp; 5th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7749170</Latitude>
+    <Longitude>-80.1315840</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>4</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>116</Id>
+    <Address>Ocean Dr &amp; 7th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7767900</Latitude>
+    <Longitude>-80.1309430</Longitude>
+    <Bikes>15</Bikes>
+    <Dockings>2</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>117</Id>
+    <Address>Ocean Dr &amp; 9th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7791720</Latitude>
+    <Longitude>-80.1308280</Longitude>
+    <Bikes>14</Bikes>
+    <Dockings>2</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>118</Id>
+    <Address>Ocean Dr and 10th Street (Art Deco Welcome Center)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7807590</Latitude>
+    <Longitude>-80.1299130</Longitude>
+    <Bikes>9</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>119</Id>
+    <Address>Ocean Dr and 12th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7824700</Latitude>
+    <Longitude>-80.1298820</Longitude>
+    <Bikes>1</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>121</Id>
+    <Address>Ocean Dr at 14th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7850340</Latitude>
+    <Longitude>-80.1294550</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>122</Id>
+    <Address>Ocean Dr &amp; 14th Place</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7867640</Latitude>
+    <Longitude>-80.1295390</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>123</Id>
+    <Address>Washington Ave &amp; 7th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7768760</Latitude>
+    <Longitude>-80.1339410</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>124</Id>
+    <Address>7th Street Parking Garage</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7770610</Latitude>
+    <Longitude>-80.1331550</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>126</Id>
+    <Address>Meridian Ave &amp; 6th St</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7758100</Latitude>
+    <Longitude>-80.1358870</Longitude>
+    <Bikes>15</Bikes>
+    <Dockings>0</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>127</Id>
+    <Address>Jefferson Ave &amp; 6th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7756840</Latitude>
+    <Longitude>-80.1371840</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>128</Id>
+    <Address>Michigan Ave &amp; 5th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7747950</Latitude>
+    <Longitude>-80.1384200</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>6</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>132</Id>
+    <Address>9th Street &amp; Lenox Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7792730</Latitude>
+    <Longitude>-80.1400070</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>133</Id>
+    <Address>9th Street &amp; Meridian Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7794130</Latitude>
+    <Longitude>-80.1361610</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>134</Id>
+    <Address>8th Street &amp; Jefferson Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7784130</Latitude>
+    <Longitude>-80.1372290</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>136</Id>
+    <Address>9th Street &amp; Washington Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7794700</Latitude>
+    <Longitude>-80.1333920</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>138</Id>
+    <Address>11th Street &amp; Washington Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7819210</Latitude>
+    <Longitude>-80.1330560</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>139</Id>
+    <Address>West Ave &amp; 10th Street (Whole Foods)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7808530</Latitude>
+    <Longitude>-80.1421660</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>141</Id>
+    <Address>Jefferson Ave &amp; 11th Street (Flamingo Park)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7821840</Latitude>
+    <Longitude>-80.1375650</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>142</Id>
+    <Address>Alton Rd at 11th Street (Flamingo Park)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7820220</Latitude>
+    <Longitude>-80.1408460</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>143</Id>
+    <Address>12th Street &amp; West Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7827450</Latitude>
+    <Longitude>-80.1420050</Longitude>
+    <Bikes>12</Bikes>
+    <Dockings>4</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>144</Id>
+    <Address>Meridian Ave &amp; 13th Street (Flamingo Park)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7836570</Latitude>
+    <Longitude>-80.1363290</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>146</Id>
+    <Address>Pennsylvania Ave &amp; 13th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7842380</Latitude>
+    <Longitude>-80.1341010</Longitude>
+    <Bikes>12</Bikes>
+    <Dockings>4</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>147</Id>
+    <Address>Washington &amp; 13th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7842250</Latitude>
+    <Longitude>-80.1324760</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>148</Id>
+    <Address>13th Steet &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7840780</Latitude>
+    <Longitude>-80.1307980</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>149</Id>
+    <Address>14th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7853060</Latitude>
+    <Longitude>-80.1309660</Longitude>
+    <Bikes>0</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>151</Id>
+    <Address>Michigan Ave &amp; 14th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7864830</Latitude>
+    <Longitude>-80.1386030</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>154</Id>
+    <Address>Bay Rd &amp; 15th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7870590</Latitude>
+    <Longitude>-80.1435470</Longitude>
+    <Bikes>19</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>156</Id>
+    <Address>16th Street &amp; Bay Rd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7888920</Latitude>
+    <Longitude>-80.1433560</Longitude>
+    <Bikes>9</Bikes>
+    <Dockings>7</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>157</Id>
+    <Address>15th Street &amp; Alton Rd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7872980</Latitude>
+    <Longitude>-80.1407540</Longitude>
+    <Bikes>9</Bikes>
+    <Dockings>7</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>158</Id>
+    <Address>Euclid &amp; 15th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7874940</Latitude>
+    <Longitude>-80.1353140</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>159</Id>
+    <Address>15th Street &amp; Washington Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7876030</Latitude>
+    <Longitude>-80.1320490</Longitude>
+    <Bikes>15</Bikes>
+    <Dockings>1</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>161</Id>
+    <Address>15th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7875840</Latitude>
+    <Longitude>-80.1301340</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>162</Id>
+    <Address>Pennsylvania Ave &amp; 16th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7887260</Latitude>
+    <Longitude>-80.1341930</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>163</Id>
+    <Address>Lincoln Rd &amp; James Ave (CVS Pharmacy)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7906620</Latitude>
+    <Longitude>-80.1310340</Longitude>
+    <Bikes>11</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>164</Id>
+    <Address>Washington Ave &amp; 17th Street (The Fillmore)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7927260</Latitude>
+    <Longitude>-80.1321480</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>166</Id>
+    <Address>Drexel Ave &amp; Lincoln Rd (MB Community Church)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7900840</Latitude>
+    <Longitude>-80.1331860</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>167</Id>
+    <Address>Pennsylvania Ave &amp; Lincoln Rd (H &amp; M)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7901490</Latitude>
+    <Longitude>-80.1343760</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>169</Id>
+    <Address>Meridian Ave &amp; Lincoln Lane (Macy's)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7914980</Latitude>
+    <Longitude>-80.1366950</Longitude>
+    <Bikes>9</Bikes>
+    <Dockings>7</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>171</Id>
+    <Address>Jefferson Ave &amp; Lincoln Rd (DogBar)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7911540</Latitude>
+    <Longitude>-80.1377480</Longitude>
+    <Bikes>1</Bikes>
+    <Dockings>15</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>172</Id>
+    <Address>Michigan Ave &amp; Lincoln Rd (The Gap)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7907270</Latitude>
+    <Longitude>-80.1389230</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>173</Id>
+    <Address>Lenox Ave &amp; Lincoln Rd (YardHouse)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7917516</Latitude>
+    <Longitude>-80.1400728</Longitude>
+    <Bikes>11</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>174</Id>
+    <Address>Lincoln Road &amp; West Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7903400</Latitude>
+    <Longitude>-80.1423030</Longitude>
+    <Bikes>12</Bikes>
+    <Dockings>4</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>176</Id>
+    <Address>Venetian Causeway &amp; Island Ave (The Standard Hotel</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7914210</Latitude>
+    <Longitude>-80.1481550</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>177</Id>
+    <Address>Purdy Ave &amp; 18th Street (Marina)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7934010</Latitude>
+    <Longitude>-80.1444000</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>178</Id>
+    <Address>17th Street &amp; Convention Center Dr (City Hall)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7925730</Latitude>
+    <Longitude>-80.1349790</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>179</Id>
+    <Address>Convention Center Dr @ Hall C Entrance</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7946350</Latitude>
+    <Longitude>-80.1347040</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>2</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>181</Id>
+    <Address>17th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7923160</Latitude>
+    <Longitude>-80.1292870</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>6</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>182</Id>
+    <Address>18th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7940000</Latitude>
+    <Longitude>-80.1290130</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>183</Id>
+    <Address>Washington Ave &amp; 22 St ( Washington Ct)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7981940</Latitude>
+    <Longitude>-80.1319510</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>184</Id>
+    <Address>19th Street &amp; Dade Blvd (Publix)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7948220</Latitude>
+    <Longitude>-80.1393580</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>6</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>187</Id>
+    <Address>West Ave &amp; 20th Street (Publix on the Bay)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7955010</Latitude>
+    <Longitude>-80.1429510</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>188</Id>
+    <Address>Sunset Dr &amp; 20th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7952300</Latitude>
+    <Longitude>-80.1413800</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>201</Id>
+    <Address>21st Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7963140</Latitude>
+    <Longitude>-80.1285170</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>6</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>202</Id>
+    <Address>22nd Street &amp; Collins Ave (W Hotel)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7974390</Latitude>
+    <Longitude>-80.1280510</Longitude>
+    <Bikes>9</Bikes>
+    <Dockings>7</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>203</Id>
+    <Address>23rd Street &amp; Collins Ave (Walgreens)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7985380</Latitude>
+    <Longitude>-80.1283410</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>6</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>205</Id>
+    <Address>24th and Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8000830</Latitude>
+    <Longitude>-80.1270290</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>3</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>206</Id>
+    <Address>25th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8008700</Latitude>
+    <Longitude>-80.1256020</Longitude>
+    <Bikes>14</Bikes>
+    <Dockings>2</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>207</Id>
+    <Address>26th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8022890</Latitude>
+    <Longitude>-80.1259150</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>6</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>208</Id>
+    <Address>26th Street &amp; Pine Tree Dr</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8038570</Latitude>
+    <Longitude>-80.1293860</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>6</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>210</Id>
+    <Address>31st Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8068370</Latitude>
+    <Longitude>-80.1251830</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>211</Id>
+    <Address>35th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8090470</Latitude>
+    <Longitude>-80.1234580</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>212</Id>
+    <Address>40th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8125030</Latitude>
+    <Longitude>-80.1233670</Longitude>
+    <Bikes>11</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>214</Id>
+    <Address>Royal Palm Ave Between 41St &amp; 42St</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8143420</Latitude>
+    <Longitude>-80.1292030</Longitude>
+    <Bikes>11</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>216</Id>
+    <Address>39th Street &amp; Alton Rd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8121500</Latitude>
+    <Longitude>-80.1354750</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>218</Id>
+    <Address>Prarie Between Chase &amp; 44 Terr</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8166580</Latitude>
+    <Longitude>-80.1305460</Longitude>
+    <Bikes>9</Bikes>
+    <Dockings>7</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>220</Id>
+    <Address>Collins Ave &amp; 44th Street (Fountainbleau Hotel)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8160110</Latitude>
+    <Longitude>-80.1236640</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>221</Id>
+    <Address>46th Street &amp; Collins Ave (Parking Lot)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8208670</Latitude>
+    <Longitude>-80.1223140</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>302</Id>
+    <Address>Collins Ave &amp; 5300 Block</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8303750</Latitude>
+    <Longitude>-80.1222380</Longitude>
+    <Bikes>2</Bikes>
+    <Dockings>7</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>304</Id>
+    <Address>64th Street &amp; Collins Ave (parking lot)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8466600</Latitude>
+    <Longitude>-80.1207800</Longitude>
+    <Bikes>9</Bikes>
+    <Dockings>0</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>305</Id>
+    <Address>67th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8506900</Latitude>
+    <Longitude>-80.1206280</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>306</Id>
+    <Address>69th Street &amp; Collins Ave (Publix)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8542110</Latitude>
+    <Longitude>-80.1207120</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>308</Id>
+    <Address>71st Street &amp; Byron Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8558358</Latitude>
+    <Longitude>-80.1232378</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>309</Id>
+    <Address>Vichy Dr &amp; 71st Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8549360</Latitude>
+    <Longitude>-80.1308670</Longitude>
+    <Bikes>13</Bikes>
+    <Dockings>3</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>311</Id>
+    <Address>Trouville Esplanade &amp; Normandy Dr</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8520790</Latitude>
+    <Longitude>-80.1375500</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>313</Id>
+    <Address>73rd Street &amp; Dickens Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8579710</Latitude>
+    <Longitude>-80.1253050</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>4</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>314</Id>
+    <Address>Collins Ave &amp; 73rd Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8582340</Latitude>
+    <Longitude>-80.1210020</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>315</Id>
+    <Address>76th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8612530</Latitude>
+    <Longitude>-80.1207040</Longitude>
+    <Bikes>11</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>316</Id>
+    <Address>79th Street &amp; Collins Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8642000</Latitude>
+    <Longitude>-80.1212230</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>401</Id>
+    <Address>88th Street &amp; Harding Ave</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8730980</Latitude>
+    <Longitude>-80.1220930</Longitude>
+    <Bikes>11</Bikes>
+    <Dockings>5</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>402</Id>
+    <Address>Collins Ave &amp; 93rd Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8810800</Latitude>
+    <Longitude>-80.1222070</Longitude>
+    <Bikes>8</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>403</Id>
+    <Address>94th Street &amp; Harding Ave (Publix)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8834214</Latitude>
+    <Longitude>-80.1237170</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>405</Id>
+    <Address>96th Street (Entrance to beach)</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8871218</Latitude>
+    <Longitude>-80.1219757</Longitude>
+    <Bikes>10</Bikes>
+    <Dockings>0</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>501</Id>
+    <Address>W Bay Harbor Dr &amp; 97th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8874490</Latitude>
+    <Longitude>-80.1333230</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>502</Id>
+    <Address>103rd Street btw W and E Bay Harbor Dr</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8933020</Latitude>
+    <Longitude>-80.1324230</Longitude>
+    <Bikes>7</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>3</Id>
+    <Address>Deco Demo Store</Address>
+    <Distance>0</Distance>
+    <Latitude>0.0000000</Latitude>
+    <Longitude>0.0000000</Longitude>
+    <Bikes>1</Bikes>
+    <Dockings>0</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>4</Id>
+    <Address>Demo CycloShare</Address>
+    <Distance>0</Distance>
+    <Latitude>0.0000000</Latitude>
+    <Longitude>0.0000000</Longitude>
+    <Bikes>0</Bikes>
+    <Dockings>0</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>175</Id>
+    <Address>Lincoln Rd &amp; Bay Rd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7904620</Latitude>
+    <Longitude>-80.1439820</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>9</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>310</Id>
+    <Address>Rue Notre Dame &amp; 71 Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8544950</Latitude>
+    <Longitude>-80.1325020</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>610</Id>
+    <Address>S. Bayshore Dr btw Kirk &amp; Emathia</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7358500</Latitude>
+    <Longitude>-80.2282900</Longitude>
+    <Bikes>5</Bikes>
+    <Dockings>11</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>609</Id>
+    <Address>Charthouse Dr &amp; S. Bayshore Dr</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7303820</Latitude>
+    <Longitude>-80.2355830</Longitude>
+    <Bikes>2</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>5</Id>
+    <Address>Demo CycloShare  Lab</Address>
+    <Distance>0</Distance>
+    <Latitude>0.0000000</Latitude>
+    <Longitude>0.0000000</Longitude>
+    <Bikes>1</Bikes>
+    <Dockings>0</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>680</Id>
+    <Address>Biscayne Blvd NE 65th Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8359720</Latitude>
+    <Longitude>-80.1840350</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>215</Id>
+    <Address>Chase Ave Between 40st &amp; 41st</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8135937</Latitude>
+    <Longitude>-80.1316858</Longitude>
+    <Bikes>9</Bikes>
+    <Dockings>7</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>677</Id>
+    <Address>Biscayne Blvd NE 48 Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8202417</Latitude>
+    <Longitude>-80.1876939</Longitude>
+    <Bikes>6</Bikes>
+    <Dockings>10</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>678</Id>
+    <Address>Biscayne Blvd NE 55th Ter</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8272610</Latitude>
+    <Longitude>-80.1869220</Longitude>
+    <Bikes>3</Bikes>
+    <Dockings>13</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>658</Id>
+    <Address>NE 39th Street &amp; Biscayne Blvd</Address>
+    <Distance>0</Distance>
+    <Latitude>25.8136620</Latitude>
+    <Longitude>-80.1891960</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>645</Id>
+    <Address>Biscayne Blvd btw NE 5th &amp; 6th street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7797147</Latitude>
+    <Longitude>-80.1890455</Longitude>
+    <Bikes>4</Bikes>
+    <Dockings>12</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+  <location>
+    <Id>674</Id>
+    <Address>48 NW 2nd Street</Address>
+    <Distance>0</Distance>
+    <Latitude>25.7760782</Latitude>
+    <Longitude>-80.1942040</Longitude>
+    <Bikes>2</Bikes>
+    <Dockings>8</Dockings>
+    <StationAdList></StationAdList>
+  </location>
+</locations>

@@ -16,6 +16,10 @@ const mockStore = configureStore(middlewares)
 const trolleyMock = require('../../../tests/data/vehicles.json');
 const loadedState = require('../../../tests/data/loadedState.json')
 
+var fs = require('fs');
+var bikeData = fs.readFileSync('./src/tests/data/downtown-miami-locations2.xml', "utf8");
+// const bikeData = require('../../../tests/data/downtown-miami-locations2.xml')
+
 const initialState = {
   isLoading: false,
   error: null,
@@ -69,6 +73,67 @@ describe('(Redux Module) MainMap', () => {
 
     it('Should return an action with type "INCREMENT_RENDER_KEY".', () => {
       expect(actions.incrementRenderKey()).to.have.property('type', types.INCREMENT_RENDER_KEY)
+    })
+  })
+
+  describe('(Action Creator) requestRoutes', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "REQUEST_ROUTES".', () => {
+      expect(actions.requestRoutes()).to.have.property('type', types.REQUEST_ROUTES)
+    })
+  })
+
+  describe('(Action Creator) receiveRoutes', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "RECEIVE_ROUTES" and correct properties', () => {
+      expect(actions.receiveRoutes()).to.have.property('type', types.RECEIVE_ROUTES)
+      expect(actions.receiveRoutes()).to.have.property('routeOverlays')
+      expect(actions.receiveRoutes()).to.have.property('stops')
+      expect(actions.receiveRoutes()).to.have.property('routes')
+      expect(actions.receiveRoutes()).to.have.property('trolleys')
+      expect(actions.receiveRoutes()).to.have.property('defaultRoutes')
+
+    })
+  })
+
+  describe('(Action Creator) requestStop', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "REQUEST_STOP" and correct stop id', () => {
+      expect(actions.requestStop()).to.have.property('type', types.REQUEST_STOP)
+      expect(actions.requestStop(2)).to.have.property('stopId', 2)
+    })
+  })
+
+  describe('(Action Creator) receiveStop', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "RECEIVE_STOP" and correct properties', () => {
+      expect(actions.receiveStop()).to.have.property('type', types.RECEIVE_STOP)
+      expect(actions.receiveStop(1,2,3)).to.have.property('payload', 1)
+      expect(actions.receiveStop(1,2,3)).to.have.property('stopId', 2)
+      expect(actions.receiveStop(1,2,3)).to.have.property('routeId', 3)
+
+    })
+  })
+
+  describe('(Action Creator) receiveTrolleys', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+    it('Should return an action with type "RECEIVE_TROLLEYS" and correct properties', () => {
+      expect(actions.receiveTrolleys()).to.have.property('type', types.RECEIVE_TROLLEYS)
+      expect(actions.receiveTrolleys(1)).to.have.property('trolleys', 1)
     })
   })
 
@@ -176,7 +241,85 @@ describe('(Redux Module) MainMap', () => {
           expect(store.getActions()).to.eql(expectedActions)
         })
     })
-  
+  })
+
+  describe('(Action Creator) requestEnableAllRoutes', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "REQUEST_ENABLE_ALL_ROUTES" and correct stop id', () => {
+      expect(actions.requestEnableAllRoutes()).to.have.property('type', types.REQUEST_ENABLE_ALL_ROUTES)
+    })
+  })
+
+  describe('(Action Creator) allRoutes', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "ENABLE_ALL_ROUTES" and correct stop id', () => {
+      expect(actions.allRoutes()).to.have.property('type', types.ENABLE_ALL_ROUTES)
+    })
+  })  
+
+  describe('(Action Creator) enableAllRoutes', () => {
+
+    let _globalState
+    let _dispatchSpy
+    let _getStateSpy
+
+    beforeEach((done) => {
+      _globalState = {
+        mainMap: MainMapReducer(undefined, {})
+      }
+      _dispatchSpy = sinon.spy((action) => {
+        _globalState = {
+          ..._globalState,
+          mainMap: MainMapReducer(_globalState.mainMap, action)
+        }
+      })
+      _getStateSpy = sinon.spy(() => {
+        return _globalState
+      })
+      done();
+    })
+
+    afterEach((done) => {
+      done();
+    })
+
+    it('Should be exported as a function.', () => {
+      expect(actions.enableAllRoutes).to.be.a('function')
+    })
+
+    it('Should return a function (is a thunk).', () => {
+      expect(actions.enableAllRoutes()).to.be.a('function')
+    })
+
+    it('Should return a promise from that thunk that gets fulfilled.', () => {
+      return actions.enableAllRoutes()(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+    })
+
+    it('Should call dispatch exactly twice.', () => {
+      return actions.enableAllRoutes()(_dispatchSpy)
+        .then(() => {
+          _dispatchSpy.should.have.been.calledTwice
+        })
+    })
+
+    it('Dispatches REQUEST_ENABLE_ALL_ROUTES and  ENABLE_ALL_ROUTES when fetching has been done', () => {
+      const expectedActions = [
+        { type: types.REQUEST_ENABLE_ALL_ROUTES },
+        { type: types.ENABLE_ALL_ROUTES }
+      ]
+      const store = mockStore(initialState)
+
+      return store.dispatch(actions.enableAllRoutes())
+        .then(() => {
+          expect(store.getActions()).to.eql(expectedActions)
+        })
+    })
   })
 
   describe('(Action Creator) updatedSelectedRouteId', () => {
@@ -187,6 +330,147 @@ describe('(Redux Module) MainMap', () => {
     it('Should return an action with type "UPDATE_SELECTED_ROUTE_ID and property RoutedID".', () => {
       expect(actions.updatedSelectedRouteId(2)).to.have.property('type', types.UPDATE_SELECTED_ROUTE_ID)
       expect(actions.updatedSelectedRouteId(2)).to.have.property('selectedRouteId', 2)
+    })
+  })
+
+  describe('(Action Creator) updateRegion', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "UPDATE_REGION"', () => {
+      expect(actions.updateRegion()).to.have.property('type', types.UPDATE_REGION)
+      expect(actions.updateRegion(1)).to.have.property('region', 1)
+    })
+  })
+
+  describe('(Action Creator) requestBikes', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "REQUEST_BIKES"', () => {
+      expect(actions.requestBikes()).to.have.property('type', types.REQUEST_BIKES)
+    })
+  })
+
+  describe('(Action Creator) receiveBikes', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "RECEIVE_BIKES"', () => {
+      expect(actions.receiveBikes()).to.have.property('type', types.RECEIVE_BIKES)
+      expect(actions.receiveBikes(1)).to.have.property('payload', 1)
+    })
+  })
+
+  describe('(Action Creator) toggleBikes', () => {
+    it('Should be exported as a function.', () => {
+      expect(actions.incrementRenderKey).to.be.a('function')
+    })
+
+    it('Should return an action with type "TOGGLE_BIKES"', () => {
+      expect(actions.toggleBikes()).to.have.property('type', types.TOGGLE_BIKES)
+    })
+  })
+
+  describe('(Action Creator) fetchBikeLocations', () => {
+
+    let _globalState
+    let _dispatchSpy
+    let _getStateSpy
+
+    beforeEach((done) => {
+      _globalState = {
+        mainMap: MainMapReducer(undefined, {})
+      }
+      _dispatchSpy = sinon.spy((action) => {
+        _globalState = {
+          ..._globalState,
+          mainMap: MainMapReducer(_globalState.mainMap, action)
+        }
+      })
+      _getStateSpy = sinon.spy(() => {
+        return _globalState
+      })
+      done();
+    })
+
+    afterEach((done) => {
+      nock.cleanAll()
+      done();
+    })
+
+    it('Should be exported as a function.', () => {
+      expect(actions.fetchBikeLocations).to.be.a('function')
+    })
+
+    it('Should return a function (is a thunk).', () => {
+      expect(actions.fetchBikeLocations()).to.be.a('function')
+    })
+
+    it('Should return a promise from that thunk that gets fulfilled.', () => {
+      nock('http://citibikemiami.com/')
+        .get('/downtown-miami-locations2.xml')
+        .reply(200, bikeData, {
+                'Content-Type': 'application/xml'
+              })
+
+      return actions.fetchBikeLocations()(_dispatchSpy, _getStateSpy).should.eventually.be.fulfilled
+    })
+
+    it('Should call dispatch exactly twice.', () => {
+      nock('http://citibikemiami.com/')
+        .get('/downtown-miami-locations2.xml')
+        .reply(200, bikeData)
+
+      return actions.fetchBikeLocations()(_dispatchSpy)
+        .then(() => {
+          _dispatchSpy.should.have.been.calledTwice
+        })
+    })
+
+    it('Creates REQUEST_BIKES and RECEIVE_BIKES when fetching bikes', () => {
+      nock('http://citibikemiami.com/')
+        .get('/downtown-miami-locations2.xml')
+        .reply(200, bikeData)
+
+      const expectedActions = [
+        { type: types.REQUEST_BIKES },
+        { type: types.RECEIVE_BIKES, payload: bikeData }
+      ]
+      const store = mockStore(initialState)
+
+      return store.dispatch(actions.fetchBikeLocations())
+        .then(() => {
+          expect(store.getActions()).to.eql(expectedActions)
+        })
+    })
+
+    it('returns {error} when bad request ', () => {
+      nock('http://citibikemiami.com/')
+        .get('/downtown-miami-locations2.xml')
+        .replyWithError('something awful happened');
+      const error = new Error('something awful happened')
+      const expectedActions = [
+        {type: types.REQUEST_BIKES},
+        { type: types.RECEIVE_BIKES, payload: {error: {
+            "code": undefined,
+            "errno": undefined,
+            "message": "request to http://citibikemiami.com/downtown-miami-locations2.xml failed, reason: something awful happened",
+            "name": "FetchError",
+            "type": "system",
+          }
+        } 
+      }
+      ]
+      const store = mockStore(initialState)
+
+      return store.dispatch(actions.fetchBikeLocations())
+        .then(() => {
+          expect(store.getActions()).to.eql(expectedActions)
+        })
     })
   })
 

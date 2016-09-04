@@ -9,7 +9,7 @@ import {routeObjects} from '../../../utils'
 // Constants
 // ------------------------------------
 
-const START = 'START'
+// const START = 'START'
 
 const REQUEST_ROUTES = 'REQUEST_ROUTES'
 const RECEIVE_ROUTES = 'RECEIVE_ROUTES'
@@ -55,11 +55,11 @@ export const types = {
 // Actions
 // ------------------------------------
 
-function start () {
-  return {
-    type: START
-  }
-}
+// function start () {
+//   return {
+//     type: START
+//   }
+// }
 
 function requestRoutes () {
   return {
@@ -201,8 +201,12 @@ export function allRoutes () {
 export function enableAllRoutes() {
   return dispatch => {
     dispatch(requestEnableAllRoutes())
-    setTimeout(() => dispatch(allRoutes()), 50)
-    
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        dispatch(allRoutes())
+        resolve()
+      }, 50)
+    })
   }
 }
 
@@ -256,7 +260,7 @@ export function	fetchBikeLocations() {
 		const url = 'http://citibikemiami.com/downtown-miami-locations2.xml';
   return dispatch => {
     dispatch(requestBikes())
-		fetch(url, { method: 'GET',
+		return fetch(url, { method: 'GET',
 							mode: 'cors',
 							cache: 'default' })
 			.then(response => response.text())
@@ -265,7 +269,7 @@ export function	fetchBikeLocations() {
 			})
 		.catch((error) =>{
 			console.log(error)
-			dispatch(receiveBikes({error}))
+			return dispatch(receiveBikes({error}))
 		})
 	}
 }
@@ -278,7 +282,6 @@ export function toggleBikes () {
 
 // For making testing easier. I perfer explicit imports of action creators in containers
 export const actions = {
-  start,
   requestRoutes,
   receiveRoutes,
   fetchRoutes,
@@ -370,18 +373,18 @@ export const selectors = {
 // Action Handlers
 // ------------------------------------
 
-const startHandler = (state, action) => {
-  // async function readDefaultRoutes() {
-  //   try {
-  //     const value = await AsyncStorage.getItem('defaultRoutes');
-  //     if (value !== null) {
+// const startHandler = (state, action) => {
+//   // async function readDefaultRoutes() {
+//   //   try {
+//   //     const value = await AsyncStorage.getItem('defaultRoutes');
+//   //     if (value !== null) {
         
-  //     }
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-}
+//   //     }
+//   //   } catch (error) {
+//   //     console.log(error)
+//   //   }
+//   // }
+// }
 
 const receiveRoutesHandler = (state, action) => {
   if (action.routeOverlays.error) {
