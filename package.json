@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean",
-    "coverage": "nyc --require babel-register --require babel-polyfill npm test && nyc report --reporter=html && open coverage/index.html",
+    "coverageCI": "nyc --require babel-register --require babel-polyfill npm test && nyc report --reporter=lcov",
+    "coverage": "nyc --require babel-register --require babel-polyfill npm test && nyc report --reporter=lcov --reporter=html && open coverage/index.html",
     "test": "mocha --require setupTests.js \"src/**/*.spec.js\"",
     "test:dev": "mocha --require setupTests.js \"src/**/*.spec.js\" --watch",
     "tron": "node_modules/.bin/reactotron"
