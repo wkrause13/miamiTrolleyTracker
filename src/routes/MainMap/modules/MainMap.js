@@ -268,7 +268,6 @@ export function	fetchBikeLocations() {
 				return dispatch(receiveBikes(data))
 			})
 		.catch((error) =>{
-			console.log(error)
 			return dispatch(receiveBikes({error}))
 		})
 	}

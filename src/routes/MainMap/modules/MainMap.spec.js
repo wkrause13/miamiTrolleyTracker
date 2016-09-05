@@ -533,6 +533,15 @@ describe('(Redux Module) MainMap', () => {
     })
   })
 
+  describe('(Action Handler) REQUEST_ENABLE_ALL_ROUTES', () => {
+    it('Should increment the state by 1', () => {
+      let state = MainMapReducer(initialState, {})
+      expect(state.isLoading).to.be.false
+      state = MainMapReducer(state, actions.requestEnableAllRoutes())
+      expect(state.isLoading).to.be.true
+    })
+  })
+
   describe('(Action Handler) TOGGLE_ROUTE', () => {
     it('Should toggle selected routes display value', () => {
       let state = MainMapReducer(loadedState, {})

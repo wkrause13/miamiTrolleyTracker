@@ -1,0 +1,51 @@
+---
+format_version: 1.2.0
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+trigger_map:
+- pattern: "*"
+  is_pull_request_allowed: true
+  workflow: ios
+workflows:
+  ios:
+    steps:
+    - activate-ssh-key@3.1.1:
+        run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+    - git-clone@3.3.3: {}
+    - script@1.1.2:
+        title: npm install
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            npm install
+    - script@1.1.2:
+        title: npm install -g react-native-cli
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            npm install -g react-native-cli
+    - script@1.1.2:
+        title: npm test
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            npm test
+    - react-native-bundle@1.0.0:
+        inputs:
+        - entry_file: "./index.ios.js"
+        - out: ios/main.jsbundle
+    - certificate-and-profile-installer@1.6.0: {}
+    - xcode-archive@1.8.5: {}
+    - deploy-to-bitrise-io@1.2.4: {}
+    before_run: 
+    after_run: 
+app:
+  envs:
+  - opts:
+      is_expand: false
+    BITRISE_PROJECT_PATH: ios/miamiTrolleyTracker.xcodeproj
+  - opts:
+      is_expand: false
+    BITRISE_SCHEME: miamiTrolleyTracker
