@@ -282,7 +282,6 @@ class MainMap extends React.Component {
               onPress={this.handleMapViewOnPress}
               showsCompass={false}
               showsUserLocation
-              followsUserLocation
               onRegionChangeComplete={_.debounce(this.props.updateRegion, 400)}
             >
               {routes.length > 0 && markers.length > 0 ? this.makeAll(routes, markers, reRenderKey) : null}
