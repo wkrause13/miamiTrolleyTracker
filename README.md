@@ -1,4 +1,6 @@
 # Miami Trolley Tracker
+[![Build Status](https://www.bitrise.io/app/6cb068a214b50e85.svg?token=6h3UmcAAUKZmSWqP6s1feA)](https://www.bitrise.io/app/6cb068a214b50e85)
+[![codecov](https://codecov.io/gh/wkrause13/miamiTrolleyTracker/branch/master/graph/badge.svg)](https://codecov.io/gh/wkrause13/miamiTrolleyTracker)
 
 This is an open source (MIT License) vehicle tracking and route visualization app for some of the City of Miami's transit options. It is available for beta testing for Android users in the [Releases Page](https://github.com/wkrause13/miamiTrolleyTracker/releases) and will be available on iOS when released. Currently it supports Miami's trolley system and Citi Bike program. Support for the Metro Mover will be added shortly. The app may support the bus and train systems at a later date.
 
