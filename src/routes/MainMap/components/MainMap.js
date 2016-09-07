@@ -184,22 +184,23 @@ class MainMap extends React.Component {
     const stops = this.generateStops(routes, reRenderKey)
     const trolleys = this.generateTrolleyMarkers(markers, reRenderKey)
     // this.props.incrementRenderKey ()
-            const bob = this.props.bikeLocations.map((location) => {
-                    const key = Platform.OS === 'ios' ? `bike-${location.id}-${reRenderKey}`: `bike-${location.id}`
-            return (
-            <MapView.Marker
-              key={key} 
-              coordinate={{latitude:location.lat, longitude:location.lng}}
-              title={location.address}
-            >
-            <CitiBikeIcon circleDiameter={15} fillRatio={location.bikes/(location.bikes+location.dockings)} />
-            </MapView.Marker>
-          )})
+    const bikeMarkers = this.props.bikeLocations.map((location) => {
+      const key = Platform.OS === 'ios' ? `bike-${location.id}-${reRenderKey}`: `bike-${location.id}`
+      return (
+        <MapView.Marker
+          key={key} 
+          coordinate={{latitude:location.lat, longitude:location.lng}}
+          title={location.address}
+        >
+          <CitiBikeIcon circleDiameter={15} fillRatio={location.bikes/(location.bikes+location.dockings)} />
+        </MapView.Marker>
+      )
+    })
     return [
       ...newRoutes,
       ...stops,
       ...trolleys,
-      ...bob
+      ...bikeMarkers
     ]
   }
   closestLocation (targetLocation, locationData) {

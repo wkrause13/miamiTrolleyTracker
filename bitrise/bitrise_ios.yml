@@ -31,7 +31,7 @@ workflows:
         - content: |-
             #!/bin/bash
 
-            npm test
+            npm run coverage
     - react-native-bundle@1.0.0:
         inputs:
         - entry_file: "./index.ios.js"
