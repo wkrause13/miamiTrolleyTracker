@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -28,6 +29,7 @@
 		55FED418B61F4C9DA2A4743D /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A057AC3C9704B37B3D2BF68 /* libCodePush.a */; };
 		6CD003F03C794FF2BEBB549C /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4174CD615CD40C99436B780 /* Zocial.ttf */; };
 		6D03209E223541789C7B0C16 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFAA3EE70F4F4BBB943AAA57 /* Octicons.ttf */; };
+		771C4AF01D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771C4AEF1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		91D51BE159134BF0A996615F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67B08A306FB84C61AED51A5A /* Ionicons.ttf */; };
 		962F296F09FB4CAA8B47E597 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 488435F347124E1CB8F723DC /* libAirMaps.a */; };
@@ -101,6 +103,13 @@
 			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
 			remoteInfo = React;
 		};
+		771C4AF21D8105CF0070ECE5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
+			remoteInfo = miamiTrolleyTracker;
+		};
 		7727AB931D68A82C000F936D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5CC28233998245C2B868CF7C /* AirMaps.xcodeproj */;
@@ -173,6 +182,9 @@
 		67B08A306FB84C61AED51A5A /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		6ABE437984904DE5A2857AB6 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		6BF2524666894411860B8052 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		771C4AED1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = miamiTrolleyTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		771C4AEF1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = miamiTrolleyTrackerUITests.swift; sourceTree = "<group>"; };
+		771C4AF11D8105CF0070ECE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7A057AC3C9704B37B3D2BF68 /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -214,6 +226,13 @@
 				DDC99EB1795545AE82174C4B /* libRNSVG.a in Frameworks */,
 				55FED418B61F4C9DA2A4743D /* libCodePush.a in Frameworks */,
 				2FB8D425AC2145AD8BE683B6 /* libz.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		771C4AEA1D8105CF0070ECE5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +342,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		771C4AEE1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				771C4AEF1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift */,
+				771C4AF11D8105CF0070ECE5 /* Info.plist */,
+			);
+			path = miamiTrolleyTrackerUITests;
+			sourceTree = "<group>";
+		};
 		7727AB8E1D68A82B000F936D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,6 +426,7 @@
 				13B07FAE1A68108700A75B9A /* miamiTrolleyTracker */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* miamiTrolleyTrackerTests */,
+				771C4AEE1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				9750B811A5524C38864AD5C9 /* Resources */,
 				58A3FDCFF9074788A0131573 /* Frameworks */,
@@ -411,6 +440,7 @@
 			children = (
 				13B07F961A680F5B00A75B9A /* miamiTrolleyTracker.app */,
 				00E356EE1AD99517003FC87E /* miamiTrolleyTrackerTests.xctest */,
+				771C4AED1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -469,12 +499,31 @@
 			productReference = 13B07F961A680F5B00A75B9A /* miamiTrolleyTracker.app */;
 			productType = "com.apple.product-type.application";
 		};
+		771C4AEC1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 771C4B041D8105CF0070ECE5 /* Build configuration list for PBXNativeTarget "miamiTrolleyTrackerUITests" */;
+			buildPhases = (
+				771C4AE91D8105CF0070ECE5 /* Sources */,
+				771C4AEA1D8105CF0070ECE5 /* Frameworks */,
+				771C4AEB1D8105CF0070ECE5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				771C4AF31D8105CF0070ECE5 /* PBXTargetDependency */,
+			);
+			name = miamiTrolleyTrackerUITests;
+			productName = miamiTrolleyTrackerUITests;
+			productReference = 771C4AED1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 730;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
@@ -484,6 +533,10 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = C64DTNAMAG;
+					};
+					771C4AEC1D8105CF0070ECE5 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 				};
 			};
@@ -560,6 +613,7 @@
 			targets = (
 				13B07F861A680F5B00A75B9A /* miamiTrolleyTracker */,
 				00E356ED1AD99517003FC87E /* miamiTrolleyTrackerTests */,
+				771C4AEC1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -690,6 +744,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		771C4AEB1D8105CF0070ECE5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -727,6 +788,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		771C4AE91D8105CF0070ECE5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				771C4AF01D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -734,6 +803,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* miamiTrolleyTracker */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		771C4AF31D8105CF0070ECE5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 13B07F861A680F5B00A75B9A /* miamiTrolleyTracker */;
+			targetProxy = 771C4AF21D8105CF0070ECE5 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -856,6 +930,38 @@
 			};
 			name = Release;
 		};
+		771C4AF41D8105CF0070ECE5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = miamiTrolleyTrackerUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.langliter.miamiTrolleyTrackerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_TARGET_NAME = miamiTrolleyTracker;
+			};
+			name = Debug;
+		};
+		771C4AF51D8105CF0070ECE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = miamiTrolleyTrackerUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.langliter.miamiTrolleyTrackerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = miamiTrolleyTracker;
+			};
+			name = Release;
+		};
 		83CBBA201A601CBA00E9B192 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -968,6 +1074,15 @@
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
 				13B07F951A680F5B00A75B9A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		771C4B041D8105CF0070ECE5 /* Build configuration list for PBXNativeTarget "miamiTrolleyTrackerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				771C4AF41D8105CF0070ECE5 /* Debug */,
+				771C4AF51D8105CF0070ECE5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

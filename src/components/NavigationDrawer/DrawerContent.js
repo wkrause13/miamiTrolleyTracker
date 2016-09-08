@@ -41,6 +41,7 @@ class DrawerContent extends Component {
             toggleValue={route.display}
             text={route.name}
             pressAction={boundPress}
+            testIDObject={{switch:`DrawerContentRow-${i}`}}
           />
         )
       })
@@ -101,6 +102,7 @@ class DrawerContent extends Component {
               toggleValue={this.props.showBikes}
               text={'Citi Bikes'}
               pressAction={this.props.toggleBikes}
+              testIDObject={{switch:`citibike`}}
             />
           </View>
         </ScrollView>

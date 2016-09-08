@@ -273,19 +273,20 @@ class MainMap extends React.Component {
       <View style={{flex:1}}>
         <View style={[styles.MainMap, {flex: 4}]}>  
           <MapView
-              style={styles.map}
-              initialRegion={{
-                  latitude: this.state.initialLat,
-                  longitude: this.state.initialLong,
-                  latitudeDelta: 0.11,
-                  longitudeDelta: 0.11
-              }}
-              onPress={this.handleMapViewOnPress}
-              showsCompass={false}
-              showsUserLocation
-              onRegionChangeComplete={_.debounce(this.props.updateRegion, 400)}
-            >
-              {routes.length > 0 && markers.length > 0 ? this.makeAll(routes, markers, reRenderKey) : null}
+            testID={'mainMap'}
+            style={styles.map}
+            initialRegion={{
+                latitude: this.state.initialLat,
+                longitude: this.state.initialLong,
+                latitudeDelta: 0.11,
+                longitudeDelta: 0.11
+            }}
+            onPress={this.handleMapViewOnPress}
+            showsCompass={false}
+            showsUserLocation
+            onRegionChangeComplete={_.debounce(this.props.updateRegion, 400)}
+          >
+            {routes.length > 0 && markers.length > 0 ? this.makeAll(routes, markers, reRenderKey) : null}
           </MapView>
           {isLoading ? <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.props.markers.length === 0} /> : null }
           {this.renderErrorMessage()}

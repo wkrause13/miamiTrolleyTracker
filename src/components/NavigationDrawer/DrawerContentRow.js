@@ -10,7 +10,9 @@ const DrawerContentRow = (props) => {
   return (
     <View style={[styles['DrawerContentRow']]}>
         <View style={{ alignSelf:'stretch', flex: 1, flexDirection:'row', alignItems:'center', padding:10}}>
-          <View style={{flex: 1}}>
+          <View 
+            style={{flex: 1}}
+            testID={props.testIDObject.switch}>
             <Switch
               onValueChange={props.pressAction}
               value={props.toggleValue}
