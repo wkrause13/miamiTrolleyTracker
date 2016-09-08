@@ -30,6 +30,7 @@
 		6CD003F03C794FF2BEBB549C /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4174CD615CD40C99436B780 /* Zocial.ttf */; };
 		6D03209E223541789C7B0C16 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFAA3EE70F4F4BBB943AAA57 /* Octicons.ttf */; };
 		771C4AF01D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771C4AEF1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift */; };
+		771C4B681D810D900070ECE5 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771C4B671D810D900070ECE5 /* SnapshotHelper.swift */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		91D51BE159134BF0A996615F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 67B08A306FB84C61AED51A5A /* Ionicons.ttf */; };
 		962F296F09FB4CAA8B47E597 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 488435F347124E1CB8F723DC /* libAirMaps.a */; };
@@ -185,6 +186,7 @@
 		771C4AED1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = miamiTrolleyTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		771C4AEF1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = miamiTrolleyTrackerUITests.swift; sourceTree = "<group>"; };
 		771C4AF11D8105CF0070ECE5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		771C4B671D810D900070ECE5 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7A057AC3C9704B37B3D2BF68 /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -345,6 +347,7 @@
 		771C4AEE1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests */ = {
 			isa = PBXGroup;
 			children = (
+				771C4B671D810D900070ECE5 /* SnapshotHelper.swift */,
 				771C4AEF1D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift */,
 				771C4AF11D8105CF0070ECE5 /* Info.plist */,
 			);
@@ -793,6 +796,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				771C4AF01D8105CF0070ECE5 /* miamiTrolleyTrackerUITests.swift in Sources */,
+				771C4B681D810D900070ECE5 /* SnapshotHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

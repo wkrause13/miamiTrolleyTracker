@@ -32,13 +32,30 @@ class miamiTrolleyTrackerUITests: XCTestCase {
     func testExample() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-      
-      XCUIApplication().otherElements["menu-fab"].tap()
-      XCUIApplication().otherElements["DrawerContentRow-1"].tap()
+      let app = XCUIApplication()
+      setupSnapshot(app)
+      app.launch()
       sleep(2)
-      XCUIApplication().otherElements["mainMap"].tap()
+
       
-      sleep(5)
+      let alertNotice = app.alerts["Allow “miamiTrolleyTracker” to access your location while you use the app?"].collectionViews.buttons["Allow"]
+      
+      if alertNotice.exists {
+        alertNotice.tap()
+      }
+      let helpClose = app.otherElements["helpClose"]
+      
+      if helpClose.exists {
+        helpClose.tap()
+      }
+      snapshot("01Initial")
+      app.otherElements["menu-fab"].tap()
+      snapshot("02OpenDrawer")
+      app.otherElements["DrawerContentRow-1"].tap()
+      snapshot("03ToggleRoute")
+      app.otherElements["mainMap"].tap()
+      snapshot("04CloseMap")
+      
       
       
     }

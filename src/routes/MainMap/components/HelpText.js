@@ -21,7 +21,7 @@ export const HelpText = (props) => (
     <View style={styles.slide1}>
       <View style={styles.modalTextWrapper}>
         <Text style={styles.text}>{translations[props.language].helpText.menuButton}</Text>
-        <Fab style={{backgroundColor:'orange', alignSelf: 'center'}} underlayColor={'#e69500'} onPress={() => false} >
+        <Fab testIDObject={{main: 'example-menu'}}  style={{backgroundColor:'orange', alignSelf: 'center'}} underlayColor={'#e69500'} onPress={() => false} >
           <Image style={{height: 25, width: 25}} source={require('../../../static/menu_burger.png')} />
         </Fab>
       </View>

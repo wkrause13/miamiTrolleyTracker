@@ -258,7 +258,7 @@ class MainMap extends React.Component {
       return (
         <View style={{marginRight: -3}}>
         <HelpText language={this.props.language}/>
-        <Fab style={{position: 'absolute',top: 80, right: 20, backgroundColor:'white'}} underlayColor={'#e69500'} onPress={this.handleDismissHelp}>
+        <Fab testIDObject={{main: 'helpClose'}} style={{position: 'absolute',top: 80, right: 20, backgroundColor:'white'}} underlayColor={'#e69500'} onPress={this.handleDismissHelp}>
           <Icon name="clear" size={25} color={'red'} />
         </Fab>
         </View>
@@ -290,7 +290,7 @@ class MainMap extends React.Component {
           </MapView>
           {isLoading ? <ActivityIndicator size='large' style={{flex: 1, justifyContent: 'center', alignItems: 'center'}} animating={isLoading || this.props.markers.length === 0} /> : null }
           {this.renderErrorMessage()}
-          <Fab style={{position: 'absolute',top: 0, backgroundColor:'orange', elevation: this.state.showHelpText ? 0 : 10}} underlayColor={'#e69500'} onPress={this.context.drawer.toggle}>
+          <Fab testIDObject={{main: 'menu-fab'}} style={{position: 'absolute',top: 0, backgroundColor:'orange', elevation: this.state.showHelpText ? 0 : 10}} underlayColor={'#e69500'} onPress={this.context.drawer.toggle}>
             <Image style={{height: 25, width: 25}} source={require('../../../static/menu_burger.png')} />
           </Fab>
           {this.renderHelpText()}
