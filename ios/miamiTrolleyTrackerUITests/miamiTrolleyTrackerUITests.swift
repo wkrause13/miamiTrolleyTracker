@@ -8,6 +8,7 @@
 
 import XCTest
 import Darwin
+import UIKit
 
 class miamiTrolleyTrackerUITests: XCTestCase {
         
@@ -70,19 +71,34 @@ class miamiTrolleyTrackerUITests: XCTestCase {
 
       app.otherElements["DrawerContentRow-6"].switches["0"].tap()
 
+      let map = app.otherElements["mainMap"]
+      let screenWidth  = UIScreen.mainScreen().bounds.width
+      let screenHeight = UIScreen.mainScreen().bounds.height
+      
       snapshot("03ToggleRoute")
       let overlay = app.otherElements["rootDrawer"]
       overlay.swipeLeft()
       snapshot("04CloseMap")
-      app.otherElements["mainMap"].pinchWithScale(6, velocity: 1)
+//      app.otherElements["mainMap"].swipeLeft()
+
+      app.otherElements["mainMap"].pinchWithScale(2, velocity: 1)
+
+      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 0.6 * screenWidth, dy: 0.8 * screenHeight)).doubleTap()
+  
+      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 0.7 * screenWidth, dy: 0.8 * screenHeight)).tap()
+      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 0.8 * screenWidth, dy: 0.8 * screenHeight)).tap()
+      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 0.9 * screenWidth, dy: 0.8 * screenHeight)).tap()
+      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 0.7 * screenWidth, dy: 0.7 * screenHeight)).tap()
+      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 0.7 * screenWidth, dy: 0.9 * screenHeight)).tap()
+     map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 0.5 * screenWidth, dy: 0.6 * screenHeight)).tap()
+     map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 0.5 * screenWidth, dy: 0.7 * screenHeight)).tap()
+//      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 0.6 * screenWidth, dy: 0.8 * screenHeight)).doubleTap()
       app.otherElements["menu-fab"].tap()
       app.otherElements["citibike"].switches["0"].tap()
       overlay.swipeLeft()
-      app.otherElements["mainMap"].tap()
-      app.otherElements["mainMap"].swipeLeft()
-      app.otherElements["mainMap"].tap()
-      let map = app.otherElements["mainMap"]
-      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 150, dy: 150)).tap()
+//      app.otherElements["mainMap"].swipeLeft()
+
+
 //      sleep(5)
 //      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 150, dy: 150)).tap()
 //      sleep(5)
