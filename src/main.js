@@ -12,7 +12,7 @@ export default class Root extends React.Component {
   renderApp () {
     return (
       <Provider store={this.props.store}>
-        <View style={{flex: 1}}>
+        <View testID={'root'} style={{flex: 1}}>
           <StatusBar
             barStyle='light-content'
           />

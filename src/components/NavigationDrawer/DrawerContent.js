@@ -23,7 +23,7 @@ class DrawerContent extends Component {
   }
 
   toggleDrawer () {
-    this.context.drawer.toggle()
+    this.props.closeDrawer()
   }
   
   handlePressAction (id) {
@@ -47,14 +47,7 @@ class DrawerContent extends Component {
       })
     }
   }
-  // componentWillUpdate( nextProps, nextState){
-  //   console.log(nextProps, nextState)
-  // }
 
-  // shouldComponentUpdate (nextProps, nextState) {
-  //   console.log(nextProps, nextState)
-  //   return nextProps.id !== this.props.id;
-  // }
   handleShowAll () {
     this.props.enableAllRoutes()
   }
@@ -114,10 +107,6 @@ class DrawerContent extends Component {
 }
 
 DrawerContent.propTypes = {
-}
-
-DrawerContent.contextTypes = {
-  drawer: React.PropTypes.object
 }
 
 const mapActionCreators = {

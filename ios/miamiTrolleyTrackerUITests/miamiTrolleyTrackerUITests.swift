@@ -30,14 +30,20 @@ class miamiTrolleyTrackerUITests: XCTestCase {
     }
     
     func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
       let app = XCUIApplication()
       setupSnapshot(app)
       app.launch()
+      // require a small sleep so you can properly dismiss the helpClose button
       sleep(2)
-
       
+
+//      app.otherElements["mainMap"].doubleTap()
+//      app.otherElements["mainMap"].doubleTap()
+//      app.otherElements["mainMap"].doubleTap()
+//      app.otherElements["mainMap"].doubleTap()
+
+      sleep(4)
+
       let alertNotice = app.alerts["Allow “miamiTrolleyTracker” to access your location while you use the app?"].collectionViews.buttons["Allow"]
       
       if alertNotice.exists {
@@ -48,14 +54,45 @@ class miamiTrolleyTrackerUITests: XCTestCase {
       if helpClose.exists {
         helpClose.tap()
       }
+//      sleep(2)
       snapshot("01Initial")
+
+//      XCUIApplication().otherElements["mainMap"].childrenMatchingType(.Other).element.childrenMatchingType(.Map).element.tap()
+
+      
+      sleep(2)
       app.otherElements["menu-fab"].tap()
       snapshot("02OpenDrawer")
-      app.otherElements["DrawerContentRow-1"].tap()
+      app.otherElements["DrawerContentRow-1"].switches["0"].tap()
+      app.otherElements["DrawerContentRow-2"].switches["0"].tap()
+      app.otherElements["DrawerContentRow-3"].switches["0"].tap()
+      app.otherElements["DrawerContentRow-4"].switches["0"].tap()
+
+      app.otherElements["DrawerContentRow-6"].switches["0"].tap()
+
       snapshot("03ToggleRoute")
-      app.otherElements["mainMap"].tap()
+      let overlay = app.otherElements["rootDrawer"]
+      overlay.swipeLeft()
       snapshot("04CloseMap")
-      
+      app.otherElements["mainMap"].pinchWithScale(6, velocity: 1)
+      app.otherElements["menu-fab"].tap()
+      app.otherElements["citibike"].switches["0"].tap()
+      overlay.swipeLeft()
+      app.otherElements["mainMap"].tap()
+      app.otherElements["mainMap"].swipeLeft()
+      app.otherElements["mainMap"].tap()
+      let map = app.otherElements["mainMap"]
+      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 150, dy: 150)).tap()
+//      sleep(5)
+//      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 150, dy: 150)).tap()
+//      sleep(5)
+//      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 170, dy: 150)).tap()
+//      sleep(5)
+//      map.coordinateWithNormalizedOffset(CGVector(dx: 0, dy: 0)).coordinateWithOffset(CGVector(dx: 150, dy: 200)).tap()
+      sleep(3)
+      snapshot("05RouteInfo")
+
+
       
       
     }
