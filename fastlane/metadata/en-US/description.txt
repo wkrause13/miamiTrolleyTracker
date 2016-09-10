@@ -1,0 +1,3 @@
+Miami Trolley Tracker displays available trolley routes, stop information and the current position of all of the City of Miami's trolley system. It displays the location and available capacity of Miami's Citi Bike stations. 
+
+The app also allows you to favorite routes so that they automatically display when you open the app. It is also available in English and Spanish.
