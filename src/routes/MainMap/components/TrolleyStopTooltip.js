@@ -1,21 +1,22 @@
+/* @flow */
 import React from 'react'
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import { Text, View} from 'react-native'
 import styles from './MainMapStyles.js'
 
 import {routeObjects} from '../../../utils'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+type Props = {
+  isLoading: boolean,
+  stopText: string
+}
+
 class TrollStopTooltip extends React.Component {
-  constructor (props) {
+  props: Props
+
+  constructor (props: Props) {
     super(props)
   }
-
-  // componentWillReceiveProps (nextProps) {
-  //   console.log(nextProps)
-  // }
-
- 
   render () {
     return (
       <View style={{height: 100, width: 200}}>

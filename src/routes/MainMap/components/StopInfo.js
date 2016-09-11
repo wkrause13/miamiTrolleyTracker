@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react'
 import { View, Text, ScrollView, TouchableHighlight, ActivityIndicator } from 'react-native'
 import styles from './MainMapStyles.js'
@@ -46,7 +47,20 @@ function renderStopInfo (selectedRouteId, stopsObject) {
   }
 }
 
-export const StopInfo = (props) => (
+type Props = {
+  renderAltRouteButtons: () => void,
+  stopIsLoading: boolean,
+  closest: Object,
+  language: string,
+  selectedRouteId: number,
+  stopsObject: Array<Object>,
+  routeOrder: Array<number>,
+  routesById: Array<Object>,
+  setLanguage: (language: string) => void,
+  updatedSelectedRouteId: (routeID: number) => void
+}
+
+export const StopInfo = (props: Props) => (
   <View style={[styles.StopInfo]}>
     {!props.closest.name ? <RadioButton language={props.language} setLanguage={props.setLanguage} /> : null }
     <Text style={{fontSize: 20, fontWeight: 'bold', color:'white', paddingBottom: 5}}>{props.closest.name}</Text>
@@ -68,17 +82,6 @@ export const StopInfo = (props) => (
     </View>
   </View>
 )
-
-StopInfo.propTypes = {
-  renderAltRouteButtons: React.PropTypes.func,
-  stopIsLoading: React.PropTypes.bool,
-  closest: React.PropTypes.object,
-  selectedRouteId: React.PropTypes.number,
-  stopsObject: React.PropTypes.object,
-  routeOrder: React.PropTypes.array,
-  routesById: React.PropTypes.object,
-  updatedSelectedRouteId: React.PropTypes.func
-}
 
 export default StopInfo
 

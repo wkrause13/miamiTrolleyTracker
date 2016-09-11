@@ -1,8 +1,18 @@
+/* @flow */
 import React from 'react'
 import { TouchableHighlight } from 'react-native'
 import styles from './ButtonsStyles.js'
 
-export const Fab = (props) => (
+
+type Props = {
+  style: Object,
+  underlayColor: string,
+  onPress: () => void,
+  testIDObject: Object,
+  children: Object
+}
+
+export const Fab = (props : Props) => (
   <TouchableHighlight style={[styles['Fab'], props.style]}
     underlayColor={props.underlayColor}
     onPress={props.onPress}
@@ -12,12 +22,5 @@ export const Fab = (props) => (
     {props.children}
   </TouchableHighlight>
 )
-
-Fab.propTypes = {
-  style: React.PropTypes.object,
-  underlayColor: React.PropTypes.string,
-  onPress: React.PropTypes.func.isRequired
-}
-
 
 export default Fab

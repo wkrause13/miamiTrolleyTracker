@@ -1,12 +1,20 @@
+/* @flow */
 import React from 'react';
 import {Platform, View, Text, Switch, TouchableHighlight } from 'react-native'
 import styles from './NavigationDrawerStyles.js'
 
-
 import Icon from 'react-native-vector-icons/FontAwesome'
 
+type Props = {
+  text: string,
+  color: string,
+  toggleValue: boolean,
+  pressAction: () => void,
+  testIDObject: Object,
 
-const DrawerContentRow = (props) => {
+}
+
+const DrawerContentRow = (props: Props) => {
   return (
     <View style={[styles['DrawerContentRow']]}>
         <View style={{ alignSelf:'stretch', flex: 1, flexDirection:'row', alignItems:'center', padding:10}}>
@@ -26,14 +34,7 @@ const DrawerContentRow = (props) => {
           </View>
         </View>
     </View>
-  );
-};
-
-DrawerContentRow.propTypes = {
-  pressAction: React.PropTypes.func.isRequired,
-  toggleValue: React.PropTypes.bool.isRequired,
-  color: React.PropTypes.string.isRequired,
-  text: React.PropTypes.string.isRequired
+  )
 }
 
 export default DrawerContentRow

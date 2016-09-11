@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react'
 import { View } from 'react-native'
 import styles from './MainMapStyles.js'
@@ -13,15 +14,12 @@ import Svg,{
   Circle
 } from 'react-native-svg';
 
-// export const CitiBikeIcon = (props) => (
-//   <View style={[styles.CitiBikeIconContainer, {height: props.circleDiameter, width: props.circleDiameter, borderRadius: props.circleDiameter/2}]}>
-//     <View style={[styles.CitiBikeIconContainerInner, {height: props.circleDiameter, width: props.circleDiameter}]}>
-//       <Icon style={{position:'absolute', left: props.circleDiameter/4, bottom: props.circleDiameter/4}} name="directions-bike" size={props.circleDiameter/2} color='#052b6c' />
-//     </View>
-//   </View>
-// )
+type Props = {
+  circleDiameter: number,
+  fillRatio: number
+}
 
- export const CitiBikeIcon = (props) => {
+export const CitiBikeIcon = (props: Props) => {
    const dim = props.circleDiameter
    const fr = props.fillRatio
    return (

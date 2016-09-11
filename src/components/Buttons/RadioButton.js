@@ -1,10 +1,18 @@
+/* @flow */
 import React from 'react'
 import { View, Text, TouchableHighlight } from 'react-native'
 
 import styles from './ButtonsStyles.js'
 import translations from '../../utils/translations'
 
-export const RadioButton = (props) => (
+type Props = {
+  borderColor: string,
+  language: string,
+  setLanguage: (language: string) => void
+}
+
+
+export const RadioButton = (props: Props) => (
   <View style={{borderRadius: 5, marginTop: 20, borderColor: props.borderColor ? props.borderColor : 'white', borderWidth: 2, width: 150, height: 30, flexDirection:'row', justifyContent: 'center', alignItems: 'flex-end'}}>
       <TouchableHighlight style={{backgroundColor: props.language == 'en' ? 'white' : 'orange' ,flex: 1,  padding: 5, alignSelf:'center'}}
       underlayColor={'#eee'}
@@ -21,10 +29,5 @@ export const RadioButton = (props) => (
   </View>
 
 )
-
-RadioButton.propTypes = {
-
-}
-
 
 export default RadioButton

@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react'
 import { Text, View, Switch, ScrollView, AsyncStorage } from 'react-native'
 
@@ -9,11 +10,24 @@ import {routeObjects} from '../../../utils'
 import {RadioButton} from '../../../components/Buttons'
 import translations from '../../../utils/translations'
 
+type Props = {
+  language: string,
+  setLanguage: (language: string) => void
+}
 
 
 class Preferences extends React.Component {
-  constructor() {
-    super()
+  props: Props
+
+  state: {
+    routeObjects: Object
+  }
+  readDefaults: () => void
+  toggleDefaultRoute: (routeId: number) => void
+  writeDefaults: (routeObject: Object) => void
+
+  constructor(props: Props) {
+    super(props)
     this.state = {
       routeObjects: routeObjects
     }
@@ -36,15 +50,15 @@ class Preferences extends React.Component {
     }
   }
 
-async writeDefaults(routeObject) {
-     try {
-      await AsyncStorage.setItem('defaultRoutes', JSON.stringify(routeObject));
-    } catch (error) {
-      console.log(error)
+  async writeDefaults(routeObject: Object) {
+      try {
+        await AsyncStorage.setItem('defaultRoutes', JSON.stringify(routeObject));
+      } catch (error) {
+        console.log(error)
+    }
   }
-}
 
-  toggleDefaultRoute (routeId) {
+  toggleDefaultRoute (routeId: number) {
     const newState = {
       ...this.state.routeObjects, [routeId]: {
         ...this.state.routeObjects[routeId], defaultOn:
@@ -57,7 +71,7 @@ async writeDefaults(routeObject) {
 
   renderRoutes () {
     let routeObjects = this.state.routeObjects
-    routeKeys = Object.keys(routeObjects)
+    const routeKeys = Object.keys(routeObjects)
     const routeList = routeKeys.map((key) => {
       return routeObjects[key]
     })

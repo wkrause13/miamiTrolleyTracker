@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react'
 import { View, Text, Image } from 'react-native'
 
@@ -8,7 +9,11 @@ import styles from './MainMapStyles.js'
 import {Fab} from '../../../components/Buttons'
 import translations from '../../../utils/translations'
 
-export const HelpText = (props) => (
+type Props = {
+  language: string
+}
+
+export const HelpText = (props: Props) => (
   <Swiper showsButtons={true} loop={false}>
     <View style={styles.slide1}>
       <View style={styles.modalTextWrapper}>
@@ -37,9 +42,5 @@ export const HelpText = (props) => (
     </View>
   </Swiper> 
 )
-
-HelpText.propTypes = {
-
-}
 
 export default HelpText
