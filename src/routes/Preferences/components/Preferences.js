@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, Switch, AsyncStorage } from 'react-native'
+import { Text, View, Switch, ScrollView, AsyncStorage } from 'react-native'
 
 import _ from 'lodash'
 
@@ -80,12 +80,14 @@ async writeDefaults(routeObject) {
   render() {
     return (
       <View style={[styles['Preferences'], coreStyles.sceneContainer]}>
-        <Text style={{fontSize: 20, fontWeight: 'bold'}}>{translations[this.props.language].defaultRoutes}</Text>
-        <View style={{flexDirection:'row', flex: 1, margin: 10, justifyContent: 'flex-start', alignItems: 'flex-start', flexWrap:'wrap'}}>{this.renderRoutes()}</View>
-        <View style={{flex: 1, alignItems: 'center'}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>{translations[this.props.language].language}</Text>
-          <RadioButton language={this.props.language} setLanguage={this.props.setLanguage} borderColor='orange' />
-        </View>
+        <ScrollView style={{alignSelf:'stretch'}} contentContainerStyle={{alignItems: 'center'}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold'}}>{translations[this.props.language].defaultRoutes}</Text>
+          <View style={{flexDirection:'row', margin: 10, justifyContent: 'flex-start', alignItems: 'flex-start', flexWrap:'wrap'}}>{this.renderRoutes()}</View>
+          <View style={{alignItems: 'center'}}>
+            <Text style={{fontSize: 20, fontWeight: 'bold'}}>{translations[this.props.language].language}</Text>
+            <RadioButton language={this.props.language} setLanguage={this.props.setLanguage} borderColor='orange' />
+          </View>
+        </ScrollView>
       </View>
     )
   }

@@ -7,6 +7,7 @@ export const Fab = (props) => (
     underlayColor={props.underlayColor}
     onPress={props.onPress}
     testID={props.testIDObject.main}
+    accessibilityLabel={props.testIDObject.main}
   >
     {props.children}
   </TouchableHighlight>
