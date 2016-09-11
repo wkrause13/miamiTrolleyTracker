@@ -55,13 +55,14 @@ class miamiTrolleyTrackerUITests: XCTestCase {
       if helpClose.exists {
         helpClose.tap()
       }
-//      sleep(2)
-      snapshot("01Initial")
-
-//      XCUIApplication().otherElements["mainMap"].childrenMatchingType(.Other).element.childrenMatchingType(.Map).element.tap()
-
       
       sleep(2)
+      
+      app.otherElements["menu-fab"].tap()
+      app.otherElements["settingsIcon"].tap()
+      snapshot("01Settings")
+      app.otherElements["backNavButton"].tap()
+    
       app.otherElements["menu-fab"].tap()
       snapshot("02OpenDrawer")
       app.otherElements["DrawerContentRow-1"].switches["0"].tap()

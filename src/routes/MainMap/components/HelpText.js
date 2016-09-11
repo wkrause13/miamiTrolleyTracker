@@ -9,7 +9,7 @@ import {Fab} from '../../../components/Buttons'
 import translations from '../../../utils/translations'
 
 export const HelpText = (props) => (
-  <Swiper showsButtons={true}>
+  <Swiper showsButtons={true} loop={false}>
     <View style={styles.slide1}>
       <View style={styles.modalTextWrapper}>
         <Text style={styles.text}>{translations[props.language].helpText.trolley}</Text>

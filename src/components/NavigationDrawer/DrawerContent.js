@@ -68,6 +68,7 @@ class DrawerContent extends Component {
               onPress={this.handlePressPrefrences}
               underlayColor={'#eee'}
               style={{height: 30, alignSelf: 'flex-end', marginRight: 20, justifyContent:'center'}}
+              testID={'settingsIcon'}
             >
               <Icon name="settings" size={20} color={'grey'} />
             </TouchableHighlight>
