@@ -24,10 +24,6 @@
 .*/Libraries/react-native/ReactNative.js
 .*/node_modules/jest-runtime/build/__tests__/.*
 
-.*/node_modules/react-native-experimental-navigation/.*
-.*/node_modules/react/node_modules/fbjs/lib/.*
-.*/node_modules/react-static-container/lib/StaticContainer.react.js
-
 [include]
 
 [libs]
@@ -59,4 +55,4 @@ suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy
 unsafe.enable_getters_and_setters=true
 
 [version]
-^0.31.0
+^0.30.0
