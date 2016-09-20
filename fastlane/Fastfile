@@ -30,7 +30,6 @@ platform :ios do
 
   # Change build number
   increment_build_number(
-    build_number: latest_testflight_build_number + 1,
     xcodeproj: "./ios/miamiTrolleyTracker.xcodeproj"
   )
 

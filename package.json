@@ -25,7 +25,7 @@
     "react-native-code-push": "^1.14.6-beta",
     "react-native-drawer": "^2.2.6",
     "react-native-drawer-layout": "wkrause13/react-native-drawer-layout",
-    "react-native-maps": "^0.8.0",
+    "react-native-maps": "^0.8.2",
     "react-native-router-flux": "^3.33.2",
     "react-native-svg": "^4.3.0",
     "react-native-swiper": "^1.4.11",

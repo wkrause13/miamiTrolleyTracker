@@ -52,10 +52,10 @@ class MainMap extends React.Component {
       (error) => null,
       {enableHighAccuracy: true, timeout: 20000}
     )
-    this.readShowHelp()
-    this.setDefaultLanguage()
   }
   componentDidMount () {
+    this.readShowHelp()
+    this.setDefaultLanguage()
     this.props.fetchRoutes()
     this.props.fetchBikeLocations()
     // initial trolley fetch happens in fetchRoutes
