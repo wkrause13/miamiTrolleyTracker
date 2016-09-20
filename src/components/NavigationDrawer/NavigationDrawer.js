@@ -1,21 +1,10 @@
 import React, { PropTypes, Component } from 'react'
-// import Drawer from 'react-native-drawer'
-import {View, Text, TouchableHighlight, TextInput, Platform} from 'react-native'
+import {Platform} from 'react-native'
 import DrawerLayout from 'react-native-drawer-layout'
 import { DefaultRenderer, Actions as NavigationActions } from 'react-native-router-flux'
 import DrawerContent from './DrawerContent'
 import { connect } from 'react-redux'
 import styles from './NavigationDrawerStyles'
-
-/* *******************
-* Documentation: https://github.com/root-two/react-native-drawer
-********************/
-
-  var navigationView = (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <Text style={{margin: 10, fontSize: 15, textAlign: 'left'}}>I'm in the Drawer!</Text>
-    </View>
-  );
 
 class NavigationDrawer extends Component {
   constructor(props) {
@@ -42,7 +31,7 @@ class NavigationDrawer extends Component {
 
     return (
       <DrawerLayout
-        drawerBackgroundColor="red"
+        drawerBackgroundColor="white"
         drawerWidth={300}
         ref={'navigation'}
         keyboardDismissMode="on-drag"

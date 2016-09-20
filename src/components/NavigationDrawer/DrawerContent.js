@@ -69,6 +69,7 @@ class DrawerContent extends Component {
               underlayColor={'#eee'}
               style={{height: 30, alignSelf: 'flex-end', marginRight: 20, justifyContent:'center'}}
               testID={'settingsIcon'}
+              accessibilityLabel={'settingsIcon'}
             >
               <Icon name="settings" size={20} color={'grey'} />
             </TouchableHighlight>

@@ -16,7 +16,7 @@ export const Fab = (props : Props) => (
   <TouchableHighlight style={[styles['Fab'], props.style]}
     underlayColor={props.underlayColor}
     onPress={props.onPress}
-    testID={props.testIDObject.main}
+    testID={'menu-fab'}
     accessibilityLabel={props.testIDObject.main}
   >
     {props.children}

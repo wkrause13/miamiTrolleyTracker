@@ -67,12 +67,33 @@ public class JUnit4StyleTests {
 
         Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
         // Type text and then press the button.
-        Thread.sleep(15000);
+        Thread.sleep(7000);
         Screengrab.screenshot("before_button_click");
         UiObject menuButton = mDevice.findObject(new UiSelector().description("menu-fab"));
         menuButton.click();
+
+        mDevice.findObject(new UiSelector().description("DrawerContentRow-1")).click();
         Thread.sleep(1000);
+        mDevice.swipe(310, 300, 0, 300, 5);
+
+        Thread.sleep(4000);
         Screengrab.screenshot("after_button_click");
+    }
+
+    @Test
+    public void testShowPreferences() throws UiObjectNotFoundException, InterruptedException {
+
+        Screengrab.setDefaultScreenshotStrategy(new UiAutomatorScreenshotStrategy());
+        // Type text and then press the button.
+        Thread.sleep(7000);
+        UiObject menuButton = mDevice.findObject(new UiSelector().description("menu-fab"));
+        menuButton.click();
+        Thread.sleep(1000);
+        UiObject settingsIcon = mDevice.findObject(new UiSelector().description("settingsIcon"));
+        settingsIcon.click();
+
+        Thread.sleep(2000);
+        Screengrab.screenshot("preferences");
     }
 
 
