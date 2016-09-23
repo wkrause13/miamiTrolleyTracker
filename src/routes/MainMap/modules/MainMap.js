@@ -607,7 +607,7 @@ const updatedSelectedRouteIdHandler = (state, action) => {
 const updateRegionHandler = (state, action) => {
   let locations = []
   let newRenderKey = state.reRenderKey
-  if (state.showBikes){
+  if (state.showBikes && action.region.longitudeDelta <=   0.075){
 		const {latitude, longitude, latitudeDelta, longitudeDelta} = action.region
 		const upperLat = latitude + latitudeDelta/2
 		const lowerLat = latitude - latitudeDelta/2
@@ -647,7 +647,7 @@ const receiveBikesHandler = (state, action) => {
 		const bikes = parseInt(locations[i].getElementsByTagName('Bikes')[0].textContent);
 		const dockings = parseInt(locations[i].getElementsByTagName('Dockings')[0].textContent);
 		// Lazy way to check for bad data
-		if (lng){
+		if (lng && bikes && dockings){
 			locationList.push({lng,lat,id,address,bikes,dockings});						
 		}
 	};
@@ -657,7 +657,7 @@ const receiveBikesHandler = (state, action) => {
 const toggleBikesHandler = (state, action) => {
   let locations = []
   let newRenderKey = state.reRenderKey
-  if (!state.showBikes){
+  if (!state.showBikes && state.region.longitudeDelta <= 0.75){
 		const {latitude, longitude, latitudeDelta, longitudeDelta} = state.region
 		const upperLat = latitude + latitudeDelta/2
 		const lowerLat = latitude - latitudeDelta/2

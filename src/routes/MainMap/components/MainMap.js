@@ -184,18 +184,29 @@ class MainMap extends React.Component {
     const stops = this.generateStops(routes, reRenderKey)
     const trolleys = this.generateTrolleyMarkers(markers, reRenderKey)
     // this.props.incrementRenderKey ()
-    const bikeMarkers = this.props.bikeLocations.map((location) => {
-      const key = Platform.OS === 'ios' ? `bike-${location.id}-${reRenderKey}`: `bike-${location.id}`
-      return (
-        <MapView.Marker
-          key={key} 
-          coordinate={{latitude:location.lat, longitude:location.lng}}
-          title={location.address}
-        >
-          <CitiBikeIcon circleDiameter={15} fillRatio={location.bikes/(location.bikes+location.dockings)} />
-        </MapView.Marker>
-      )
-    })
+    let bikeMarkers = []
+    if (this.props.region.longitudeDelta <= 0.03) {
+      bikeMarkers = this.props.bikeLocations.map((location) => {
+        const key = Platform.OS === 'ios' ? `bike-${location.id}-${reRenderKey}`: `bike-${location.id}`
+        return (
+          <MapView.Marker
+            key={key} 
+            coordinate={{latitude:location.lat, longitude:location.lng}}
+            title={location.address}
+          >
+            <CitiBikeIcon circleDiameter={15} fillRatio={location.bikes/(location.bikes+location.dockings)} />
+          </MapView.Marker>
+        )
+      })
+    } else if (this.props.showBikes) {
+      bikeMarkers = this.props.allBikeLocations.map((location) => {
+        const key = Platform.OS === 'ios' ? `bikeCircle-${location.id}-${reRenderKey}`: `bikeCircle-${location.id}`
+        return (
+          <MapView.Circle key={key} center={{latitude:location.lat, longitude:location.lng}} radius={20} zIndex={1} fillColor={'white'} strokeColor={'#052b6c'}/>
+        )
+      })
+    }
+
     return [
       ...newRoutes,
       ...stops,

@@ -46,6 +46,8 @@ const mapStateToProps = (state) => {
   selectedRouteId: state.mainMap.selectedRouteId,
   routeOrder: state.mainMap.routeOrder,
   region: state.mainMap.region,
+  showBikes: state.mainMap.showBikes,
+  allBikeLocations: state.mainMap.bikeLocations,
   bikeLocations: state.mainMap.visibleBikes,
   bikeLoading: state.mainMap.bikesIsLoading,
   gotGoodData: state.mainMap.gotGoodData,
