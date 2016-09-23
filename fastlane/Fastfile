@@ -49,7 +49,7 @@ platform :ios do
 
   desc "Deploy a new version to the App Store"
   lane :release do
-    # match(type: "appstore")
+    match(type: "appstore")
     # snapshot
     gym(scheme: "miamiTrolleyTracker") # Build your app - more options available
     deliver(force: true)
