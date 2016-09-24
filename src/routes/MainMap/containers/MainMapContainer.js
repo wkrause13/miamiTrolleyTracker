@@ -26,7 +26,7 @@ const mapActionCreators = {
   updatedSelectedRouteId,
   updateRegion,
   fetchBikeLocations,
-  setLanguage
+  setLanguage,
 }
 
 const mapStateToProps = (state) => {

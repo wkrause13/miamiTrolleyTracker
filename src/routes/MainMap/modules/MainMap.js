@@ -23,6 +23,7 @@ const TOGGLE_ROUTE = 'TOGGLE_ROUTE'
 
 const REQUEST_ENABLE_ALL_ROUTES = 'REQUEST_ENABLE_ALL_ROUTES'
 const ENABLE_ALL_ROUTES = 'ENABLE_ALL_ROUTES'
+const CLEAR_ALL_ROUTES = 'CLEAR_ALL_ROUTES'
 
 const INCREMENT_RENDER_KEY = 'INCREMENT_RENDER_KEY'
 
@@ -210,6 +211,12 @@ export function enableAllRoutes() {
   }
 }
 
+export function clearRoutes () {
+  return {
+    type: CLEAR_ALL_ROUTES
+  }
+}
+
 export function incrementRenderKey () {
   return {
     type: INCREMENT_RENDER_KEY
@@ -300,7 +307,8 @@ export const actions = {
   receiveBikes,
   fetchBikeLocations,
   toggleBikes,
-  incrementRenderKey
+  incrementRenderKey,
+  clearRoutes
 }
 
 // ------------------------------------
@@ -599,6 +607,20 @@ const enableAllRoutesHandler = (state, action) => {
     isLoading: false
   }
 }
+const clearRoutesHandler = (state, action) => {
+  let newRoutesById = {}
+  state.routeIds.map((routeId) => {
+    const newRoute = {...state.routesById[routeId], display: false}
+    newRoutesById[routeId] = newRoute
+  })
+  const newMarkers = state.markers.map((marker) => {
+    return {...marker, display: false}
+  })
+  return {...state,
+    routesById: newRoutesById,
+    markers: newMarkers,
+  }
+}
 
 const updatedSelectedRouteIdHandler = (state, action) => { 
   return {...state, selectedRouteId: action.selectedRouteId}
@@ -685,7 +707,8 @@ const ACTION_HANDLERS = {
   [INCREMENT_RENDER_KEY]: incrementRenderKeyHandler,
   [REQUEST_BIKES]: requestBikesHandler,
 	[RECEIVE_BIKES]: receiveBikesHandler,
-  [TOGGLE_BIKES]: toggleBikesHandler
+  [TOGGLE_BIKES]: toggleBikesHandler,
+  [CLEAR_ALL_ROUTES]: clearRoutesHandler
 }
 
 

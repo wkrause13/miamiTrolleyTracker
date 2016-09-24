@@ -36,11 +36,13 @@ function renderStopInfo (selectedRouteId, stopsObject) {
       if (!stops){
         return null
       }
-      return stops.map((stop, i) => {
+      const displayedStops = stops.slice(0, 3)
+      return displayedStops.map((stop, i) => {
         return (
-          <View key={`schedule-${i}`} style={{flex:1, flexDirection: 'row', paddingRight: 20, paddingLeft: 20}}>
-            <View style={{flex: 1, alignItems:'center'}} ><Text style={styles.stopText}>{`${stop.equipmentID}`}</Text></View>
-            <View style={{flex: 1, alignItems:'center'}}><Text style={styles.stopText}>{`${stop.minutes}`}</Text></View>
+          <View key={`schedule-${i}`} style={{flex:1, flexDirection: 'row', height: 20, paddingRight: 20, paddingLeft: 20}}>
+            <View style={{flex: 1, alignItems:'center', justifyContent:'flex-end'}} ><Text style={styles.stopText}>{`${stop.equipmentID}`}</Text></View>
+            <View style={{flex: 1, alignItems:'center', justifyContent:'center', flexDirection:'row'}}><Text style={[styles.stopText, {fontSize:22, fontWeight: 'bold', color:'white'}]}>{`${stop.minutes}`}</Text><Text style={styles.stopText}> min</Text></View>
+            <View style={{flex: 1, alignItems:'center', justifyContent:'flex-end'}}><Text style={styles.stopText}>{`${stop.time}`}</Text></View>
           </View>
         )
       })
@@ -65,14 +67,8 @@ export const StopInfo = (props: Props) => (
     {!props.closest.name ? <RadioButton language={props.language} setLanguage={props.setLanguage} /> : null }
     <Text style={{fontSize: 20, fontWeight: 'bold', color:'white', paddingBottom: 5}}>{props.closest.name}</Text>
     {props.stopIsLoading && props.selectedRouteId !== 0 ? <ActivityIndicator color='white' size='small' animating={props.stopIsLoading} /> : null}
-    {!props.stopIsLoading && props.selectedRouteId !== 0 ? 
-      <View style={{paddingBottom: 10}}>
-        <Text style={styles.stopText}>
-          {translations[props.language].vehicleTime}
-        </Text>
-      </View> : null}
     {(props.routesById[props.selectedRouteId] && props.routesById[props.selectedRouteId].activeBuses) || props.selectedRouteId === 0 || props.stopIsLoading || props.routeOrder.length !== 0 ? null : <Text style={{color: 'pink'}}>No active trolleys found for this route</Text> }
-    <ScrollView style={{alignSelf: 'stretch'}} >
+    <ScrollView style={{alignSelf: 'stretch', paddingTop: 10}} >
       <View style={{flex: 1, alignItems:'center', justifyContent:'center'}}>
       {props.stopIsLoading ? null : renderStopInfo(props.selectedRouteId, props.stopsObject)}
       </View>

@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
   },
   stopText :{
     color: '#eee',
+    fontSize: 16,
     ...Platform.select({
       ios: {
         fontFamily: 'Courier-Bold'

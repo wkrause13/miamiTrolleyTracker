@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import DrawerContentRow from './DrawerContentRow'
 import {RectangularButton} from '../Buttons'
-import { getAllRoutesForDrawer, toggleRoute, enableAllRoutes, toggleBikes } from '../../routes/MainMap/modules/MainMap'
+import { getAllRoutesForDrawer, toggleRoute, enableAllRoutes, toggleBikes, clearRoutes } from '../../routes/MainMap/modules/MainMap'
 import {routeObjects} from '../../utils'
 import styles from './NavigationDrawerStyles'
 import translations from '../../utils/translations'
@@ -19,6 +19,7 @@ class DrawerContent extends Component {
       componentLoading: false
     }
     this.handleShowAll = this.handleShowAll.bind(this)
+    this.handleClearAll = this.handleClearAll.bind(this)
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
   }
 
@@ -51,6 +52,9 @@ class DrawerContent extends Component {
   handleShowAll () {
     this.props.enableAllRoutes()
   }
+  handleClearAll () {
+    this.props.clearRoutes()
+  }
 
   handlePressPrefrences = () => {
     this.toggleDrawer()
@@ -78,12 +82,18 @@ class DrawerContent extends Component {
                 {translations[this.props.language].trolleyRoutes}
               </Text>
             </View>
-              <View style={{flex: 1, alignItems:'center'}}>
+              <View style={{flex: 1, alignItems:'center', justifyContent: 'center', flexDirection: 'row'}}>
               <RectangularButton
                 onPress={this.handleShowAll}
                 underlayColor={'#e69500'}
-                style={{backgroundColor:'orange'}}
+                style={{backgroundColor:'orange', marginRight: 10}}
                 text={isLoading ? translations[this.props.language].loading : translations[this.props.language].showAll}
+              />
+              <RectangularButton
+                onPress={this.handleClearAll}
+                underlayColor={'#e69500'}
+                style={{backgroundColor:'orange'}}
+                text={isLoading ? translations[this.props.language].loading : translations[this.props.language].clearAll}
               />
             </View>
             {this.generateContentRows(trolleyRoutes)}
@@ -114,7 +124,8 @@ DrawerContent.propTypes = {
 const mapActionCreators = {
   toggleRoute,
   enableAllRoutes,
-  toggleBikes
+  toggleBikes,
+  clearRoutes
 }
 
 const mapStateToProps = (state) => ({
