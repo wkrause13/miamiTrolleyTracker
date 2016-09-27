@@ -393,6 +393,24 @@ export const selectors = {
 //   // }
 // }
 
+  const  closestLocation  = (targetLocation, locationData) => {
+      function vectorDistance(dx, dy) {
+          return Math.sqrt((dx * dx) + (dy * dy))
+      }
+
+      function locationDistance(location1, location2) {
+          const dx = location1.lat - location2.lat,
+              dy = location1.lng - location2.lng
+          return vectorDistance(dx, dy);
+      }
+
+      return locationData.reduce(function(prev, curr) {
+          const prevDistance = locationDistance(targetLocation , prev),
+              currDistance = locationDistance(targetLocation , curr)
+          return (prevDistance < currDistance) ? prev : curr
+      });
+  }
+
 const receiveRoutesHandler = (state, action) => {
   if (action.routeOverlays.error) {
     return {...state, error: 'Had trouble getting data :-(', isLoading: false}
@@ -400,11 +418,20 @@ const receiveRoutesHandler = (state, action) => {
   if (action.stops.length < 1 || action.routes.length < 1) {
     return {...state, isLoading: false}
   }
+  const closestStop = closestLocation({lat: state.region.latitude, lng: state.region.longitude}, action.stops)
   let stopsByRoute = {}
   action.stops.forEach((stop) => {
     stop.name =  stop.name.replace(/&nbsp;/g,'')
     if (!(stop.rid in stopsByRoute)) {
       stopsByRoute[stop.rid] = []
+    }
+    
+    if ( stop.id == closestStop.id){
+      stop.fillColor = 'yellow'
+      if (Platform.OS == 'android'){
+        stop.radius = 20
+        stop.zindex = 2
+      }
     }
     stopsByRoute[stop.rid].push(stop)
   })
@@ -607,6 +634,7 @@ const enableAllRoutesHandler = (state, action) => {
     isLoading: false
   }
 }
+
 const clearRoutesHandler = (state, action) => {
   let newRoutesById = {}
   state.routeIds.map((routeId) => {
@@ -669,7 +697,7 @@ const receiveBikesHandler = (state, action) => {
 		const bikes = parseInt(locations[i].getElementsByTagName('Bikes')[0].textContent);
 		const dockings = parseInt(locations[i].getElementsByTagName('Dockings')[0].textContent);
 		// Lazy way to check for bad data
-		if (lng && bikes && dockings){
+		if (lng && bikes && dockings && (bikes + dockings !== 0) ){
 			locationList.push({lng,lat,id,address,bikes,dockings});						
 		}
 	};

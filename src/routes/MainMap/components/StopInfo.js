@@ -64,7 +64,7 @@ type Props = {
 
 export const StopInfo = (props: Props) => (
   <View style={[styles.StopInfo]}>
-    {!props.closest.name ? <RadioButton language={props.language} setLanguage={props.setLanguage} /> : null }
+    {props.closest.name ? null : <RadioButton language={props.language} setLanguage={props.setLanguage} /> }
     <Text style={{fontSize: 20, fontWeight: 'bold', color:'white', paddingBottom: 5}}>{props.closest.name}</Text>
     {props.stopIsLoading && props.selectedRouteId !== 0 ? <ActivityIndicator color='white' size='small' animating={props.stopIsLoading} /> : null}
     {(props.routesById[props.selectedRouteId] && props.routesById[props.selectedRouteId].activeBuses) || props.selectedRouteId === 0 || props.stopIsLoading || props.routeOrder.length !== 0 ? null : <Text style={{color: 'pink'}}>No active trolleys found for this route</Text> }

@@ -1,5 +1,6 @@
 import React from 'react'
-import { AppRegistry } from 'react-native'
+import { AppRegistry, BackAndroid } from 'react-native'
+import { Actions } from 'react-native-router-flux'
 import Root from './src/main'
 import './src/config/reactotronConfig'
 import createStore from './src/store/createStore'
@@ -13,6 +14,18 @@ const store = createStore()
 // Reactotron.addReduxStore(store) 
 
 class MiamiTrolleyTracker extends React.Component {
+  componentWillMount = () => {
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      try {
+          Actions.pop();
+          return true;
+      }
+      catch (err) {
+          return true;
+      }
+    });
+  }
+
   render () {
     return <Root {...this.props} store={store} />
   }

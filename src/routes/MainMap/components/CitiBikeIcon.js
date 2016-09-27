@@ -21,7 +21,7 @@ type Props = {
 
 export const CitiBikeIcon = (props: Props) => {
    const dim = props.circleDiameter
-   const fr = props.fillRatio
+   const fr = props.fillRatio.toFixed(2)
    return (
     <View style={{height: dim, width: dim, borderRadius: dim,  backgroundColor:'white'}}>
       <Svg
