@@ -88,11 +88,11 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.miamitransittracking"
+        applicationId "com.miamitrolleytracking"
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 5
-        versionName "1.0.5"
+        versionCode 7
+        versionName "1.0.7"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
