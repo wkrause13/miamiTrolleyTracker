@@ -41,7 +41,11 @@ npm-debug.log
 buck-out/
 \.buckd/
 android/app/libs
+<<<<<<< ours
 android/keystores/debug.keystore
 
 # codesign
 codesigndoc_exports/
+=======
+*.keystore
+>>>>>>> theirs

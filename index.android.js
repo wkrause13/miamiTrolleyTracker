@@ -2,7 +2,7 @@ import React from 'react'
 import { AppRegistry, BackAndroid } from 'react-native'
 import { Actions } from 'react-native-router-flux'
 import Root from './src/main'
-import './src/config/reactotronConfig'
+// import './src/config/reactotronConfig'
 import createStore from './src/store/createStore'
 
 import codePush from "react-native-code-push"
